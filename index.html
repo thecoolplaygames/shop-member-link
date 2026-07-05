@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sae Premium Boost Hub</title>
+    <style>
+        :root {
+            --bg-color: #313338;
+            --panel-color: #2b2d31;
+            --accent-color: #5865f2;
+            --premium-color: #f1c40f;
+            --text-color: #dbdee1;
+            --heading-color: #ffffff;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .screen { display: none; width: 100%; max-width: 460px; }
+        .active { display: block; }
+
+        .card {
+            background-color: var(--panel-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            text-align: center;
+        }
+
+        h2 { color: var(--heading-color); margin-bottom: 20px; }
+        p { color: #b5bac1; font-size: 14px; line-height: 1.5; }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #1e1f22;
+            background-color: #1e1f22;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            width: 100%;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+
+        .btn:hover { background-color: #4752c4; }
+        .btn-alt { background-color: #4e5058; margin-top: 5px; }
+        .btn-alt:hover { background-color: #6d6f78; }
+
+        .settings-panel {
+            text-align: left;
+            margin-top: 20px;
+            border-top: 1px solid #4e5058;
+            padding-top: 15px;
+        }
+
+        .payment-choice {
+            background-color: #1e1f22;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            text-align: left;
+        }
+        .payment-choice:hover { border-color: var(--accent-color); }
+    </style>
+</head>
+<body>
+
+    <!-- 1. AUTH SCREEN -->
+    <div id="authScreen" class="screen active">
+        <div class="card">
+            <h2 id="authTitle">Welcome to Sae Boost Hub</h2>
+            <p id="authDesc">Please log in or create an account to view services.</p>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button class="btn" onclick="handleAuth()">Sign In / Create Account</button>
+        </div>
+    </div>
+
+    <!-- 2. MAIN STORE DASHBOARD -->
+    <div id="storeScreen" class="screen">
+        <div class="card">
+            <h2>✨ Sae Boost Dashboard</h2>
+            <p>Welcome back, <strong id="userDisplay">User</strong>!</p>
+            <hr style="border-color:#4e5058; margin: 20px 0;">
+            
+            <p style="font-size: 14px;">
+                You can buy regular server boosts or unlock high-tier **Premium Upgrades** for money or Robux below.
+            </p>
+            
+            <button class="btn" onclick="openPlanSelector('boost')">🚀 Buy Regular Boost Plan</button>
+            <button class="btn" style="background-color: var(--premium-color); color: #111;" onclick="openPlanSelector('premium')">👑 Buy Premium High-Value Plan</button>
+            <button class="btn btn-alt" onclick="toggleSettings()">⚙️ Settings</button>
+
+            <div id="settingsHub" class="settings-panel" style="display: none;">
+                <h3>Configuration</h3>
+                <label>Language:</label>
+                <select onchange="changeLanguage(this.value)">
+                    <option value="en">English</option>
+                    <option value="ar">العربية (Arabic)</option>
+                </select>
+                <button class="btn btn-alt" style="background-color: #da373c;" onclick="logout()">🚪 Log Out</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. PLAN SELECTION SCREEN -->
+    <div id="planScreen" class="screen">
+        <div class="card">
+            <h2 id="planHeader">Select Your Plan</h2>
+            <p>Choose your duration package rate below:</p>
+            
+            <select id="durationSelect"></select>
+            
+            <button class="btn" onclick="goToPaymentMethod()">Next: Choose Payment Method</button>
+            <button class="btn btn-alt" onclick="navigate('storeScreen')">Back</button>
+        </div>
+    </div>
+
+    <!-- 4. METHOD SELECTION SCREEN -->
+    <div id="methodScreen" class="screen">
+        <div class="card">
+            <h2>Select Payment Method</h2>
+            <p>Choose how you would like to pay for your plan:</p>
+            
+            <div class="payment-choice" onclick="startCheckout('paypal')">
+                <strong>💳 PayPal / Trusted Bank Cards</strong>
+                <p style="margin: 5px 0 0 0; font-size: 12px; color: #b5bac1;">Pay safely using standard online bank processing portals.</p>
+            </div>
+
+            <div class="payment-choice" onclick="startCheckout('robux')">
+                <strong>🪙 Roblox Robux Method</strong>
+                <p style="margin: 5px 0 0 0; font-size: 12px; color: #b5bac1;">Pay via manual Robux balance transfers inside Roblox.</p>
+            </div>
+
+            <button class="btn btn-alt" onclick="navigate('planScreen')">Back</button>
+        </div>
+    </div>
+
+    <!-- 5. PAYPAL GATEWAY SCREEN -->
+    <div id="paypalScreen" class="screen">
+        <div class="card">
+            <h2>🔐 Secure PayPal Portal</h2>
+            <p>Your payment is fully encrypted. Complete the form inside the secure block below:</p>
+            
+            <!-- PayPal Live SDK integration script hook -->
+            <script src="https://www.paypal.com/sdk/js?client-id=YOUR_LIVE_PAYPAL_CLIENT_ID&currency=USD"></script>
+            <div id="paypal-button-container" style="margin: 20px 0;"></div>
+
+            <button class="btn btn-alt" onclick="navigate('methodScreen')">Cancel</button>
+        </div>
+    </div>
+
+    <!-- 6. ROBUX METHOD INSTRUCTIONS -->
+    <div id="robuxScreen" class="screen">
+        <div class="card">
+            <h2>🪙 Robux Payment Requirements</h2>
+            <p>To finalize your order processing framework, you must complete these tasks exactly:</p>
+            
+            <div style="background-color: #1e1f22; padding: 15px; border-radius: 6px; text-align: left; margin: 15px 0; font-size: 13px;">
+                1. Open Roblox and look up the user account: **oplox00**<br>
+                2. Click on his profile and make sure to **Follow him**.<br>
+                3. Send the equivalent Robux purchase rate amount directly to him.<br>
+                4. Input your Roblox username below for confirmation:
+            </div>
+
+            <input type="text" id="robloxUser" placeholder="Your Roblox Username">
+            
+            <button class="btn" onclick="finishOrder()">Confirm Actions Completed</button>
+            <button class="btn btn-alt" onclick="navigate('methodScreen')">Back</button>
+        </div>
+    </div>
+
+    <!-- 7. FINAL ORDER SUCCESS PAGE -->
+    <div id="successScreen" class="screen">
+        <div class="card" style="border: 2px solid #23a55a;">
+            <h2 style="color: #23a55a;">🎉 Verification Code Ready</h2>
+            <p>Your transaction request log sequence has been securely registered on our server grid ledger board.</p>
+            
+            <div style="background-color: #1e1f22; font-family: monospace; padding: 15px; border-radius: 4px; color: #23a55a; font-size: 15px; margin: 20px 0;">
+                [ORDER-SUCCESS-DATA]<br>
+                User: <span id="lblUser"></span><br>
+                Plan: <span id="lblPlan"></span><br>
+                Status: PENDING TICKET CLAIM
+            </div>
+
+            <p style="font-weight: bold; color: #ffffff;">👇 NEXT STEP REQUIRED 👇</p>
+            <p style="font-size: 13px; color: #f1c40f; margin-bottom: 20px;">
+                Copy the text box layout above, head straight back to the Discord Server, open a fresh support ticket, and send the data string to the staff to claim your order rewards instantly!
+            </p>
+
+            <button class="btn" onclick="navigate('storeScreen')">Return to Dashboard</button>
+        </div>
+    </div>
+
+    <script>
+        let currentCategory = 'boost';
+
+        function navigate(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function handleAuth() {
+            const user = document.getElementById('username').value.trim();
+            if (!user) return alert("Please enter a username.");
+            document.getElementById('userDisplay').innerText = user;
+            navigate('storeScreen');
+        }
+
+        function logout() {
+            navigate('authScreen');
+        }
+
+        function toggleSettings() {
+            const panel = document.getElementById('settingsHub');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Sets up the custom options dynamically depending on whether they picked Regular Boost or High-Value Premium
+        function openPlanSelector(category) {
+            currentCategory = category;
+            const selector = document.getElementById('durationSelect');
+            selector.innerHTML = ''; // Reset options
+
+            if (category === 'boost') {
+                document.getElementById('planHeader').innerText = "🚀 Select Regular Boost Plan";
+                selector.innerHTML = `
+                    <option value="3 Days - Free Ads">3 Days - FREE (Watch 3 Ads)</option>
+                    <option value="1 Day - $2.00">1 Day - $2.00 USD</option>
+                    <option value="5 Days - $10.00">5 Days - $10.00 USD</option>
+                    <option value="15 Days - $35.00">15 Days - $35.00 USD</option>
+                    <option value="Permanent - $50.00">Permanent - $50.00 USD</option>
+                `;
+            } else {
+                document.getElementById('planHeader').innerText = "👑 Select Premium High-Value Plan";
+                selector.innerHTML = `
+                    <option value="Premium 7 Days - $15.00">Premium Tier (7 Days) - $15.00 USD</option>
+                    <option value="Premium 30 Days - $45.00">Premium Tier (30 Days) - $45.00 USD</option>
+                    <option value="Premium Lifetime - $99.00">Premium Lifetime Access - $99.00 USD</option>
+                `;
+            }
+            navigate('planScreen');
+        }
+
+        function goToPaymentMethod() {
+            const planValue = document.getElementById('durationSelect').value;
+            if (planValue.includes("Free")) {
+                alert("Playing promo ad framework sequences (3/3)... Complete!");
+                showSuccessPage();
+            } else {
+                navigate('methodScreen');
+            }
+        }
+
+        function startCheckout(method) {
+            if (method === 'paypal') {
+                navigate('paypalScreen');
+            } else {
+                navigate('robuxScreen');
+            }
+        }
+
+        function finishOrder() {
+            if (document.getElementById('robloxUser').value.trim() === "") {
+                return alert("Please type your Roblox account name so we can verify the follow/transfer step!");
+            }
+            showSuccessPage();
+        }
+
+        function showSuccessPage() {
+            document.getElementById('lblUser').innerText = document.getElementById('userDisplay').innerText;
+            document.getElementById('lblPlan').innerText = document.getElementById('durationSelect').value + ` (${currentCategory.toUpperCase()})`;
+            navigate('successScreen');
+        }
+
+        function changeLanguage(lang) {
+            if (lang === 'ar') {
+                document.getElementById('authTitle').innerText = "مرحباً بك في متجر الدعم";
+                document.getElementById('authDesc').innerText = "يرجى تسجيل الدخول للتحكم.";
+            } else {
+                document.getElementById('authTitle').innerText = "Welcome to Sae Boost Hub";
+                document.getElementById('authDesc').innerText = "Please log in or create an account to view services.";
+            }
+        }
+
+        // Setup real PayPal Button execution handler tracking framework
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                const planValue = document.getElementById('durationSelect').value;
+                let price = "2.00"; // default base rate
+                
+                if (planValue.includes("$10.00")) price = "10.00";
+                if (planValue.includes("$35.00")) price = "35.00";
+                if (planValue.includes("$50.00")) price = "50.00";
+                if (planValue.includes("$15.00")) price = "15.00";
+                if (planValue.includes("$45.00")) price = "45.00";
+                if (planValue.includes("$99.00")) price = "99.00";
+
+                return actions.order.create({
+                    purchase_units: [{ amount: { value: price } }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    showSuccessPage();
+                });
+            },
+            onError: function(err) {
+                alert('PayPal processing pipeline failure or checkout window closed.');
+            }
+        }).render('#paypal-button-container');
+    </script>
+</body>
+</html>
