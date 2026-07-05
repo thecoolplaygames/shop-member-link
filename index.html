@@ -3,899 +3,1022 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sae Premium Boost Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Sae.gen Premium Hybrid Hub Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #1a1c1e;
-            --panel-color: #24272c;
-            --input-color: #111214;
-            --accent-color: #5865f2;
-            --premium-color: #f1c40f;
-            --robux-color: #00a2ff;
-            --coin-color: #e74c3c;
-            --text-color: #dbdee1;
-            --heading-color: #ffffff;
-            --card-glow: rgba(88, 101, 242, 0.2);
-            --neon-border: #5865f2;
+            --bg-darkest: #0f1012;
+            --bg-sidebar: #1e1f22;
+            --bg-chat: #313338;
+            --bg-panels: #2b2d31;
+            --accent-discord: #5865f2;
+            --accent-green: #23a55a;
+            --accent-red: #f23f43;
+            --text-normal: #dbdee1;
+            --text-muted: #949ba4;
+            --premium-gold: #f1c40f;
+            --boost-pink: #ff73fa;
+            --rainbow-speed: 6s;
+        }
+
+        @keyframes rainbowGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .rainbow-theme {
+            background: linear-gradient(-45deg, #1a1c1e, #2b1035, #0d2823, #351010) !important;
+            background-size: 400% 400% !important;
+            animation: rainbowGlow var(--rainbow-speed) ease infinite !important;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg-darkest);
+            color: var(--text-normal);
             font-family: 'Poppins', sans-serif;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            transition: background 0.3s ease;
+            margin: 0; padding: 0; height: 100vh;
+            display: flex; overflow: hidden; user-select: none;
         }
 
-        .screen { display: none; width: 100%; max-width: 900px; padding: 20px; box-sizing: border-box; }
-        .active { display: block; }
+        .screen { display: none; width: 100vw; height: 100vh; }
+        .screen.active { display: flex; }
 
-        .card {
-            background: linear-gradient(145deg, var(--panel-color), #1c1e22);
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 15px var(--card-glow);
-            text-align: center;
-            border: 2px solid var(--neon-border);
-            position: relative;
-            transition: all 0.3s ease;
+        .auth-container {
+            margin: auto; width: 100%; max-width: 450px;
+            background: var(--bg-panels); border-radius: 12px;
+            padding: 40px; box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+            text-align: center; border: 1px solid rgba(255,255,255,0.05);
         }
 
-        h2 { color: var(--heading-color); font-weight: 700; font-size: 32px; margin-bottom: 10px; margin-top: 0; }
+        .app-layout { display: flex; width: 100%; height: 100%; }
+
+        /* SIDEBAR MESSAGES MODULE */
+        .channels-sidebar {
+            width: 260px; background-color: var(--bg-sidebar);
+            display: flex; flex-direction: column; justify-content: space-between;
+            border-right: 1px solid rgba(0,0,0,0.4); flex-shrink: 0;
+        }
+        .sidebar-header {
+            padding: 16px; font-weight: bold; font-size: 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.2);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .sidebar-brand { display: flex; align-items: center; gap: 8px; font-size: 14px; color: white; }
         
-        /* Profile Frame Customizations */
-        .profile-badge-area {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-align: left;
+        .channel-list { padding: 10px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; flex: 1; }
+        .list-section-title { font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; padding: 12px 8px 4px 8px; letter-spacing: 0.5px; }
+        
+        .channel-item {
+            padding: 10px 12px; border-radius: 6px; cursor: pointer;
+            display: flex; align-items: center; justify-content: space-between; color: var(--text-muted);
+            font-size: 14px; transition: background 0.2s, color 0.2s;
         }
-        .user-avatar-frame {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--accent-color);
-            background: #111214;
+        .channel-item:hover, .channel-item.active-channel {
+            background: rgba(255,255,255,0.06); color: var(--text-normal);
         }
+        .chan-left-block { display: flex; align-items: center; gap: 10px; }
 
-        /* Auth Styles */
-        .auth-container { max-width: 450px; margin: 0 auto; }
-        .auth-tabs {
-            display: flex;
-            background-color: var(--input-color);
-            border-radius: 8px;
-            margin-bottom: 25px;
-            padding: 4px;
+        /* CENTER VIEW CONTROLLER */
+        .center-stage-container { flex: 1; display: flex; flex-direction: column; background-color: var(--bg-chat); }
+        
+        /* FRIENDS HUB SUB-INTERFACE */
+        .friends-dashboard { display: none; flex: 1; flex-direction: column; }
+        .friends-dashboard.active-panel { display: flex; }
+        .friends-nav-bar {
+            height: 52px; padding: 0 20px; border-bottom: 1px solid rgba(0,0,0,0.2);
+            display: flex; align-items: center; gap: 20px; background: var(--bg-sidebar);
         }
-        .auth-tab {
-            flex: 1;
-            padding: 12px;
-            color: #b5bac1;
-            cursor: pointer;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: all 0.2s;
+        .friends-tab-btn {
+            padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text-muted);
         }
-        .auth-tab.active-tab {
-            background-color: var(--accent-color);
-            color: white;
-        }
-        .auth-form { display: none; }
-        .auth-form.active-form { display: block; }
+        .friends-tab-btn:hover { background: rgba(255,255,255,0.05); color: var(--text-normal); }
+        .friends-tab-btn.active-tab { background: rgba(255,255,255,0.1); color: white; }
+        .friends-tab-btn.add-friend-btn { background: var(--accent-green); color: white; }
 
-        input[type="text"], input[type="password"], select {
-            width: 100%;
-            padding: 16px;
-            margin: 12px 0;
-            border-radius: 8px;
+        .friends-content-area { flex: 1; padding: 30px; overflow-y: auto; }
+        .friends-list-wrapper { display: flex; flex-direction: column; gap: 8px; }
+        .friend-row-card {
+            background: var(--bg-panels); padding: 14px 20px; border-radius: 8px;
+            display: flex; justify-content: space-between; align-items: center;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+        .friend-card-meta { display: flex; align-items: center; gap: 12px; }
+        .friend-card-avatar { width: 38px; height: 38px; border-radius: 50%; background: #111214; }
+        .friend-card-actions { display: flex; gap: 8px; }
+
+        /* CONSOLE CHAT VIEW */
+        .chat-dashboard { display: none; flex: 1; flex-direction: column; }
+        .chat-dashboard.active-panel { display: flex; }
+        .chat-header {
+            height: 52px; padding: 0 20px; border-bottom: 1px solid rgba(0,0,0,0.2);
+            display: flex; align-items: center; justify-content: space-between; background: var(--bg-chat);
+        }
+        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+        .msg-row { display: flex; gap: 16px; align-items: flex-start; }
+        .msg-avatar { width: 40px; height: 40px; border-radius: 50%; background: #111214; object-fit: cover; flex-shrink: 0; }
+        .msg-content-box { flex: 1; }
+        .msg-user-meta { font-weight: 600; font-size: 15px; margin-bottom: 2px; display: flex; align-items: center; gap: 8px; }
+        .msg-timestamp { font-size: 11px; color: var(--text-muted); font-weight: 400; }
+        .msg-text { font-size: 14px; color: #dcddde; word-break: break-all; }
+
+        .chat-input-area { padding: 0 20px 24px 20px; background: var(--bg-chat); }
+        .chat-input-wrapper { background: #383a40; border-radius: 8px; padding: 14px 16px; display: flex; align-items: center; }
+        .chat-input-wrapper input { width: 100%; background: transparent; border: none; color: white; font-family: inherit; font-size: 15px; outline: none; }
+
+        /* LIVE TELEMETRY TELEGRAM NOTIFICATIONS */
+        #liveEventAlertToastBox {
+            position: fixed; top: 20px; right: 20px; z-index: 1000;
+            display: flex; flex-direction: column; gap: 10px; pointer-events: none;
+        }
+        .live-toast {
+            background: rgba(20, 21, 23, 0.95); border-left: 4px solid var(--accent-discord);
+            padding: 14px 20px; border-radius: 6px; box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+            color: white; font-size: 13px; font-family: 'JetBrains Mono', monospace;
+            min-width: 260px; transform: translateX(120%); animation: slideInToast 0.3s forwards;
+        }
+        @keyframes slideInToast { to { transform: translateX(0); } }
+
+        /* MODALS ARCHITECTURE */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.75); z-index: 500; display: none;
+            justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;
+        }
+        .modal-card {
+            background: var(--bg-panels); border-radius: 12px; width: 100%;
+            max-width: 520px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             border: 1px solid rgba(255,255,255,0.05);
-            background-color: var(--input-color);
-            color: white;
-            box-sizing: border-box;
-            font-size: 15px;
-            font-family: inherit;
         }
 
-        .error-msg {
-            color: #f23f43;
-            font-size: 13px;
-            text-align: left;
-            margin-top: -5px;
-            margin-bottom: 10px;
-            display: none;
-            font-weight: 600;
+        input[type="text"], input[type="password"], select, textarea {
+            width: 100%; padding: 14px; margin: 10px 0; border-radius: 6px;
+            border: 1px solid rgba(0,0,0,0.3); background-color: #1e1f22;
+            color: white; box-sizing: border-box; font-family: inherit; outline: none;
         }
+        textarea { height: 80px; resize: none; }
 
         .btn {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 16px 24px;
-            width: 100%;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            margin-top: 15px;
-            transition: all 0.2s ease;
+            background: var(--accent-discord); color: white; border: none;
+            padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: 600;
+            width: 100%; margin-top: 10px; transition: background 0.2s; display: inline-block; text-align: center; box-sizing: border-box;
         }
-        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
-        .btn-alt { background: #3b3e45; color: white; margin-top: 10px; }
-        .btn-premium { background: linear-gradient(90deg, #f1c40f, #f39c12); color: black; font-weight: 700; }
+        .btn:hover { filter: brightness(1.1); }
+        .btn-alt { background: #4e5058; }
+        .btn-danger { background: var(--accent-red); }
+        .btn-sm { padding: 6px 12px; font-size: 12px; width: auto; margin: 0; }
 
-        /* Store Header Components */
-        .store-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 20px;
-        }
-        .header-left { text-align: left; }
-        .header-right { text-align: right; display: flex; align-items: center; gap: 15px; }
+        .user-status-bar { background: #232428; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .user-mini-profile { display: flex; align-items: center; gap: 8px; overflow: hidden; }
 
-        .settings-icon-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            font-size: 24px;
-            cursor: pointer;
-            padding: 10px;
-            border-radius: 12px;
-            transition: all 0.2s;
+        .store-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
+        .store-card {
+            background: #1e1f22; border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px; padding: 16px; cursor: pointer; transition: border 0.2s;
         }
-        .settings-icon-btn:hover { transform: rotate(45deg); }
+        .store-card:hover { border-color: var(--accent-discord); }
 
-        /* Wallet and Live Info Badges */
-        .stats-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 25px;
+        .live-ticker-banner {
+            background: #111214; padding: 6px 12px; font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; color: var(--accent-green); display: flex; gap: 20px; overflow: hidden; white-space: nowrap;
         }
-        .currency-indicator {
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Shop Item Matrix Panels */
-        .shop-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-top: 15px;
-        }
-        @media (max-width: 650px) { .shop-grid { grid-template-columns: 1fr; } }
-
-        .shop-item {
-            background: rgba(0, 0, 0, 0.25);
-            border: 2px solid rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 35px 20px;
-            cursor: pointer;
-            text-align: center;
-            position: relative;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .shop-item:hover {
-            transform: scale(1.04);
-            border-color: var(--accent-color);
-            background: rgba(255,255,255,0.02);
-        }
-
-        /* Price Guide Tables */
-        .price-sheet {
-            margin-top: 15px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 8px;
-            padding: 8px;
-            font-size: 12px;
-            text-align: left;
-        }
-        .price-row { display: flex; justify-content: space-between; padding: 4px 6px; border-bottom: 1px solid rgba(255,255,255,0.03); }
-        .price-row:last-child { border-bottom: none; }
-
-        .settings-grid { display: grid; grid-template-columns: 1fr; gap: 20px; text-align: left; margin-top: 25px; }
-        .switch-row {
-            display: flex; justify-content: space-between; align-items: center;
-            background: rgba(0,0,0,0.2); padding: 16px; border-radius: 10px;
-        }
-
-        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider {
-            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #4e5058; transition: .3s; border-radius: 34px;
-        }
-        .slider:before {
-            position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px;
-            background-color: white; transition: .3s; border-radius: 50%;
-        }
-        input:checked + .slider { background-color: var(--accent-color); }
-        input:checked + .slider:before { transform: translateX(24px); }
-
-        /* Premium locked menu styling elements */
-        .premium-lock-box {
-            border: 2px dashed var(--premium-color);
-            background: rgba(241, 196, 15, 0.05);
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 20px;
-            position: relative;
-        }
-
-        /* AD OVERLAY MODAL WINDOW */
-        .ad-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 9999;
-            display: none; justify-content: center; align-items: center;
-        }
-        .ad-box {
-            background: #1e1f22; border: 3px solid #f1c40f; border-radius: 16px;
-            padding: 40px; max-width: 500px; width: 90%; text-align: center; position: relative;
-        }
-        .ad-timer {
-            position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6);
-            padding: 6px 12px; border-radius: 20px; font-size: 14px; font-weight: bold; color: #f1c40f;
-        }
+        .ticker-wrap { display: inline-block; animation: marqueeScroll 25s linear infinite; }
+        @keyframes marqueeScroll { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
     </style>
 </head>
 <body>
 
-    <!-- 1. AUTH SCREEN -->
+    <!-- NOTIFICATION WRAPPER -->
+    <div id="liveEventAlertToastBox"></div>
+
+    <!-- PORTAL AUTH NODE -->
     <div id="authScreen" class="screen active">
-        <div class="card auth-container">
-            <h2 id="lang-authTitle">Welcome to Sae Hub</h2>
-            <p id="lang-authDesc" style="margin-bottom: 20px;">Please sign in or register your credential keys to continue.</p>
+        <div class="auth-container">
+            <div style="font-size: 40px; margin-bottom:10px;">🛡️</div>
+            <h2>Sae.gen Secure Gateway</h2>
+            <p style="color:var(--text-muted); font-size:13px; margin-bottom:20px;">Synchronize your account credentials to connect to the peer network.</p>
             
-            <div class="auth-tabs">
-                <div id="tabLoginBtn" class="auth-tab active-tab" onclick="switchAuthTab('login')">Sign In</div>
-                <div id="tabRegisterBtn" class="auth-tab" onclick="switchAuthTab('register')">Register</div>
-            </div>
-
-            <div id="loginForm" class="auth-form active-form">
-                <input type="text" id="loginUser" placeholder="Enter Username">
-                <input type="password" id="loginPass" placeholder="Enter Password">
-                <div id="loginError" class="error-msg">❌ Requirements broken: Username must be > 6 characters, Password must be > 10 characters.</div>
-                <button class="btn" onclick="processLogin()">Log In Securely</button>
-            </div>
-
-            <div id="registerForm" class="auth-form">
-                <input type="text" id="regUser" placeholder="Create Username (Min 6 Characters)">
-                <input type="password" id="regPass" placeholder="Create Password (Min 10 Characters)">
-                <div id="regError" class="error-msg">❌ Requirements broken: Username must be > 6 characters, Password must be > 10 characters.</div>
-                <button class="btn" onclick="processRegister()">Create Account Node</button>
-            </div>
+            <input type="text" id="loginUser" placeholder="Account Key Identifier" value="administrator">
+            <input type="password" id="loginPass" placeholder="Security Password Protocol" value="securepassword123">
+            <button class="btn" onclick="processSecureAuth()">Establish Link Node</button>
         </div>
     </div>
 
-    <!-- 2. MAIN STORE DASHBOARD -->
-    <div id="storeScreen" class="screen">
-        <div class="card">
-            <div class="store-header">
-                <div class="profile-badge-area">
-                    <img id="dashboardAvatar" class="user-avatar-frame" src="https://www.roblox.com/headshot-thumbnail/image?userId=1&width=420&height=420&format=png" alt="User Headshot">
-                    <div>
-                        <h2 id="lang-storeTitle" style="margin:0; font-size:26px;">✨ Sae Store Grid</h2>
-                        <p style="margin:0;"><span id="lang-welcome">Welcome back</span>, <strong id="userDisplay" style="color:var(--accent-color);">User</strong>! <span id="premiumCrown" style="display:none;">👑</span></p>
-                        <div id="customBioDisplay" style="font-size:11px; color:#b5bac1; font-style:italic;">No custom bio status added.</div>
-                    </div>
-                </div>
-                <div class="header-right">
-                    <div style="font-size:12px; text-align:right; color:#23a55a;">● Core Sync: ONLINE</div>
-                    <div style="font-size:12px; text-align:right; color:#f1c40f;">🔥 Streak: <span id="lblStreak">1</span> Day</div>
-                    <button class="settings-icon-btn" onclick="navigate('settingsScreen')">⚙️</button>
-                </div>
-            </div>
+    <!-- MAIN APP FLOW LAYOUT -->
+    <div id="appScreen" class="screen">
+        <div class="app-layout" id="appRootBody">
             
-            <div class="stats-row">
-                <span class="currency-indicator" id="currencyBadge" style="background-color: rgba(88, 101, 242, 0.2); color: var(--accent-color);">💳 Mode: USD Store</span>
-                <span class="currency-indicator" style="background-color: rgba(231, 76, 60, 0.2); color: var(--coin-color);">🪙 Sae Wallet: <strong id="coinWalletBalance">0</strong> Coins</span>
-            </div>
-
-            <!-- LIVE ACTION MODULES -->
-            <div id="boosterStatusPanel" style="display:none; background:rgba(88,101,242,0.15); border:1px dashed var(--accent-color); padding:12px; margin-bottom:20px; border-radius:8px; font-size:13px; font-weight:bold; color:white;">
-                🚀 GUILD BOOST CHANNELS FULLY ACTIVE! Next operational reload window in: <span id="boostCooldownTimer" style="color:#f1c40f;">02:00:00</span>
-            </div>
-
-            <!-- SHOP CARDS WITH PRICING SCHEMES -->
-            <div class="shop-grid">
-                
-                <!-- Card 1: Server Booster Pack Area -->
-                <div class="shop-item" onclick="openPlanSelector('boost')">
-                    <div style="font-size: 50px; margin-bottom: 10px;">🚀</div>
-                    <h3 style="margin:0 0 4px 0; font-size: 22px;" id="lang-boostTitle">Server Booster</h3>
-                    <p style="margin:0 0 10px 0; font-size: 13px;" id="lang-boostDesc">Instantly boost your guild tier processing layers natively.</p>
-                    
-                    <div class="price-sheet">
-                        <div style="font-weight:bold; color:var(--accent-color); margin-bottom:4px;">💰 Available Pricing Tiers:</div>
-                        <div class="price-row"><span>1 Day:</span><strong>$2.00 USD / 50 Robux / 10 Coins</strong></div>
-                        <div class="price-row"><span>5 Days:</span><strong>$10.00 USD / 250 Robux / 45 Coins</strong></div>
-                        <div class="price-row"><span>15 Days:</span><strong>$35.00 USD / 800 Robux / 130 Coins</strong></div>
-                        <div class="price-row"><span>Permanent:</span><strong>$50.00 USD / 1500 Robux / 200 Coins</strong></div>
-                    </div>
-                </div>
-                
-                <!-- Card 2: Premium High-Value Allocation Frame -->
-                <div class="shop-item" style="border-color: rgba(241,196,15,0.3);" onclick="openPlanSelector('premium')">
-                    <div style="font-size: 50px; margin-bottom: 10px;">👑</div>
-                    <h3 style="margin:0 0 4px 0; font-size: 22px; color: var(--premium-color);" id="lang-premiumTitle">Premium High-Value</h3>
-                    <p style="margin:0 0 10px 0; font-size: 13px;" id="lang-premiumDesc">Max value utility options. Worth much more than standard boost layers.</p>
-                    
-                    <div class="price-sheet">
-                        <div style="font-weight:bold; color:var(--premium-color); margin-bottom:4px;">💰 Available Pricing Tiers:</div>
-                        <div class="price-row"><span>7 Days:</span><strong>$15.00 USD / 400 Robux / 60 Coins</strong></div>
-                        <div class="price-row"><span>30 Days:</span><strong>$45.00 USD / 1200 Robux / 180 Coins</strong></div>
-                        <div class="price-row"><span>Lifetime:</span><strong>$99.00 USD / 3500 Robux / 400 Coins</strong></div>
-                    </div>
-                </div>
-
-                <!-- Card 3: Daily Mystery Reward Box -->
-                <div class="shop-item" style="border-color: rgba(155, 89, 182, 0.4);" onclick="triggerAdRoutine()">
-                    <div style="font-size: 50px; margin-bottom: 10px;">📦</div>
-                    <h3 style="margin:0 0 4px 0; font-size: 22px; color: #9b59b6;">Daily Mystery Reward Box</h3>
-                    <p style="margin:0 0 10px 0; font-size: 13px;">Open once per day! Requires watching a brief network advertisement block to drop random Sae Coins.</p>
-                    <div style="background: rgba(155,89,182,0.2); padding: 8px; border-radius: 6px; font-size: 12px; font-weight: bold; color: #cc99ff;">
-                        🎁 Potential Drop: 10 to 100 Sae Coins!
-                    </div>
-                </div>
-
-                <!-- Card 4: Run Live Engine Boost Execution (2 hour matrix loop) -->
-                <div class="shop-item" style="border-color: rgba(46, 204, 113, 0.3);" onclick="triggerDirectServerBoost()">
-                    <div style="font-size: 50px; margin-bottom: 10px;">⚡</div>
-                    <h3 style="margin:0 0 4px 0; font-size: 22px; color: #2ecc71;">Run Micro Boost Script</h3>
-                    <p style="margin:0 0 10px 0; font-size: 13px;">Fire temporary server signal vectors. Can be run once every 2 hours directly.</p>
-                    <div style="background: rgba(46,204,113,0.15); padding: 6px; border-radius: 6px; font-size: 12px; font-weight: bold; color: #2ecc71;">
-                        ⚡ Cost: FREE for active account nodes
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- 3. CONFIGURATION HUB -->
-    <div id="settingsScreen" class="screen">
-        <div class="card">
-            <h2>⚙️ Core Configuration Panel</h2>
-            <p>Modify internal user settings interface structures here:</p>
-
-            <div class="settings-grid">
-                <!-- Currency Toggle System -->
-                <div class="switch-row" style="border: 1px solid rgba(0, 162, 255, 0.3);">
-                    <div>
-                        <strong style="color: var(--robux-color);">🪙 Use Robux Method Storefront</strong>
-                        <div style="font-size:12px; color:#b5bac1;">Flip this to switch the shop to Robux currency instantly.</div>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="robuxToggle" onchange="toggleRobuxShop(this.checked)">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-
-                <!-- Language Selector Matrix -->
+            <!-- LEFT WORKSPACE NAVIGATION SIDEBAR -->
+            <div class="channels-sidebar">
                 <div>
-                    <label style="font-weight: 600; font-size: 14px; display:block; margin-bottom:5px;">🌐 Global Language Override Matrix</label>
-                    <select id="langSelect" onchange="applyLanguageMatrix(this.value)" style="margin:0;">
-                        <option value="en">English (US)</option>
-                        <option value="ar">العربية (Arabic)</option>
-                        <option value="fr">Français (French)</option>
-                        <option value="es">Español (Spanish)</option>
-                        <option value="de">Deutsch (German)</option>
-                    </select>
-                </div>
-
-                <!-- PREMIUM CUSTOM CONTROLS AREA -->
-                <div id="premiumMenuContainer" class="premium-lock-box">
-                    <div id="premiumLockedCover" style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:flex; flex-direction:column; justify-content:center; align-items:center; border-radius:10px; z-index:10;">
-                        <span style="font-size:30px;">🔒</span>
-                        <strong style="color:var(--premium-color); margin-top:5px;">Premium Access Matrix Required</strong>
-                        <p style="font-size:11px; color:#b5bac1; margin:4px 0 0 0; text-align:center; padding:0 10px;">Unlock Premium packages inside the shop panel grid to utilize custom theme shaders, account name configurations, and photo changes.</p>
+                    <div class="sidebar-header">
+                        <div class="sidebar-brand">
+                            <span>🔮 Sae.gen Network Hub</span>
+                        </div>
                     </div>
-
-                    <h3 style="margin:0 0 15px 0; color:var(--premium-color); text-align:left;">👑 Premium Control Grid Command</h3>
                     
-                    <!-- Color Web theme picker -->
-                    <div style="margin-bottom:15px; text-align:left;">
-                        <label style="font-size:13px; font-weight:bold; display:block; margin-bottom:4px;">🎨 Web Interface Core Theme Skin</label>
-                        <select id="premiumThemeSelect" onchange="changeWebThemeSkin(this.value)" style="margin:0;">
-                            <option value="default">Default Deep Space (Discord Blue)</option>
-                            <option value="purple">Neon Orchid Purple</option>
-                            <option value="crimson">Crimson Blood Vampire</option>
-                            <option value="hacker">Mint Matrix Hacker</option>
-                            <option value="dark">Total Midnight Blackout</option>
-                        </select>
-                    </div>
+                    <div class="channel-list">
+                        <div class="channel-item" id="friendsTabNavItem" onclick="uiNavigateToPanel('friends')">
+                            <div class="chan-left-block"><span>👥</span> <strong>Friends</strong></div>
+                            <span id="uiFriendsOnlineCounterBadge" style="background:var(--accent-red); color:white; font-size:10px; padding:2px 6px; border-radius:10px; font-weight:bold;">0</span>
+                        </div>
+                        
+                        <div class="list-section-title">Direct Messages</div>
+                        <div id="dmActiveListingContainer"></div>
 
-                    <!-- Change Username Box Anytime -->
-                    <div style="margin-bottom:15px; text-align:left;">
-                        <label style="font-size:13px; font-weight:bold; display:block; margin-bottom:4px;">✏️ Change Account Username (Anytime)</label>
-                        <input type="text" id="premiumUserBox" placeholder="Type new display name key..." style="margin:0; padding:12px;">
-                        <button class="btn" style="padding:10px; font-size:13px; margin-top:6px;" onclick="applyPremiumUsernameChange()">Apply Username Node</button>
-                    </div>
-
-                    <!-- Change Photo Box Anytime -->
-                    <div style="text-align:left;">
-                        <label style="font-size:13px; font-weight:bold; display:block; margin-bottom:4px;">🖼️ Profile Photo Asset URL Link</label>
-                        <input type="text" id="premiumAvatarBox" placeholder="Paste custom image link address here..." style="margin:0; padding:12px;">
-                        <button class="btn" style="padding:10px; font-size:13px; margin-top:6px;" onclick="applyPremiumAvatarLink()">Sync Avatar Image</button>
+                        <div class="list-section-title">Group Channels</div>
+                        <div id="groupActiveListingContainer"></div>
+                        <div class="channel-item" style="border: 1px dashed rgba(255,255,255,0.1); justify-content: center;" onclick="openModal('modalCreateGroup')">
+                            <span style="font-size:12px; color:var(--text-normal);">➕ Create Private Group</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="switch-row">
-                    <div>
-                        <strong>🕵️ Stealth Browsing Framework</strong>
-                        <div style="font-size:12px; color:#b5bac1;">Hide profile status metrics from public server grids.</div>
+                <!-- BOTTOM STATUS BAR INFO -->
+                <div class="user-status-bar">
+                    <div class="user-mini-profile">
+                        <img id="statusBarAvatar" src="image_530324.png" class="msg-avatar" alt="Avatar" onerror="this.src='https://i.imgur.com/6VBx3io.png'">
+                        <div style="overflow:hidden;">
+                            <div id="statusBarName" style="font-weight:600; font-size:13px; white-space:nowrap; text-overflow:ellipsis;">User</div>
+                            <div id="statusBarStatus" style="font-size:11px; color:var(--text-muted); white-space:nowrap; text-overflow:ellipsis;">Active Online</div>
+                        </div>
                     </div>
-                    <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                    <div style="display:flex; gap:8px;">
+                        <button style="background:transparent; border:none; color:white; cursor:pointer; font-size:16px;" onclick="openModal('modalShopDeck')" title="Marketplace Exchange">🛒</button>
+                        <button style="background:transparent; border:none; color:white; cursor:pointer; font-size:16px;" onclick="openModal('modalConfigPanel')" title="Settings Matrix">⚙️</button>
+                    </div>
                 </div>
             </div>
 
-            <button class="btn" style="margin-top:25px;" onclick="navigate('storeScreen')">Save & Return to Store</button>
-            <button class="btn btn-alt" style="background-color: #da373c;" onclick="logout()">Log Out</button>
-        </div>
-    </div>
+            <!-- MAIN CENTER WORKSPACE STAGE -->
+            <div class="center-stage-container">
+                
+                <!-- LIVE AUTOMATION DATA TICKER -->
+                <div class="live-ticker-banner">
+                    <div class="ticker-wrap">
+                        ⚡ Network Load: Optimal (14.2ms) | Active Peer Nodes: 4,812 | Mining Hashrate: 824 MH/s | Global Chat Relay Active... ⚡ Network Load: Optimal (14.2ms) | Active Peer Nodes: 4,812 | Mining Hashrate: 824 MH/s | Global Chat Relay Active...
+                    </div>
+                </div>
 
-    <!-- 4. PLAN SELECTION SCREEN -->
-    <div id="planScreen" class="screen">
-        <div class="card">
-            <h2 id="planHeader">Select Your Package Tier</h2>
-            <select id="durationSelect"></select>
-            <button class="btn" onclick="goToPaymentMethod()">Next: Configure Billing Pipeline</button>
-            <button class="btn btn-alt" onclick="navigate('storeScreen')">Back to Dashboard</button>
-        </div>
-    </div>
+                <!-- PANEL 1: FRIENDS ENGINE PANEL -->
+                <div id="panelFriendsStage" class="friends-dashboard active-panel">
+                    <div class="friends-nav-bar">
+                        <div style="font-weight:600; color:white; font-size:14px; border-right:1px solid rgba(255,255,255,0.1); padding-right:15px; display:flex; align-items:center; gap:6px;"><span>👥</span> Friends</div>
+                        <div class="friends-tab-btn active-tab" id="tabBtnOnline" onclick="renderFriendsSubTab('online')">Online</div>
+                        <div class="friends-tab-btn" id="tabBtnAll" onclick="renderFriendsSubTab('all')">All Peers</div>
+                        <div class="friends-tab-btn" id="tabBtnPending" onclick="renderFriendsSubTab('pending')">Pending Requests</div>
+                        <div class="friends-tab-btn" id="tabBtnBlocked" onclick="renderFriendsSubTab('blocked')">Blocked Index</div>
+                        <div class="friends-tab-btn add-friend-btn" onclick="openModal('modalAddFriendAction')">Add Friend</div>
+                    </div>
+                    <div class="friends-content-area">
+                        <h3 id="friendsStageSectionTitle" style="margin-top:0; color:white; font-size:16px;">Online Friends</h3>
+                        <div class="friends-list-wrapper" id="friendsDynamicListContainer"></div>
+                    </div>
+                </div>
 
-    <!-- 5. METHOD SELECTION SCREEN -->
-    <div id="methodScreen" class="screen">
-        <div class="card">
-            <h2>Select Payment Method</h2>
-            <div id="coinPayOption" class="shop-item" style="text-align:left; margin-bottom:15px; padding:20px; border-color:var(--coin-color);" onclick="startCheckout('coins')">
-                <strong>🪙 Spend Sae Coins From Wallet</strong>
-                <p style="margin:5px 0 0 0; font-size:12px; color:#b5bac1;">Deduct cost directly from earned wallet balance.</p>
+                <!-- PANEL 2: CONSOLE CHAT PLATFORM -->
+                <div id="panelChatStage" class="chat-dashboard">
+                    <div class="chat-header">
+                        <div style="display:flex; align-items:center; gap:8px; font-weight:600;">
+                            <span id="activeChatTargetTypeIcon" style="color:var(--text-muted); font-size:16px;">💬</span>
+                            <span id="activeChatTargetName" style="color:white;">Select a Connection</span>
+                        </div>
+                        <div id="moderationActionPanel" style="display:flex; gap:8px;"></div>
+                    </div>
+
+                    <div class="chat-messages" id="chatMessageFlowStream"></div>
+
+                    <div class="chat-input-area">
+                        <div class="chat-input-wrapper">
+                            <input type="text" id="chatInputField" placeholder="Write message package stream..." onkeydown="if(event.key === 'Enter') dispatchChatMessage()">
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div class="shop-item" style="text-align:left; margin-bottom:15px; padding:20px;" onclick="startCheckout('paypal')">
-                <strong>💳 PayPal / Trusted Bank Cards</strong>
-            </div>
-            <div class="shop-item" style="text-align:left; padding:20px;" onclick="navigate('robuxScreen')">
-                <strong>🪙 Roblox Robux Balance Method</strong>
-            </div>
-            <button class="btn btn-alt" onclick="navigate('planScreen')">Back</button>
         </div>
     </div>
 
-    <!-- 6. PAYPAL GATEWAY SCREEN -->
-    <div id="paypalScreen" class="screen">
-        <div class="card">
-            <h2>🔐 Secure PayPal Portal</h2>
-            <script src="https://www.paypal.com/sdk/js?client-id=YOUR_LIVE_PAYPAL_CLIENT_ID&currency=USD"></script>
-            <div id="paypal-button-container" style="margin: 20px 0;"></div>
-            <button class="btn btn-alt" onclick="navigate('methodScreen')">Cancel Payment</button>
+    <!-- MODAL: ADD FRIEND DISPATCHER -->
+    <div id="modalAddFriendAction" class="modal-overlay">
+        <div class="modal-card">
+            <h3>Add Peer Node Friend</h3>
+            <p style="color:var(--text-muted); font-size:12px;">Input the network identifier key of the user you want to request connection parameters with.</p>
+            <input type="text" id="addFriendUsernameInput" placeholder="Enter peer identifier user...">
+            <button class="btn" onclick="executeSendFriendRequest()">Dispatch Request Signal</button>
+            <button class="btn btn-alt" onclick="closeAllModals()">Cancel</button>
         </div>
     </div>
 
-    <!-- 7. ROBUX METHOD INSTRUCTIONS -->
-    <div id="robuxScreen" class="screen">
-        <div class="card">
-            <h2>🪙 Robux Payment Requirements</h2>
-            <div style="background-color: var(--input-color); padding: 20px; border-radius: 12px; text-align: left; margin: 15px 0; font-size: 14px; border: 1px solid rgba(0,162,255,0.2);">
-                1. Open Roblox and navigate to target identification user profile: **oplox00**<br>
-                2. Select profile tracking parameters and click **Follow him**.<br>
-                3. Initiate currency settlement transfer fields equivalent to your package selection rate directly.<br>
-                4. Input your registration account username below to finalize logging metrics:
+    <!-- MODAL: FORGE GROUP MESH -->
+    <div id="modalCreateGroup" class="modal-overlay">
+        <div class="modal-card">
+            <h3>Establish Private Group Mesh</h3>
+            <p style="color:var(--text-muted); font-size:12px;">Spin up an encrypted multi-peer routing route channel.</p>
+            <input type="text" id="newGroupNameInput" placeholder="Enter custom group chat tag...">
+            <button class="btn" onclick="executeCreateGroup()">Forge Group Route</button>
+            <button class="btn btn-alt" onclick="closeAllModals()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- MODAL: SYSTEM CONFIGURATION MATRIX (SETTINGS) -->
+    <div id="modalConfigPanel" class="modal-overlay">
+        <div class="modal-card" style="max-height:85vh; overflow-y:auto;">
+            <h2>⚙️ Core Configuration Matrix</h2>
+            <p style="color:var(--text-muted); font-size:12px; margin-top:-10px; margin-bottom:20px;">Fine tune internal display layers, identity handles, and profile metadata variables.</p>
+            
+            <div style="margin-bottom:15px;">
+                <label style="font-size:13px; font-weight:600; color:white;">Interface Background Skin Core</label>
+                <select id="configThemeSelect" onchange="applyInterfaceTheme(this.value)">
+                    <option value="dark">Standard Charcoal Slate</option>
+                    <option value="rainbow">🌈 Scrolling Rainbow Skin (Requires Nitro Ultimate)</option>
+                </select>
             </div>
-            <input type="text" id="robloxUser" placeholder="Your Roblox Character Username">
-            <button class="btn" style="background-color: var(--robux-color);" onclick="finishOrder()">Confirm Actions Completed</button>
-            <button class="btn btn-alt" onclick="navigate('methodScreen')">Back</button>
-        </div>
-    </div>
 
-    <!-- 8. FINAL ORDER SUCCESS PAGE -->
-    <div id="successScreen" class="screen">
-        <div class="card" style="border: 2px solid #23a55a;">
-            <h2 style="color: #23a55a;">🎉 Transaction Code Generated</h2>
-            <div style="background-color: var(--input-color); font-family: monospace; padding: 20px; border-radius: 8px; color: #23a55a; font-size: 14px; margin: 20px 0; text-align: left;">
-                [STORE-ORDER-SEQUENCE-DATA]<br>
-                User Account: <span id="lblUser"></span><br>
-                Selection Node: <span id="lblPlan"></span><br>
-                Process State: TRANSACTION APPROVED & SIGNED
+            <div style="margin-bottom:15px;">
+                <label style="font-size:13px; font-weight:600; color:white;">Identity Tag Signature Color (Hex Code)</label>
+                <input type="text" id="configHexNameColor" placeholder="#5865f2 (Nitro Basic/Ultimate Unlock)" value="#ffffff">
             </div>
-            <p style="font-weight: bold; color: #ffffff;">👇 ACTION REQUIRED NOW 👇</p>
-            <p style="font-size: 13px; color: #f1c40f;">
-                Copy the data block printed above, navigate directly back to your Discord Hub Server channel layout, open a fresh Support Ticket, and send it to the administration staff team to claim your rewards instantly!
-            </p>
-            <button class="btn" onclick="navigate('storeScreen')">Return to Store Dashboard</button>
-        </div>
-    </div>
 
-    <!-- AD OVERLAY MODAL WINDOW -->
-    <div id="adContainer" class="ad-overlay">
-        <div class="ad-box">
-            <div id="adTimerElement" class="ad-timer">Ad: 5s</div>
-            <h2 style="color:#f1c40f; font-size:24px; margin-bottom:15px;">📺 SPONSORED MEDIA STREAM</h2>
-            <div id="adContentArea" style="background:#111214; padding:30px; border-radius:12px; min-height:120px; display:flex; align-items:center; justify-content:center; font-weight:600;">
-                Loading dynamic ad frames...
+            <div style="margin-bottom:15px;">
+                <label style="font-size:13px; font-weight:600; color:white;">Identity Name String</label>
+                <input type="text" id="configProfileNameInput">
             </div>
-            <p style="font-size:12px; color:#b5bac1; margin-top:15px;">You must view this promotional broadcast fully to process your mystery loot claim values.</p>
+
+            <div style="margin-bottom:15px;">
+                <label style="font-size:13px; font-weight:600; color:white;">Custom Profile Status Message</label>
+                <input type="text" id="configCustomStatusInput" placeholder="What's on your mind?">
+            </div>
+
+            <div style="margin-bottom:15px;">
+                <label style="font-size:13px; font-weight:600; color:white;">Avatar Image URL Frame Node</label>
+                <input type="text" id="configAvatarUrlInput">
+            </div>
+
+            <div style="margin-bottom:15px;">
+                <label style="font-size:13px; font-weight:600; color:white;">Localization Engine</label>
+                <select id="configLangSelect">
+                    <option value="en">English (US Network)</option>
+                    <option value="fr">Français (EU Node)</option>
+                    <option value="jp">日本語 (Asia Node)</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom:15px;">
+                <label style="font-size:13px; font-weight:600; color:white;">Audio Feedback & Notifications</label>
+                <select id="configAudioSelect">
+                    <option value="on">Enabled Ping Relays</option>
+                    <option value="off">Muted Connection Environment</option>
+                </select>
+            </div>
+
+            <!-- ADMIN TELEMETRY REPORT SUB-PANEL -->
+            <div id="adminReportNodePanel" style="display:none; background:rgba(242,63,67,0.1); border:1px solid var(--accent-red); padding:15px; border-radius:8px; margin-bottom:15px;">
+                <h4 style="margin:0 0 10px 0; color:var(--accent-red);">🕵️ Admin Incoming Telemetry Reports</h4>
+                <div id="adminReportStreamArea" style="font-size:12px; display:flex; flex-direction:column; gap:8px; font-family:'JetBrains Mono', monospace;">No database infraction logs.</div>
+            </div>
+
+            <button class="btn" onclick="saveConfigurationSettings()">Commit Changes To Node</button>
+            <button class="btn btn-alt" onclick="closeAllModals()">Exit Menu</button>
+            <button class="btn btn-danger" onclick="logoutSession()">Terminate Connection</button>
         </div>
     </div>
 
+    <!-- MODAL: INCIDENT TELEMETRY REPORT INPUT BOX -->
+    <div id="modalReportInfractionForm" class="modal-overlay">
+        <div class="modal-card">
+            <h3 style="color:var(--accent-red);">🚨 Structural Infraction Report Dispatch</h3>
+            <p style="color:var(--text-muted); font-size:12px;">You are lodging a network infraction report against user node: <strong id="lblReportTargetNodeUser" style="color:white;">None</strong>.</p>
+            <label style="font-size:12px; font-weight:600;">Specify Verification Log Reason</label>
+            <textarea id="txtReportInfractionReason" placeholder="Describe the structural logs violation, toxic framework output, or behavior parameters anomalies..."></textarea>
+            <button class="btn btn-danger" onclick="executeSubmitReportPayload()">Route Report to Admin Dash</button>
+            <button class="btn btn-alt" onclick="closeAllModals()">Abort Transmission</button>
+        </div>
+    </div>
+
+    <!-- MODAL: MARKET DECK STORE -->
+    <div id="modalShopDeck" class="modal-overlay">
+        <div class="modal-card">
+            <h2>🛒 Sae.gen Marketplace Exchange</h2>
+            <p style="font-size:13px; color:var(--text-muted);">Current Wallet Balance: <strong id="shopCoinsCounter" style="color:var(--premium-gold);">100</strong> Sae Coins</p>
+            
+            <div class="store-grid">
+                <div class="store-card" onclick="purchasePremiumTier('basic')">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <strong style="color:var(--boost-pink);">⚡ Nitro Basic (Boost Pack)</strong>
+                        <span style="background:rgba(255,115,250,0.2); font-size:11px; padding:3px 6px; border-radius:4px; font-weight:bold; color:var(--boost-pink);">20 Coins</span>
+                    </div>
+                    <p style="font-size:12px; color:var(--text-muted); margin:6px 0 0 0;">Basic profile boost! Modifies your entry text identity node with custom name coloring hex values.</p>
+                </div>
+
+                <div class="store-card" onclick="purchasePremiumTier('ultimate')">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <strong style="color:var(--premium-gold);">👑 Nitro Ultimate Core</strong>
+                        <span style="background:rgba(241,196,15,0.2); font-size:11px; padding:3px 6px; border-radius:4px; font-weight:bold; color:var(--premium-gold);">50 Coins</span>
+                    </div>
+                    <p style="font-size:12px; color:var(--text-muted); margin:6px 0 0 0;">Ultimate deployment! Unlocks animated dynamic full-app scrolling Rainbow background themes.</p>
+                </div>
+
+                <div class="store-card" onclick="claimDailyMiningAllowance()">
+                    <div style="font-size:20px; float:left; margin-right:10px;">⛏️</div>
+                    <strong>Daily Blockchain Miner</strong>
+                    <p style="font-size:11px; color:var(--text-muted); margin:2px 0 0 0;">Process a transaction cluster block to claim free utility exchange coins instantly.</p>
+                </div>
+            </div>
+            <button class="btn btn-alt" style="margin-top:15px;" onclick="closeAllModals()">Return To Messaging Layout</button>
+        </div>
+    </div>
+
+    <!-- CORE LOGIC FRAMEWORK SCRIPT -->
     <script>
-        // PERSISTENT STORAGE ARRAYS AND DICTIONARIES
-        let localUserDatabase = JSON.parse(localStorage.getItem('sae_user_db')) || [
-            { user: "administrator", pass: "securepassword123", isPremium: false, avatar: "https://www.roblox.com/headshot-thumbnail/image?userId=1&width=420&height=420&format=png", webTheme: "default", bio: "System Admin Node Active." }
-        ];
-        let saeCoinBalance = parseInt(localStorage.getItem('sae_coin_balance')) || 0;
-        let lastBoxOpenTime = parseInt(localStorage.getItem('sae_last_box_time')) || 0; 
-        let lastBoostExecutionTime = parseInt(localStorage.getItem('sae_last_boost_time')) || 0;
-        let adCycleIndex = parseInt(localStorage.getItem('sae_ad_cycle')) || 1; 
-
-        let isRobuxShopMode = false;
-        let currentCategory = 'boost';
-        let loggedInUserIndex = -1;
-
-        const languageMatrix = {
-            en: {
-                authTitle: "Welcome to Sae Hub", authDesc: "Please sign in or register your credential keys to continue.",
-                storeTitle: "✨ Sae Store Grid", welcome: "Welcome back", boostTitle: "Server Booster",
-                boostDesc: "Instantly boost your guild tier processing layers natively.", premiumTitle: "Premium High-Value", premiumDesc: "Max value utility options."
-            },
-            ar: {
-                authTitle: "مرحباً بك في متجر دعم سي", authDesc: "الرجاء تسجيل الدخول أو فتح حساب جديد للوصول إلى لوحة التحكم.",
-                storeTitle: "✨ لوحة متجر سي الإلكتروني", welcome: "مرحباً بك مجدداً", boostTitle: "داعم خوادم عادي",
-                boostDesc: "تطوير مستويات وميزات خادم الديسكورد الخاص بك فورياً.", premiumTitle: "اشتراك بريميوم فائق القيمة", premiumDesc: "أعلى قيم وميزات الدعم المتقدم المتاحة."
-            }
+        // CLIENT LOCAL ACCOUNT DATABASE
+        let globalUsersDB = JSON.parse(localStorage.getItem('sae_v4_users')) || {
+            "administrator": { user: "administrator", pass: "securepassword123", coins: 150, premiumTier: "ultimate", theme: "rainbow", color: "#f1c40f", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "System Admin Core Active" },
+            "kenza": { user: "kenza", pass: "pass123", coins: 100, premiumTier: "none", theme: "dark", color: "#ff7675", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Sleeping..." },
+            "saebot": { user: "SaeBot", pass: "botpass", coins: 9999, premiumTier: "ultimate", theme: "dark", color: "#2ecc71", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Automated Utility Pipeline" },
+            "ss": { user: "ss", pass: "ss123", coins: 200, premiumTier: "basic", theme: "dark", color: "#ff73fa", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Programming bots 💻" }
         };
 
-        const adDatabase = {
-            1: { title: "🤖 GEMINI AI CORE EXPANSION", desc: "Upgrade your external text scripts using custom Gemini LLM parameters natively. Code smarter, design faster." },
-            2: { title: "👑 ROBLOX PLUS UTILITY NETWORK", desc: "Unlock exclusive server tracking grids and custom asset layers on your registered Roblox profiles today!" },
-            3: { title: "⚽ BLUE LOCK RIVALS MODIFIER", desc: "Grab fresh promotion code logs for Blue Lock Rivals maps. Build the ultimate character lineup before codes expire." }
+        // NETWORK SYSTEM DATABASES
+        let telemetryNetworkReports = JSON.parse(localStorage.getItem('sae_v4_reports')) || [];
+        let networkFriendsRelationshipRegistry = JSON.parse(localStorage.getItem('sae_v4_friends')) || {
+            "administrator": [
+                { user: "kenza", status: "accepted" },
+                { user: "saebot", status: "accepted" },
+                { user: "ss", status: "pending_received" }
+            ]
         };
 
+        let currentActiveUserKey = "administrator";
+        let activePanelType = "friends"; // "friends" or "chat"
+        let activeChatTargetId = "";     // ID string of chat target room
+        let currentFriendsSubTabSelection = "online";
+        let currentReportTargetUsername = "";
+
+        // CHAT PACKET SYSTEM ARCHITECTURE
+        let chatChannelsRegistry = {
+            "dm_kenza": { type: "dm", name: "Kenza ❤️", peerUser: "kenza" },
+            "dm_saebot": { type: "dm", name: "SaeBot Client", peerUser: "saebot" }
+        };
+
+        let chatHistoryEngine = {
+            "dm_kenza": [{ user: "kenza", color: "#ff7675", text: "Hey! Did you finish updating the layout files yet? 😊", timestamp: "12:04 PM", avatar: "https://i.imgur.com/6VBx3io.png" }],
+            "dm_saebot": [{ user: "SaeBot", color: "#2ecc71", text: "Pipeline connection up. Feed me command strings.", timestamp: "08:15 AM", avatar: "https://i.imgur.com/6VBx3io.png" }]
+        };
+
+        // RUNTIME LIFECYCLE INITIALIZER
         document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById('coinWalletBalance').innerText = saeCoinBalance;
-            startCooldownIntervalEngine();
+            initializeSystemMockDataLoop();
+            syncUserDisplayBars();
+            rebuildNavigationSidebars();
+            renderFriendsSubTab("online");
         });
 
-        // 2 HOUR LIMITATION BOOST LOOP CALCULATOR
-        function triggerDirectServerBoost() {
-            const now = Date.now();
-            const twoHoursMs = 2 * 60 * 60 * 1000;
+        // AUTHENTICATION LOGIC ENGINE
+        function processSecureAuth() {
+            let u = document.getElementById('loginUser').value.trim().toLowerCase();
+            let p = document.getElementById('loginPass').value;
             
-            if (now - lastBoostExecutionTime < twoHoursMs) {
-                let msLeft = twoHoursMs - (now - lastBoostExecutionTime);
-                let hours = Math.floor(msLeft / (1000 * 60 * 60));
-                let minutes = Math.floor((msLeft % (1000 * 60 * 60)) / (1000 * 60));
-                let seconds = Math.floor((msLeft % (1000 * 60)) / 1000);
-                alert(`⏳ Booster Core Cooling Down: You can execute this sequence matrix vector again in ${hours}h ${minutes}m ${seconds}s.`);
-                return;
+            if(u.length < 2) { alert("Invalid Handle String length parameter."); return; }
+            
+            if(!globalUsersDB[u]) {
+                globalUsersDB[u] = { user: u, pass: p, coins: 100, premiumTier: "none", theme: "dark", color: "#ffffff", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "New Node Linked" };
+            } else if (globalUsersDB[u].pass !== p) {
+                alert("Gatekeeper Error: Authentication payload data mismatch."); return;
             }
-
-            lastBoostExecutionTime = now;
-            localStorage.setItem('sae_last_boost_time', lastBoostExecutionTime);
             
-            document.getElementById('boosterStatusPanel').style.display = 'block';
-            alert("🚀 TRANSMISSION SUCCESS: High frequency boost signals sent successfully! Layout status locked in for 2 hours.");
-        }
-
-        function startCooldownIntervalEngine() {
-            setInterval(() => {
-                const now = Date.now();
-                const twoHoursMs = 2 * 60 * 60 * 1000;
-                
-                if (now - lastBoostExecutionTime < twoHoursMs) {
-                    let msLeft = twoHoursMs - (now - lastBoostExecutionTime);
-                    let hours = String(Math.floor(msLeft / (1000 * 60 * 60))).padStart(2, '0');
-                    let minutes = String(Math.floor((msLeft % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-                    let seconds = String(Math.floor((msLeft % (1000 * 60)) / 1000)).padStart(2, '0');
-                    
-                    document.getElementById('boosterStatusPanel').style.display = 'block';
-                    document.getElementById('boostCooldownTimer').innerText = `${hours}:${minutes}:${seconds}`;
-                } else {
-                    document.getElementById('boosterStatusPanel').style.display = 'none';
-                }
-            }, 1000);
-        }
-
-        // AD OPERATION SYSTEM
-        function triggerAdRoutine() {
-            const now = Date.now();
-            if (now - lastBoxOpenTime < 24 * 60 * 60 * 1000) {
-                let msLeft = (24 * 60 * 60 * 1000) - (now - lastBoxOpenTime);
-                let hoursLeft = Math.floor(msLeft / (1000 * 60 * 60));
-                let minutesLeft = Math.floor((msLeft % (1000 * 60 * 60)) / (1000 * 60));
-                alert(`⚠️ Loot Ledger Locked: Box on cooldown! Return in ${hoursLeft}h ${minutesLeft}m.`);
-                return;
+            currentActiveUserKey = u;
+            if(!networkFriendsRelationshipRegistry[currentActiveUserKey]) {
+                networkFriendsRelationshipRegistry[currentActiveUserKey] = [];
             }
-
-            const currentAd = adDatabase[adCycleIndex];
-            document.getElementById('adContentArea').innerHTML = `
-                <div>
-                    <h3 style="color:#00a2ff; margin:0 0 10px 0;">${currentAd.title}</h3>
-                    <p style="font-size:14px; margin:0; line-height:1.5; color:#dbdee1;">${currentAd.desc}</p>
-                </div>
-            `;
             
-            document.getElementById('adContainer').style.display = 'flex';
-            let countdown = 5;
-            document.getElementById('adTimerElement').innerText = `Ad: ${countdown}s`;
-
-            let interval = setInterval(() => {
-                countdown--;
-                document.getElementById('adTimerElement').innerText = `Ad: ${countdown}s`;
-                if(countdown <= 0) {
-                    clearInterval(interval);
-                    document.getElementById('adContainer').style.display = 'none';
-                    rewardBoxDrop();
-                }
-            }, 1000);
-        }
-
-        function rewardBoxDrop() {
-            let droppedCoins = Math.floor(Math.random() * 91) + 10;
-            saeCoinBalance += droppedCoins;
-            lastBoxOpenTime = Date.now();
-            adCycleIndex = adCycleIndex >= 3 ? 1 : adCycleIndex + 1;
-
-            localStorage.setItem('sae_coin_balance', saeCoinBalance);
-            localStorage.setItem('sae_last_box_time', lastBoxOpenTime);
-            localStorage.setItem('sae_ad_cycle', adCycleIndex);
-
-            document.getElementById('coinWalletBalance').innerText = saeCoinBalance;
-            alert(`🎉 BOX OPENED SUCCESSFULLY!\n\nYou earned: +${droppedCoins} Sae Coins!`);
-        }
-
-        // PREMIUM APP SETTINGS CONTROLLERS
-        function updatePremiumUIProfileLayouts() {
-            if (loggedInUserIndex === -1) return;
-            let user = localUserDatabase[loggedInUserIndex];
-
-            if (user.isPremium) {
-                document.getElementById('premiumLockedCover').style.display = 'none';
-                document.getElementById('premiumCrown').style.display = 'inline';
+            saveGlobalDatabaseStates();
+            
+            let profile = globalUsersDB[currentActiveUserKey];
+            document.getElementById('configProfileNameInput').value = profile.user;
+            document.getElementById('configAvatarUrlInput').value = profile.avatar;
+            document.getElementById('configHexNameColor').value = profile.color;
+            document.getElementById('configThemeSelect').value = profile.theme;
+            document.getElementById('configCustomStatusInput').value = profile.customStatus || "";
+            
+            syncUserDisplayBars();
+            rebuildNavigationSidebars();
+            uiNavigateToPanel('friends');
+            
+            document.getElementById('authScreen').classList.remove('active');
+            document.getElementById('appScreen').classList.add('active');
+            
+            triggerEventToastNotification(`System: Account initialized as ${u.toUpperCase()}`);
+            
+            if(currentActiveUserKey === 'administrator') {
+                document.getElementById('adminReportNodePanel').style.display = 'block';
+                renderAdminTelemetryReports();
             } else {
-                document.getElementById('premiumLockedCover').style.display = 'flex';
-                document.getElementById('premiumCrown').style.display = 'none';
+                document.getElementById('adminReportNodePanel').style.display = 'none';
+            }
+        }
+
+        function saveGlobalDatabaseStates() {
+            localStorage.setItem('sae_v4_users', JSON.stringify(globalUsersDB));
+            localStorage.setItem('sae_v4_reports', JSON.stringify(telemetryNetworkReports));
+            localStorage.setItem('sae_v4_friends', JSON.stringify(networkFriendsRelationshipRegistry));
+        }
+
+        // VIEW VIEW CONTROL DECK NAVIGATION
+        function uiNavigateToPanel(targetPanel) {
+            activePanelType = targetPanel;
+            document.getElementById('panelFriendsStage').classList.remove('active-panel');
+            document.getElementById('panelChatStage').classList.remove('active-panel');
+            document.getElementById('friendsTabNavItem').classList.remove('active-channel');
+
+            if(targetPanel === 'friends') {
+                document.getElementById('panelFriendsStage').classList.add('active-panel');
+                document.getElementById('friendsTabNavItem').classList.add('active-channel');
+                renderFriendsSubTab(currentFriendsSubTabSelection);
+            } else {
+                document.getElementById('panelChatStage').classList.add('active-panel');
+            }
+        }
+
+        // FRIEND REALTIONSHIP DATA PARSING CONTROLLER
+        function getFriendsCollectionByStatus(statusType) {
+            let userRelations = networkFriendsRelationshipRegistry[currentActiveUserKey] || [];
+            return userRelations.filter(item => item.status === statusType);
+        }
+
+        function renderFriendsSubTab(tab) {
+            currentFriendsSubTabSelection = tab;
+            let container = document.getElementById('friendsDynamicListContainer');
+            container.innerHTML = '';
+            
+            document.querySelectorAll('.friends-tab-btn').forEach(b => b.classList.remove('active-tab'));
+            let tabIdMap = { "online": "tabBtnOnline", "all": "tabBtnAll", "pending": "tabBtnPending", "blocked": "tabBtnBlocked" };
+            if(tabIdMap[tab]) document.getElementById(tabIdMap[tab]).classList.add('active-tab');
+
+            let userRelations = networkFriendsRelationshipRegistry[currentActiveUserKey] || [];
+            let outputRowsCount = 0;
+
+            if(tab === 'online' || tab === 'all') {
+                document.getElementById('friendsStageSectionTitle').innerText = tab === 'online' ? "Online Friends" : "All Peers In Core Registry";
+                userRelations.forEach(rel => {
+                    if(rel.status !== 'accepted') return;
+                    // 'saebot' and 'kenza' are mapped online for presentation framework layers
+                    let isOnline = (rel.user === 'saebot' || rel.user === 'kenza' || Math.random() > 0.3);
+                    if(tab === 'online' && !isOnline) return;
+
+                    outputRowsCount++;
+                    let peerData = globalUsersDB[rel.user] || { user: rel.user, color: "#fff", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Offline node linkage" };
+                    
+                    let div = document.createElement('div');
+                    div.className = 'friend-row-card';
+                    div.innerHTML = `
+                        <div class="friend-card-meta">
+                            <img class="friend-card-avatar" src="${peerData.avatar}" onerror="this.src='https://i.imgur.com/6VBx3io.png'">
+                            <div>
+                                <div style="font-weight:600; color:white; display:flex; align-items:center; gap:6px;">
+                                    <span style="color:${peerData.color}">${peerData.user}</span>
+                                    <span style="font-size:9px; background:rgba(255,255,255,0.1); padding:2px 4px; border-radius:3px; color:var(--text-muted); font-family:'JetBrains Mono';">ONLINE</span>
+                                </div>
+                                <div style="font-size:12px; color:var(--text-muted);">${peerData.customStatus || ''}</div>
+                            </div>
+                        </div>
+                        <div class="friend-card-actions">
+                            <button class="btn btn-sm" onclick="initiateDirectMessageSession('${rel.user}')">💬 DM</button>
+                            <button class="btn btn-sm btn-alt" onclick="openReportInfractionForm('${rel.user}')">🚨 Report</button>
+                            <button class="btn btn-sm btn-danger" onclick="executeAlterFriendStatus('${rel.user}', 'blocked')">🚫 Block</button>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            } else if (tab === 'pending') {
+                document.getElementById('friendsStageSectionTitle').innerText = "Pending Network Operations Requests";
+                userRelations.forEach(rel => {
+                    if(rel.status !== 'pending_received' && rel.status !== 'pending_sent') return;
+                    outputRowsCount++;
+                    let div = document.createElement('div');
+                    div.className = 'friend-row-card';
+                    div.innerHTML = `
+                        <div class="friend-card-meta">
+                            <div class="friend-card-avatar" style="background:#5865f2; display:flex; align-items:center; justify-content:center; font-size:18px;">📥</div>
+                            <div>
+                                <div style="font-weight:600; color:white;">${rel.user}</div>
+                                <div style="font-size:11px; color:var(--text-muted); font-family:'JetBrains Mono';">${rel.status === 'pending_received' ? 'INCOMING FRIEND SIGNAL LINK' : 'OUTBOUND SYNC SIGNAL SENT'}</div>
+                            </div>
+                        </div>
+                        <div class="friend-card-actions">
+                            ${rel.status === 'pending_received' ? `<button class="btn btn-sm" onclick="executeAlterFriendStatus('${rel.user}', 'accepted')">Accept</button>` : ''}
+                            <button class="btn btn-sm btn-alt" onclick="executeRemoveFriendRelation('${rel.user}')">Cancel</button>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            } else if (tab === 'blocked') {
+                document.getElementById('friendsStageSectionTitle').innerText = "Blocked Peer Hardware Channels";
+                userRelations.forEach(rel => {
+                    if(rel.status !== 'blocked') return;
+                    outputRowsCount++;
+                    let div = document.createElement('div');
+                    div.className = 'friend-row-card';
+                    div.innerHTML = `
+                        <div class="friend-card-meta">
+                            <div class="friend-card-avatar" style="background:var(--accent-red); display:flex; align-items:center; justify-content:center; font-size:18px;">🚫</div>
+                            <div><div style="font-weight:600; color:white;">${rel.user}</div></div>
+                        </div>
+                        <div class="friend-card-actions">
+                            <button class="btn btn-sm btn-alt" onclick="executeRemoveFriendRelation('${rel.user}')">Unblock/Restore</button>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
             }
 
-            document.getElementById('userDisplay').innerText = user.user;
-            document.getElementById('dashboardAvatar').src = user.avatar || "https://www.roblox.com/headshot-thumbnail/image?userId=1&width=420&height=420&format=png";
-            document.getElementById('premiumUserBox').value = user.user;
-            document.getElementById('premiumAvatarBox').value = user.avatar || "";
-            document.getElementById('customBioDisplay').innerText = user.bio || "No custom bio status added.";
-            
-            changeWebThemeSkin(user.webTheme || 'default');
-            document.getElementById('premiumThemeSelect').value = user.webTheme || 'default';
+            if(outputRowsCount === 0) {
+                container.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:13px; padding:40px 0;">No peer channels matching target filter logs found.</div>`;
+            }
+            updateFriendsBadgeCounterMetrics();
         }
 
-        function changeWebThemeSkin(themeName) {
-            if (loggedInUserIndex === -1 || !localUserDatabase[loggedInUserIndex].isPremium) return;
+        // FRIENDS LOGIC MODIFICATIONS ACTIONS
+        function executeSendFriendRequest() {
+            let target = document.getElementById('addFriendUsernameInput').value.trim().toLowerCase();
+            if(!target || target === currentActiveUserKey) { alert("Invalid user transaction parameter."); return; }
             
-            const roots = {
-                default: { bg: "#1a1c1e", panel: "#24272c", accent: "#5865f2" },
-                purple: { bg: "#120a1c", panel: "#221435", accent: "#9b59b6" },
-                crimson: { bg: "#1a0505", panel: "#2d0d0d", accent: "#c0392b" },
-                hacker: { bg: "#051405", panel: "#0d280d", accent: "#2ecc71" },
-                dark: { bg: "#090a0a", panel: "#111214", accent: "#718096" }
-            };
+            let userRelations = networkFriendsRelationshipRegistry[currentActiveUserKey] || [];
+            if(userRelations.some(r => r.user === target)) { alert("An active relationship routing link already exists for this target code."); return; }
 
-            let colors = roots[themeName] || roots.default;
-            document.documentElement.style.setProperty('--bg-color', colors.bg);
-            document.documentElement.style.setProperty('--panel-color', colors.panel);
-            document.documentElement.style.setProperty('--accent-color', isRobuxShopMode ? '#00a2ff' : colors.accent);
-            
-            localUserDatabase[loggedInUserIndex].webTheme = themeName;
-            localStorage.setItem('sae_user_db', JSON.stringify(localUserDatabase));
+            // Target user verification validation setup layer
+            if(!globalUsersDB[target]) {
+                globalUsersDB[target] = { user: target, pass: "123", coins: 100, premiumTier: "none", theme: "dark", color: "#ffffff", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Simulated peer node link" };
+            }
+
+            userRelations.push({ user: target, status: "pending_sent" });
+            networkFriendsRelationshipRegistry[currentActiveUserKey] = userRelations;
+
+            if(!networkFriendsRelationshipRegistry[target]) networkFriendsRelationshipRegistry[target] = [];
+            networkFriendsRelationshipRegistry[target].push({ user: currentActiveUserKey, status: "pending_received" });
+
+            saveGlobalDatabaseStates();
+            closeAllModals();
+            document.getElementById('addFriendUsernameInput').value = '';
+            renderFriendsSubTab('pending');
+            triggerEventToastNotification(`Dispatched friend sync packet to user: ${target}`);
         }
 
-        function applyPremiumUsernameChange() {
-            if (loggedInUserIndex === -1 || !localUserDatabase[loggedInUserIndex].isPremium) return;
-            let newName = document.getElementById('premiumUserBox').value.trim();
-            if (newName.length < 2) { alert("❌ System Error: Name parameter too short."); return; }
+        function executeAlterFriendStatus(targetUser, newStatus) {
+            let userRelations = networkFriendsRelationshipRegistry[currentActiveUserKey] || [];
+            let rel = userRelations.find(r => r.user === targetUser);
+            if(rel) rel.status = newStatus;
             
-            localUserDatabase[loggedInUserIndex].user = newName;
-            localStorage.setItem('sae_user_db', JSON.stringify(localUserDatabase));
-            updatePremiumUIProfileLayouts();
-            alert("🎉 Profile Identity String Updated Successfully!");
+            // Sync up corresponding inverse peer channel metrics variables
+            let peerRelations = networkFriendsRelationshipRegistry[targetUser] || [];
+            let pRel = peerRelations.find(r => r.user === currentActiveUserKey);
+            if(pRel) {
+                pRel.status = newStatus === 'accepted' ? 'accepted' : (newStatus === 'blocked' ? 'none' : pRel.status);
+            }
+
+            saveGlobalDatabaseStates();
+            renderFriendsSubTab(currentFriendsSubTabSelection);
+            rebuildNavigationSidebars();
+            triggerEventToastNotification(`Updated mapping key for ${targetUser} -> ${newStatus.toUpperCase()}`);
         }
 
-        function applyPremiumAvatarLink() {
-            if (loggedInUserIndex === -1 || !localUserDatabase[loggedInUserIndex].isPremium) return;
-            let newURL = document.getElementById('premiumAvatarBox').value.trim();
-            if (newURL.length < 5) { alert("❌ System Error: Image URL asset link is broken."); return; }
+        function executeRemoveFriendRelation(targetUser) {
+            networkFriendsRelationshipRegistry[currentActiveUserKey] = (networkFriendsRelationshipRegistry[currentActiveUserKey] || []).filter(r => r.user !== targetUser);
+            networkFriendsRelationshipRegistry[targetUser] = (networkFriendsRelationshipRegistry[targetUser] || []).filter(r => r.user !== currentActiveUserKey);
             
-            localUserDatabase[loggedInUserIndex].avatar = newURL;
-            localStorage.setItem('sae_user_db', JSON.stringify(localUserDatabase));
-            updatePremiumUIProfileLayouts();
-            alert("🎉 Profile Frame Asset Synced Successfully!");
+            saveGlobalDatabaseStates();
+            renderFriendsSubTab(currentFriendsSubTabSelection);
+            rebuildNavigationSidebars();
+            triggerEventToastNotification(`Purged structural relationship matrix with ${targetUser}`);
         }
 
-        // CHECKOUT PLATFORMS
-        function startCheckout(method) {
-            if (method === 'coins') {
-                const selectedOption = document.getElementById('durationSelect').options[document.getElementById('durationSelect').selectedIndex];
-                const costInCoins = parseInt(selectedOption.getAttribute('data-coins'));
+        // SIDEBAR LISTING GENERATION LOGIC
+        function rebuildNavigationSidebars() {
+            let dmContainer = document.getElementById('dmActiveListingContainer');
+            let groupContainer = document.getElementById('groupActiveListingContainer');
+            dmContainer.innerHTML = '';
+            groupContainer.innerHTML = '';
 
-                if(saeCoinBalance < costInCoins) {
-                    alert(`❌ Insufficient Funds: This tier costs ${costInCoins} Sae Coins. You only have ${saeCoinBalance} in your wallet.`);
+            // Map standard chat items out dynamically
+            for(let chId in chatChannelsRegistry) {
+                let chan = chatChannelsRegistry[chId];
+                let div = document.createElement('div');
+                div.className = `channel-item ${(activePanelType === 'chat' && activeChatTargetId === chId) ? 'active-channel' : ''}`;
+                
+                if(chan.type === 'dm') {
+                    div.onclick = () => uiLaunchActiveChatSession(chId);
+                    div.innerHTML = `<div class="chan-left-block"><span>👤</span> <span>${chan.name}</span></div>`;
+                    dmContainer.appendChild(div);
+                } else if (chan.type === 'group') {
+                    div.onclick = () => uiLaunchActiveChatSession(chId);
+                    div.innerHTML = `<div class="chan-left-block"><span>💬</span> <span>${chan.name}</span></div>
+                    <span style="font-size:10px; color:var(--text-muted); font-family:'JetBrains Mono';" onclick="event.stopPropagation(); executeDeleteGroupRoute('${chId}')">❌</span>`;
+                    groupContainer.appendChild(div);
+                }
+            }
+            updateFriendsBadgeCounterMetrics();
+        }
+
+        function initiateDirectMessageSession(peerUsername) {
+            let generatedId = `dm_${peerUsername}`;
+            if(!chatChannelsRegistry[generatedId]) {
+                let peerProfile = globalUsersDB[peerUsername] || { user: peerUsername };
+                chatChannelsRegistry[generatedId] = { type: "dm", name: peerProfile.user, peerUser: peerUsername };
+                chatHistoryEngine[generatedId] = [{ user: "System Wire", color: "#5865f2", text: `Secure private peer link established with ${peerProfile.user}.`, timestamp: "Just Now", avatar: "https://i.imgur.com/6VBx3io.png" }];
+            }
+            uiLaunchActiveChatSession(generatedId);
+        }
+
+        function uiLaunchActiveChatSession(chId) {
+            activeChatTargetId = chId;
+            let chan = chatChannelsRegistry[chId];
+            if(!chan) return;
+
+            document.getElementById('activeChatTargetName').innerText = chan.name;
+            document.getElementById('activeChatTargetTypeIcon').innerText = chan.type === 'dm' ? "👤" : "👥";
+
+            let modBar = document.getElementById('moderationActionPanel');
+            modBar.innerHTML = '';
+
+            if(chan.type === 'dm') {
+                modBar.innerHTML = `
+                    <button class="btn btn-sm btn-alt" onclick="openReportInfractionForm('${chan.peerUser}')">🚨 Report Peer</button>
+                    <button class="btn btn-sm btn-danger" onclick="executeAlterFriendStatus('${chan.peerUser}', 'blocked')">🚫 Block Node</button>
+                `;
+            }
+
+            uiNavigateToPanel('chat');
+            rebuildNavigationSidebars();
+            renderChatMessagePool();
+        }
+
+        // CHAT PACKETS BROADCAST INTERFACE ENGINE
+        function renderChatMessagePool() {
+            let messageBox = document.getElementById('chatMessageFlowStream');
+            messageBox.innerHTML = '';
+            let history = chatHistoryEngine[activeChatTargetId] || [];
+
+            history.forEach(msg => {
+                let div = document.createElement('div');
+                div.className = 'msg-row';
+                div.innerHTML = `
+                    <img class="msg-avatar" src="${msg.avatar || 'https://i.imgur.com/6VBx3io.png'}" onerror="this.src='https://i.imgur.com/6VBx3io.png'">
+                    <div class="msg-content-box">
+                        <div class="msg-user-meta">
+                            <span style="color:${msg.color || '#fff'}">${msg.user}</span>
+                            <span class="msg-timestamp">${msg.timestamp || '12:00 AM'}</span>
+                        </div>
+                        <div class="msg-text">${msg.text}</div>
+                    </div>
+                `;
+                messageBox.appendChild(div);
+            });
+            messageBox.scrollTop = messageBox.scrollHeight;
+        }
+
+        function dispatchChatMessage() {
+            let input = document.getElementById('chatInputField');
+            let text = input.value.trim();
+            if(!text || !activeChatTargetId) return;
+
+            let profile = globalUsersDB[currentActiveUserKey];
+            
+            // Check structural logs validation lock criteria before letting text stream render if it is blocked
+            let activeChan = chatChannelsRegistry[activeChatTargetId];
+            if(activeChan && activeChan.type === 'dm') {
+                let rels = networkFriendsRelationshipRegistry[currentActiveUserKey] || [];
+                let matchRel = rels.find(r => r.user === activeChan.peerUser);
+                if(matchRel && matchRel.status === 'blocked') {
+                    alert("Infraction Constraint Alert: You cannot dispatch stream packets to a blocked user interface.");
                     return;
                 }
-                
-                saeCoinBalance -= costInCoins;
-                localStorage.setItem('sae_coin_balance', saeCoinBalance);
-                document.getElementById('coinWalletBalance').innerText = saeCoinBalance;
-                
-                if (currentCategory === 'premium') {
-                    localUserDatabase[loggedInUserIndex].isPremium = true;
-                    localUserDatabase[loggedInUserIndex].bio = "👑 Premium Core Member";
-                    localStorage.setItem('sae_user_db', JSON.stringify(localUserDatabase));
-                }
-
-                alert(`🪙 Purchase Authenticated! Deducted ${costInCoins} Sae Coins.`);
-                finishOrder();
-            } else if (method === 'paypal') {
-                navigate('paypalScreen');
             }
-        }
 
-        function processRegister() {
-            const u = document.getElementById('regUser').value.trim();
-            const p = document.getElementById('regPass').value;
-            const err = document.getElementById('regError');
-            if (u.length < 6 || p.length < 10) { err.style.display = "block"; return; }
-            err.style.display = "none";
-            let exists = localUserDatabase.some(acc => acc.user.toLowerCase() === u.toLowerCase());
-            if (exists) { alert("Account already claimed."); }
-            else {
-                localUserDatabase.push({ user: u, pass: p, isPremium: false, avatar: "https://www.roblox.com/headshot-thumbnail/image?userId=1&width=420&height=420&format=png", webTheme: "default", bio: "Hobbyist Account Node Active." });
-                localStorage.setItem('sae_user_db', JSON.stringify(localUserDatabase));
-                
-                alert("Account created successfully! Log in now.");
-                switchAuthTab('login');
-                document.getElementById('loginUser').value = u;
-                document.getElementById('loginPass').value = p;
-            }
-        }
-
-        function processLogin() {
-            const u = document.getElementById('loginUser').value.trim();
-            const p = document.getElementById('loginPass').value;
-            const err = document.getElementById('loginError');
-            if (u.length < 6 || p.length < 10) { err.style.display = "block"; return; }
-            err.style.display = "none";
+            let timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             
-            let index = localUserDatabase.findIndex(acc => acc.user.toLowerCase() === u.toLowerCase() && acc.pass === p);
-            if (index !== -1) {
-                loggedInUserIndex = index;
-                updatePremiumUIProfileLayouts();
-                navigate('storeScreen');
-            } else { alert("Access Denied: User key registry not found."); }
-        }
+            chatHistoryEngine[activeChatTargetId].push({
+                user: profile.user,
+                color: profile.color,
+                text: text,
+                timestamp: timeStr,
+                avatar: profile.avatar || "https://i.imgur.com/6VBx3io.png"
+            });
 
-        function toggleBorderGlow(isChecked) {
-            document.documentElement.style.setProperty('--neon-border', isChecked ? (isRobuxShopMode ? '#00a2ff' : '#5865f2') : 'transparent');
-        }
+            let trackingTargetRoomId = activeChatTargetId;
+            input.value = '';
+            renderChatMessagePool();
 
-        function navigate(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
-            if(screenId === 'storeScreen' || screenId === 'settingsScreen') {
-                updatePremiumUIProfileLayouts();
+            // AI/Automated Echo response simulator matrix
+            if(activeChan && (activeChan.peerUser === 'saebot' || activeChan.peerUser === 'kenza')) {
+                setTimeout(() => {
+                    let automatedResponses = [
+                        "Data cluster parsing complete. Synchronized status returned code: 200.",
+                        "That sounds intriguing. Let's look further into the source parameters.",
+                        "Transactional node confirmation verified. What's the next task payload?",
+                        "Running diagnostic metrics loop updates. Wait a second..."
+                    ];
+                    let chosenMsg = automatedResponses[Math.floor(Math.random() * automatedResponses.length)];
+                    
+                    if(chatHistoryEngine[trackingTargetRoomId]) {
+                        chatHistoryEngine[trackingTargetRoomId].push({
+                            user: activeChan.peerUser,
+                            color: globalUsersDB[activeChan.peerUser]?.color || '#2ecc71',
+                            text: `[Echo Automata Stream]: ${chosenMsg}`,
+                            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                            avatar: "https://i.imgur.com/6VBx3io.png"
+                        });
+                        if(activeChatTargetId === trackingTargetRoomId) renderChatMessagePool();
+                    }
+                }, 1100);
             }
         }
 
-        function switchAuthTab(mode) {
-            document.getElementById('tabLoginBtn').classList.remove('active-tab');
-            document.getElementById('tabRegisterBtn').classList.remove('active-tab');
-            document.getElementById('loginForm').classList.remove('active-form');
-            document.getElementById('registerForm').classList.remove('active-form');
-            if (mode === 'login') {
-                document.getElementById('tabLoginBtn').classList.add('active-tab');
-                document.getElementById('loginForm').classList.add('active-form');
-            } else {
-                document.getElementById('tabRegisterBtn').classList.add('active-tab');
-                document.getElementById('registerForm').classList.add('active-form');
-            }
+        // GROUP ROUTING GENERATION MECHANICS
+        function executeCreateGroup() {
+            let name = document.getElementById('newGroupNameInput').value.trim();
+            if(!name) return;
+            let id = 'group_' + Date.now();
+
+            chatChannelsRegistry[id] = { type: "group", name: `🛸 ${name}`, peerUser: "group_router" };
+            chatHistoryEngine[id] = [{ user: "System Core", color: "#f1c40f", text: `Multi-peer frame active route spawned for tag: "${name}".`, timestamp: "System Init", avatar: "https://i.imgur.com/6VBx3io.png" }];
+
+            document.getElementById('newGroupNameInput').value = '';
+            closeAllModals();
+            uiLaunchActiveChatSession(id);
+            triggerEventToastNotification(`Forged group mesh route channel: ${name}`);
         }
 
-        function logout() { loggedInUserIndex = -1; navigate('authScreen'); }
+        function executeDeleteGroupRoute(chId) {
+            delete chatChannelsRegistry[chId];
+            delete chatHistoryEngine[chId];
+            if(activeChatTargetId === chId) activeChatTargetId = "";
+            uiNavigateToPanel('friends');
+            rebuildNavigationSidebars();
+        }
 
-        function toggleRobuxShop(isChecked) {
-            isRobuxShopMode = isChecked;
-            const badge = document.getElementById('currencyBadge');
-            if (isChecked) {
-                badge.innerText = "🪙 Mode: Robux Store";
-                badge.style.backgroundColor = "rgba(0, 162, 255, 0.2)";
-                badge.style.color = "var(--robux-color)";
-                document.documentElement.style.setProperty('--accent-color', '#00a2ff');
+        // STRUCTURAL REFORTS SYSTEM CONSOLE MODAL LAUNCHERS
+        function openReportInfractionForm(username) {
+            currentReportTargetUsername = username;
+            document.getElementById('lblReportTargetNodeUser').innerText = username.toUpperCase();
+            document.getElementById('txtReportInfractionReason').value = '';
+            openModal('modalReportInfractionForm');
+        }
+
+        function executeSubmitReportPayload() {
+            let reason = document.getElementById('txtReportInfractionReason').value.trim();
+            if(!reason) { alert("Please provide verification validation reason log."); return; }
+
+            let payload = {
+                id: telemetryNetworkReports.length + 1,
+                reporter: currentActiveUserKey,
+                offender: currentReportTargetUsername,
+                details: reason,
+                timestamp: new Date().toLocaleTimeString()
+            };
+
+            telemetryNetworkReports.push(payload);
+            localStorage.setItem('sae_v4_reports', JSON.stringify(telemetryNetworkReports));
+            closeAllModals();
+            alert("Incident Warning Transmitted: Infraction parameters saved to master administrative dashboards.");
+            if(currentActiveUserKey === 'administrator') renderAdminTelemetryReports();
+        }
+
+        function renderAdminTelemetryReports() {
+            let area = document.getElementById('adminReportStreamArea');
+            if(!area) return;
+            if(telemetryNetworkReports.length === 0) {
+                area.innerText = "No structural warning alerts logged in database."; return;
+            }
+            area.innerHTML = '';
+            telemetryNetworkReports.forEach(rep => {
+                let div = document.createElement('div');
+                div.style.background = "rgba(0,0,0,0.4)"; div.style.padding = "8px"; div.style.borderRadius = "4px";
+                div.innerHTML = `<strong>Record #${rep.id}</strong> [${rep.timestamp}]<br>Reporter: ${rep.reporter} -> Target: ${rep.offender}<br>Reason Log: <span style="color:var(--accent-red);">${rep.details}</span>`;
+                area.appendChild(div);
+            });
+        }
+
+        // PROFILE SYSTEM AND LOCAL STORAGE COMMIT CONSOLES
+        function saveConfigurationSettings() {
+            let profile = globalUsersDB[currentActiveUserKey];
+            let targetName = document.getElementById('configProfileNameInput').value.trim().toLowerCase();
+            let targetColor = document.getElementById('configHexNameColor').value.trim();
+            let targetTheme = document.getElementById('configThemeSelect').value;
+            let targetStatus = document.getElementById('configCustomStatusInput').value.trim();
+            
+            if(targetName.length < 2) { alert("Identifier tag string required to be longer."); return; }
+
+            if(targetColor !== '#ffffff' && profile.premiumTier === 'none') {
+                alert("🔒 Subscription Constraint: Name text hexadecimal tinting overrides require Nitro Basic or higher verification."); return;
+            }
+            if(targetTheme === 'rainbow' && profile.premiumTier !== 'ultimate') {
+                alert("🔒 Subscription Constraint: Animated Scrolling Rainbow CSS Engines require Nitro Ultimate tier nodes."); return;
+            }
+
+            delete globalUsersDB[currentActiveUserKey];
+            profile.user = targetName;
+            profile.color = targetColor;
+            profile.theme = targetTheme;
+            profile.customStatus = targetStatus;
+            profile.avatar = document.getElementById('configAvatarUrlInput').value.trim() || "https://i.imgur.com/6VBx3io.png";
+
+            currentActiveUserKey = targetName;
+            globalUsersDB[currentActiveUserKey] = profile;
+
+            saveGlobalDatabaseStates();
+            syncUserDisplayBars();
+            closeAllModals();
+            triggerEventToastNotification("System Matrix Parameters Written to Storage Successfully.");
+        }
+
+        function syncUserDisplayBars() {
+            let profile = globalUsersDB[currentActiveUserKey];
+            document.getElementById('statusBarName').innerText = profile.user;
+            document.getElementById('statusBarName').style.color = profile.color;
+            document.getElementById('statusBarAvatar').src = profile.avatar || "https://i.imgur.com/6VBx3io.png";
+            document.getElementById('shopCoinsCounter').innerText = profile.coins;
+            
+            let appRoot = document.getElementById('appRootBody');
+            if(profile.premiumTier === 'ultimate' && profile.theme === 'rainbow') {
+                appRoot.classList.add('rainbow-theme');
+                document.getElementById('statusBarStatus').innerText = profile.customStatus || "👑 Nitro Ultimate Core";
+                document.getElementById('statusBarStatus').style.color = "var(--premium-gold)";
             } else {
-                badge.innerText = "💳 Mode: USD Store";
-                badge.style.backgroundColor = "rgba(88, 101, 242, 0.2)";
-                badge.style.color = "#5865f2";
-                if(loggedInUserIndex !== -1) {
-                    changeWebThemeSkin(localUserDatabase[loggedInUserIndex].webTheme || 'default');
+                appRoot.classList.remove('rainbow-theme');
+                if(profile.premiumTier === 'basic') {
+                    document.getElementById('statusBarStatus').innerText = profile.customStatus || "⚡ Nitro Basic";
+                    document.getElementById('statusBarStatus').style.color = "var(--boost-pink)";
+                } else {
+                    document.getElementById('statusBarStatus').innerText = profile.customStatus || "Active Online Link";
+                    document.getElementById('statusBarStatus').style.color = "var(--text-muted)";
                 }
             }
+            updateFriendsBadgeCounterMetrics();
         }
 
-        function applyLanguageMatrix(langCode) {
-            const dictionary = languageMatrix[langCode] || languageMatrix['en'];
-            for (const key in dictionary) {
-                const element = document.getElementById(`lang-${key}`);
-                if (element) element.innerText = dictionary[key];
+        function updateFriendsBadgeCounterMetrics() {
+            let onlineCount = getFriendsCollectionByStatus('accepted').length;
+            document.getElementById('uiFriendsOnlineCounterBadge').innerText = onlineCount;
+        }
+
+        // STORE COIN MARKET LEDGERS
+        function purchasePremiumTier(tier) {
+            let profile = globalUsersDB[currentActiveUserKey];
+            let cost = tier === 'basic' ? 20 : 50;
+
+            if(profile.premiumTier === 'ultimate' || (profile.premiumTier === 'basic' && tier === 'basic')) {
+                alert("Account token level matches equal or superior node clearance validation frameworks."); return;
             }
-        }
-
-        function openPlanSelector(category) {
-            currentCategory = category;
-            const selector = document.getElementById('durationSelect');
-            selector.innerHTML = ''; 
-
-            if (category === 'boost') {
-                document.getElementById('planHeader').innerText = isRobuxShopMode ? "🪙 Select Robux Boost Pack Tiers" : "🚀 Select Regular Boost Plan";
-                selector.innerHTML = isRobuxShopMode ? `
-                    <option value="3 Days - 50 Robux" data-coins="10">3 Days - 50 Robux</option>
-                    <option value="5 Days - 250 Robux" data-coins="45">5 Days - 250 Robux</option>
-                    <option value="15 Days - 800 Robux" data-coins="130">15 Days - 800 Robux</option>
-                    <option value="Permanent - 1500 Robux" data-coins="200">Permanent - 1,500 Robux</option>
-                ` : `
-                    <option value="1 Day - $2.00" data-coins="10">1 Day - $2.00 USD</option>
-                    <option value="5 Days - $10.00" data-coins="45">5 Days - $10.00 USD</option>
-                    <option value="15 Days - $35.00" data-coins="130">15 Days - $35.00 USD</option>
-                    <option value="Permanent - $50.00" data-coins="200">Permanent - $50.00 USD</option>
-                `;
-            } else {
-                document.getElementById('planHeader').innerText = isRobuxShopMode ? "👑 Select Robux Premium Super Tiers" : "👑 Select Premium High-Value Plan";
-                selector.innerHTML = isRobuxShopMode ? `
-                    <option value="Premium 7 Days - 400 Robux" data-coins="60">Premium Tier (7 Days) - 400 Robux</option>
-                    <option value="Premium 30 Days - 1200 Robux" data-coins="180">Premium Tier (30 Days) - 1,200 Robux</option>
-                    <option value="Premium Lifetime - 3500 Robux" data-coins="400">Premium Lifetime Access - 3,500 Robux</option>
-                ` : `
-                    <option value="Premium 7 Days - $15.00" data-coins="60">Premium Tier (7 Days) - $15.00 USD</option>
-                    <option value="Premium 30 Days - $45.00" data-coins="180">Premium Tier (30 Days) - $45.00 USD</option>
-                    <option value="Premium Lifetime - $99.00" data-coins="400">Premium Lifetime Access - $99.00 USD</option>
-                `;
+            if(profile.coins < cost) {
+                alert("Digital transaction canceled: Insufficient Sae token ledger assets."); return;
             }
-            navigate('planScreen');
+
+            profile.coins -= cost;
+            profile.premiumTier = tier;
+            if(tier === 'ultimate') profile.theme = 'rainbow';
+
+            saveGlobalDatabaseStates();
+            syncUserDisplayBars();
+            alert(`Purchase Node Synced: Upgraded account authentication flags to Nitro [${tier.toUpperCase()}]!`);
         }
 
-        function goToPaymentMethod() {
-            if (isRobuxShopMode) {
-                if (currentCategory === 'premium' && loggedInUserIndex !== -1) {
-                    localUserDatabase[loggedInUserIndex].isPremium = true;
-                    localUserDatabase[loggedInUserIndex].bio = "👑 Premium Core Member";
-                    localStorage.setItem('sae_user_db', JSON.stringify(localUserDatabase));
+        function claimDailyMiningAllowance() {
+            let profile = globalUsersDB[currentActiveUserKey];
+            profile.coins += 25;
+            saveGlobalDatabaseStates();
+            syncUserDisplayBars();
+            triggerEventToastNotification("Miner Block Claim Success: Assigned +25 Sae Coins.");
+        }
+
+        // TELEMETRY LIVE TOAST DEPLOYMENT LOOPS
+        function triggerEventToastNotification(textMessage) {
+            let box = document.getElementById('liveEventAlertToastBox');
+            let t = document.createElement('div');
+            t.className = 'live-toast';
+            t.innerText = `> ${textMessage}`;
+            box.appendChild(t);
+            setTimeout(() => { t.remove(); }, 4000);
+        }
+
+        function initializeSystemMockDataLoop() {
+            setInterval(() => {
+                let logs = [
+                    "Telemetry cluster index cleared.",
+                    "Incoming background traffic node ping response: 18ms.",
+                    "Cryptographic puzzle validation block submitted.",
+                    "Active connections mesh routing reorganized securely."
+                ];
+                if(Math.random() > 0.7) {
+                    triggerEventToastNotification(logs[Math.floor(Math.random() * logs.length)]);
                 }
-                navigate('robuxScreen');
-            }
-            else navigate('methodScreen');
+            }, 6000);
         }
 
-        function finishOrder() {
-            if (loggedInUserIndex !== -1 && !isRobuxShopMode) {
-                // If checking out via simulated premium options
-                if (currentCategory === 'premium') {
-                    localUserDatabase[loggedInUserIndex].isPremium = true;
-                    localUserDatabase[loggedInUserIndex].bio = "👑 Premium Core Member";
-                    localStorage.setItem('sae_user_db', JSON.stringify(localUserDatabase));
-                }
-            }
-            document.getElementById('lblUser').innerText = document.getElementById('userDisplay').innerText;
-            document.getElementById('lblPlan').innerText = document.getElementById('durationSelect').value + ` (${currentCategory.toUpperCase()})`;
-            navigate('successScreen');
-        }
+        // INTERFACE VISIBILITY HELPERS
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeAllModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
+        function applyInterfaceTheme(val) { if(val === 'rainbow' && globalUsersDB[currentActiveUserKey].premiumTier !== 'ultimate') { alert("Locked criteria requirement mismatch."); document.getElementById('configThemeSelect').value = 'dark'; } }
+        function logoutSession() { closeAllModals(); document.getElementById('appScreen').classList.remove('active'); document.getElementById('authScreen').classList.add('active'); }
     </script>
 </body>
 </html>
