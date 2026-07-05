@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sae.gen Premium Hybrid Hub - Real Peer Edition</title>
+    <title>Sae.gen Premium Hybrid Hub - Live Peer Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -19,6 +19,7 @@
             --premium-gold: #f1c40f;
             --boost-pink: #ff73fa;
             --rainbow-speed: 6s;
+            --ambient-blur: rgba(0,0,0,0);
         }
 
         @keyframes rainbowGlow {
@@ -51,12 +52,16 @@
             text-align: center; border: 1px solid rgba(255,255,255,0.05);
         }
 
-        .app-layout { display: flex; width: 100%; height: 100%; }
+        .app-layout { display: flex; width: 100%; height: 100%; position: relative; }
+        .app-layout::before {
+            content: ''; position: absolute; top:0; left:0; right:0; bottom:0;
+            background: var(--ambient-blur); pointer-events: none; z-index: 1;
+        }
 
         .channels-sidebar {
             width: 260px; background-color: var(--bg-sidebar);
             display: flex; flex-direction: column; justify-content: space-between;
-            border-right: 1px solid rgba(0,0,0,0.4); flex-shrink: 0;
+            border-right: 1px solid rgba(0,0,0,0.4); flex-shrink: 0; z-index: 2;
         }
         .sidebar-header {
             padding: 16px; font-weight: bold; font-size: 15px;
@@ -78,7 +83,7 @@
         }
         .chan-left-block { display: flex; align-items: center; gap: 10px; }
 
-        .center-stage-container { flex: 1; display: flex; flex-direction: column; background-color: var(--bg-chat); }
+        .center-stage-container { flex: 1; display: flex; flex-direction: column; background-color: var(--bg-chat); z-index: 2; }
         
         .friends-dashboard { display: none; flex: 1; flex-direction: column; }
         .friends-dashboard.active-panel { display: flex; }
@@ -93,8 +98,23 @@
         .friends-tab-btn.active-tab { background: rgba(255,255,255,0.1); color: white; }
         .friends-tab-btn.add-friend-btn { background: var(--accent-green); color: white; }
 
-        .friends-content-area { flex: 1; padding: 30px; overflow-y: auto; }
+        .friends-content-area { flex: 1; padding: 25px; overflow-y: auto; display: flex; gap: 20px; }
+        .friends-main-pane { flex: 1; display: flex; flex-direction: column; gap: 10px; }
         .friends-list-wrapper { display: flex; flex-direction: column; gap: 8px; }
+        
+        /* DASHBOARD LIVE ADDITION 1: SIDEBAR DASHBOARD MATRIX PANELS */
+        .friends-side-activity-pane { width: 280px; display: flex; flex-direction: column; gap: 15px; }
+        .dash-widget-box { background: var(--bg-sidebar); border-radius: 8px; padding: 16px; border: 1px solid rgba(255,255,255,0.03); }
+        .dash-widget-title { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        
+        .activity-pulse-item { display: flex; gap: 10px; align-items: center; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 8px; }
+        .activity-pulse-item:last-child { border: none; padding: 0; }
+        .pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green); }
+
+        /* DASHBOARD LIVE ADDITION 2: BROADCAST BAR */
+        .broadcast-shout-banner { background: #232428; border-radius: 6px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; font-size: 13px; }
+        .broadcast-shout-banner input { background: transparent; border: none; color: white; outline: none; flex: 1; font-size: 13px; }
+
         .friend-row-card {
             background: var(--bg-panels); padding: 14px 20px; border-radius: 8px;
             display: flex; justify-content: space-between; align-items: center;
@@ -110,7 +130,12 @@
             height: 52px; padding: 0 20px; border-bottom: 1px solid rgba(0,0,0,0.2);
             display: flex; align-items: center; justify-content: space-between; background: var(--bg-chat);
         }
-        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+        
+        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; transition: gap 0.2s; }
+        .chat-messages.compact-chat { gap: 6px !important; }
+        .chat-messages.compact-chat .msg-row { gap: 10px; }
+        .chat-messages.compact-chat .msg-avatar { width: 30px; height: 30px; }
+
         .msg-row { display: flex; gap: 16px; align-items: flex-start; }
         .msg-avatar { width: 40px; height: 40px; border-radius: 50%; background: #111214; object-fit: cover; flex-shrink: 0; }
         .msg-content-box { flex: 1; }
@@ -141,7 +166,7 @@
         }
         .modal-card {
             background: var(--bg-panels); border-radius: 12px; width: 100%;
-            max-width: 520px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            max-width: 540px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             border: 1px solid rgba(255,255,255,0.05);
         }
 
@@ -151,6 +176,14 @@
             color: white; box-sizing: border-box; font-family: inherit; outline: none;
         }
         textarea { height: 80px; resize: none; }
+
+        .toggle-row { display: flex; justify-content: space-between; align-items: center; margin: 12px 0; padding: 6px 0; }
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #4e5058; transition: .2s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: white; transition: .2s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent-green); }
+        input:checked + .slider:before { transform: translateX(20px); }
 
         .btn {
             background: var(--accent-discord); color: white; border: none;
@@ -178,13 +211,15 @@
         }
         .ticker-wrap { display: inline-block; animation: marqueeScroll 25s linear infinite; }
         @keyframes marqueeScroll { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
+
+        #devDebugPanelBox { display: none; background: #000; border-top: 2px solid var(--accent-discord); padding: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #00ff00; max-height: 100px; overflow-y: auto; }
     </style>
 </head>
 <body>
 
     <div id="liveEventAlertToastBox"></div>
 
-    <!-- SIGN-IN RE-ENGINEERED PORTAL -->
+    <!-- RE-ENGINEERED PORTAL -->
     <div id="authScreen" class="screen active">
         <div class="auth-container">
             <div style="font-size: 40px; margin-bottom:10px;">🛡️</div>
@@ -244,7 +279,7 @@
             <div class="center-stage-container">
                 
                 <div class="live-ticker-banner">
-                    <div class="ticker-wrap">
+                    <div class="ticker-wrap" id="masterLiveTickerField">
                         ⚡ Network Load: Optimal | Local Storage Sync Engine Active | Real Peer Modules Synchronized Live ⚡
                     </div>
                 </div>
@@ -258,9 +293,40 @@
                         <div class="friends-tab-btn" id="tabBtnBlocked" onclick="renderFriendsSubTab('blocked')">Blocked Directory</div>
                         <div class="friends-tab-btn add-friend-btn" onclick="openModal('modalAddFriendAction')">Add Friend</div>
                     </div>
+                    
                     <div class="friends-content-area">
-                        <h3 id="friendsStageSectionTitle" style="margin-top:0; color:white; font-size:16px;">Active Connections</h3>
-                        <div class="friends-list-wrapper" id="friendsDynamicListContainer"></div>
+                        <div class="friends-main-pane">
+                            
+                            <!-- DASHBOARD LIVE ADDITION 2: BROADCAST SHOUT BAR -->
+                            <div class="broadcast-shout-banner">
+                                <span style="font-size:14px;">📣</span>
+                                <input type="text" id="shoutStatusInput" placeholder="Broadcast a rapid matrix network shout banner... (Press Enter)" onkeydown="if(event.key === 'Enter') dispatchGlobalShoutText()">
+                            </div>
+
+                            <h3 id="friendsStageSectionTitle" style="margin:8px 0 0 0; color:white; font-size:15px;">Active Connections</h3>
+                            <div class="friends-list-wrapper" id="friendsDynamicListContainer"></div>
+                        </div>
+
+                        <!-- DASHBOARD LIVE ADDITION 1 & 3: ADVANCED SUB-PANELS -->
+                        <div class="friends-side-activity-pane">
+                            <div class="dash-widget-box">
+                                <div class="dash-widget-title"><span>🔥</span> Peer Hub Activity Pulse</div>
+                                <div id="liveActivityPulseStack" style="display:flex; flex-direction:column; gap:10px;">
+                                    <div class="activity-pulse-item"><div class="pulse-dot"></div><div><strong>ss</strong> is configuring discord.py bots</div></div>
+                                    <div class="activity-pulse-item"><div class="pulse-dot"></div><div><strong>kenza</strong> is looking at matrix themes</div></div>
+                                </div>
+                            </div>
+
+                            <div class="dash-widget-box">
+                                <div class="dash-widget-title"><span>📊</span> Telemetry Grid Stats</div>
+                                <div style="font-size:12px; font-family:'JetBrains Mono', monospace; display:flex; flex-direction:column; gap:6px;">
+                                    <div style="display:flex; justify-content:space-between;"><span>Active Nodes:</span><span style="color:var(--accent-green);" id="statActiveNodes">3 / 3</span></div>
+                                    <div style="display:flex; justify-content:space-between;"><span>Ping Relays:</span><span style="color:var(--premium-gold);" id="statPingRelay">14ms</span></div>
+                                    <div style="display:flex; justify-content:space-between;"><span>DB Buffer Load:</span><span style="color:var(--boost-pink);">0.02%</span></div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -282,6 +348,9 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- SETTINGS LIVE ADDITION 4: OPTIONAL DEBUG CONSOLE BOTTOM SLIDER -->
+                <div id="devDebugPanelBox">> Core Thread Process Init Complete. Ready for inputs.</div>
 
             </div>
         </div>
@@ -322,6 +391,16 @@
                 </select>
             </div>
 
+            <!-- SETTINGS LIVE ADDITION 1: BACKGROUND BLUR OVERLAY OPACITY -->
+            <div style="margin-bottom:15px;">
+                <label style="font-size:13px; font-weight:600; color:white;">Ambient HUD Vignette Tint Opacity</label>
+                <select id="configAmbientBlurSelect">
+                    <option value="rgba(0,0,0,0)">Clear (None)</option>
+                    <option value="rgba(0,0,0,0.3)">Soft Cinematic Fade</option>
+                    <option value="rgba(15,16,18,0.6)">Deep Dark High Contrast</option>
+                </select>
+            </div>
+
             <div style="margin-bottom:15px;">
                 <label style="font-size:13px; font-weight:600; color:white;">Identity Tag Signature Color (Hex)</label>
                 <input type="text" id="configHexNameColor" placeholder="#5865f2" value="#ffffff">
@@ -340,6 +419,45 @@
             <div style="margin-bottom:15px;">
                 <label style="font-size:13px; font-weight:600; color:white;">Avatar Image URL Frame Node</label>
                 <input type="text" id="configAvatarUrlInput">
+            </div>
+
+            <hr style="border:0; border-top:1px solid rgba(255,255,255,0.08); margin:20px 0;">
+            <h4 style="margin:0 0 10px 0; color:white; font-size:14px;">🛠️ Interface Live Matrix Mechanics</h4>
+
+            <!-- SETTINGS LIVE ADDITION 2: AUDIO INTERFACE TOGGLE -->
+            <div class="toggle-row">
+                <div>
+                    <div style="font-size:13px; font-weight:600; color:white;">Audio Interface Feedback</div>
+                    <div style="font-size:11px; color:var(--text-muted);">Triggers systemic audio feedback clicks on clicks</div>
+                </div>
+                <label class="switch"><input type="checkbox" id="toggleAudioFeedback"><span class="slider"></span></label>
+            </div>
+
+            <!-- SETTINGS LIVE ADDITION 3: COMPACT MODE SWITCHER -->
+            <div class="toggle-row">
+                <div>
+                    <div style="font-size:13px; font-weight:600; color:white;">Compact Messaging Stream</div>
+                    <div style="font-size:11px; color:var(--text-muted);">Reduces vertical message line gap constraints</div>
+                </div>
+                <label class="switch"><input type="checkbox" id="toggleCompactChat"><span class="slider"></span></label>
+            </div>
+
+            <!-- SETTINGS LIVE ADDITION 4: DEV LOGGER CONTROL -->
+            <div class="toggle-row">
+                <div>
+                    <div style="font-size:13px; font-weight:600; color:white;">Developer Debug Engine Log Console</div>
+                    <div style="font-size:11px; color:var(--text-muted);">Displays systemic client-side storage ledger writes</div>
+                </div>
+                <label class="switch"><input type="checkbox" id="toggleDevDebugPanel"><span class="slider"></span></label>
+            </div>
+
+            <!-- SETTINGS LIVE ADDITION 5: ENGINE PERFORMANCE INCREMENTER -->
+            <div class="toggle-row">
+                <div>
+                    <div style="font-size:13px; font-weight:600; color:white;">Performance Acceleration Optimization</div>
+                    <div style="font-size:11px; color:var(--text-muted);">Maximizes tick refresh arrays for tracking loops</div>
+                </div>
+                <label class="switch"><input type="checkbox" id="togglePerformanceOptimization" checked><span class="slider"></span></label>
             </div>
 
             <div id="adminReportNodePanel" style="display:none; background:rgba(242,63,67,0.1); border:1px solid var(--accent-red); padding:15px; border-radius:8px; margin-bottom:15px;">
@@ -400,7 +518,7 @@
 
     <!-- JAVASCRIPT REAL PEER HUB PIPELINE ENGINE -->
     <script>
-        // CLIENT PERSISTENT REAL PEER DATABASE
+        // CLIENT PERSISTENT DATABASE LOCKS
         let globalUsersDB = JSON.parse(localStorage.getItem('sae_v5_users')) || {
             "administrator": { user: "administrator", pass: "password123", coins: 150, premiumTier: "ultimate", theme: "rainbow", color: "#f1c40f", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "System Core Root Admin" },
             "kenza": { user: "kenza", pass: "password123", coins: 100, premiumTier: "none", theme: "dark", color: "#ff7675", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Sae Hub Connected" },
@@ -415,7 +533,6 @@
             "ss": [{ user: "administrator", status: "pending_sent" }]
         };
 
-        // SHARED COMPREHENSIVE TEXT PERSISTENCE
         let chatHistoryEngine = JSON.parse(localStorage.getItem('sae_v5_chathistory')) || {
             "dm_administrator_kenza": [{ user: "kenza", color: "#ff7675", text: "Hey! This is a completely real peer user message stream.", timestamp: "12:04 PM", avatar: "https://i.imgur.com/6VBx3io.png" }]
         };
@@ -434,12 +551,76 @@
         let currentFriendsSubTabSelection = "all";
         let currentReportTargetUsername = "";
 
+        // Simulated background variations for activity arrays
+        const dynamicStatusPool = [
+            "coding discord.py slash engines", "playing Roblox server threads", 
+            "mining ledger tokens", "inspecting telemetry logs", "resting link state"
+        ];
+
         document.addEventListener("DOMContentLoaded", () => {
             saveGlobalDatabaseStates();
             syncUserDisplayBars();
             rebuildNavigationSidebars();
             renderFriendsSubTab("all");
+
+            // Loop track for alive performance stats simulation
+            setInterval(() => {
+                let checkOptimize = document.getElementById('togglePerformanceOptimization').checked;
+                let scalePing = checkOptimize ? Math.floor(Math.random() * 8) + 4 : Math.floor(Math.random() * 25) + 12;
+                document.getElementById('statPingRelay').innerText = `${scalePing}ms`;
+                
+                // Roll activity shuffle
+                if(Math.random() > 0.6) {
+                    let users = Object.keys(globalUsersDB).filter(u => u !== currentActiveUserKey);
+                    if(users.length > 0) {
+                        let randU = users[Math.floor(Math.random() * users.length)];
+                        let randS = dynamicStatusPool[Math.floor(Math.random() * dynamicStatusPool.length)];
+                        writeLogOutput(`Activity Matrix Node Push: ${randU} updated activity.`);
+                        updateActivityPulseUI(randU, randS);
+                    }
+                }
+            }, 3000);
         });
+
+        function writeLogOutput(str) {
+            let box = document.getElementById('devDebugPanelBox');
+            if(!box) return;
+            box.innerText += `\n> [${new Date().toLocaleTimeString()}] ${str}`;
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function updateActivityPulseUI(username, status) {
+            let container = document.getElementById('liveActivityPulseStack');
+            if(!container) return;
+            // Clear existing rows or keep up to 2
+            container.innerHTML = `
+                <div class="activity-pulse-item"><div class="pulse-dot"></div><div><strong>${username}</strong> is ${status}</div></div>
+                <div class="activity-pulse-item"><div class="pulse-dot" style="background:var(--accent-discord); box-shadow:none;"></div><div><strong>System</strong> tracking mesh links...</div></div>
+            `;
+        }
+
+        function dispatchGlobalShoutText() {
+            let input = document.getElementById('shoutStatusInput');
+            let val = input.value.trim();
+            if(!val) return;
+            triggerAudioTone();
+            document.getElementById('masterLiveTickerField').innerText = `📣 BROADCAST FROM ${currentActiveUserKey.toUpperCase()}: "${val}" | ⚡ Sync Engines Safe`;
+            writeLogOutput(`Global shout pipeline processed: "${val}"`);
+            input.value = '';
+        }
+
+        function triggerAudioTone() {
+            if(!document.getElementById('toggleAudioFeedback').checked) return;
+            try {
+                let context = new (window.AudioContext || window.webkitAudioContext)();
+                let osc = context.createOscillator();
+                let gain = context.createGain();
+                osc.connect(gain); gain.connect(context.destination);
+                osc.type = 'sine'; osc.frequency.setValueAtTime(580, context.currentTime);
+                gain.gain.setValueAtTime(0.04, context.currentTime);
+                osc.start(); osc.stop(context.currentTime + 0.06);
+            } catch(e){}
+        }
 
         function processSecureAuth() {
             let u = document.getElementById('loginUser').value.trim().toLowerCase();
@@ -476,6 +657,7 @@
             document.getElementById('appScreen').classList.add('active');
             
             triggerEventToastNotification(`Successfully logged into account node: ${u.toUpperCase()}`);
+            document.getElementById('statActiveNodes').innerText = `${Object.keys(globalUsersDB).length} / ${Object.keys(globalUsersDB).length}`;
             
             if(currentActiveUserKey === 'administrator') {
                 document.getElementById('adminReportNodePanel').style.display = 'block';
@@ -491,9 +673,11 @@
             localStorage.setItem('sae_v5_friends', JSON.stringify(networkFriendsRelationshipRegistry));
             localStorage.setItem('sae_v5_chathistory', JSON.stringify(chatHistoryEngine));
             localStorage.setItem('sae_v5_channels', JSON.stringify(chatChannelsRegistry));
+            writeLogOutput("Database committed to client LocalStorage arrays successfully.");
         }
 
         function uiNavigateToPanel(targetPanel) {
+            triggerAudioTone();
             activePanelType = targetPanel;
             document.getElementById('panelFriendsStage').classList.remove('active-panel');
             document.getElementById('panelChatStage').classList.remove('active-panel');
@@ -600,7 +784,7 @@
             if(!target || target === currentActiveUserKey) { alert("Invalid username transaction metric."); return; }
             
             if(!globalUsersDB[target]) {
-                alert(`The username identity '${target}' does not exist inside the persistent profile registry database yet! Log into it first to register it.`);
+                alert(`The username identity '${target}' does not exist inside the persistent profile database tier! Log into it via another login session first to build it.`);
                 return;
             }
 
@@ -653,12 +837,10 @@
             dmContainer.innerHTML = '';
             groupContainer.innerHTML = '';
 
-            // Find all accepted friends to show as real direct messaging channels
             let userRelations = networkFriendsRelationshipRegistry[currentActiveUserKey] || [];
             userRelations.forEach(rel => {
                 if(rel.status !== 'accepted') return;
                 
-                // Real, deterministic private key generated dynamically between two exact names alphabetically
                 let sortedArray = [currentActiveUserKey, rel.user].sort();
                 let chId = `dm_${sortedArray[0]}_${sortedArray[1]}`;
 
@@ -669,7 +851,6 @@
                 dmContainer.appendChild(div);
             });
 
-            // Parse group chats
             for(let chId in chatChannelsRegistry) {
                 if(!chId.startsWith('group_')) continue;
                 let chan = chatChannelsRegistry[chId];
@@ -719,6 +900,13 @@
             messageBox.innerHTML = '';
             let history = chatHistoryEngine[activeChatTargetId] || [];
 
+            // Apply live dynamic toggle toggle layouts 
+            if(document.getElementById('toggleCompactChat').checked) {
+                messageBox.classList.add('compact-chat');
+            } else {
+                messageBox.classList.remove('compact-chat');
+            }
+
             history.forEach(msg => {
                 let div = document.createElement('div');
                 div.className = 'msg-row';
@@ -744,9 +932,7 @@
 
             let profile = globalUsersDB[currentActiveUserKey];
             
-            // Check structural logs validation lock criteria before letting text stream render if it is blocked
             if(activeChatTargetId.startsWith('dm_')) {
-                // Parse out the other username
                 let parts = activeChatTargetId.split('_');
                 let peerUser = parts[1] === currentActiveUserKey ? parts[2] : parts[1];
                 let rels = networkFriendsRelationshipRegistry[currentActiveUserKey] || [];
@@ -757,6 +943,7 @@
                 }
             }
 
+            triggerAudioTone();
             let timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             
             chatHistoryEngine[activeChatTargetId].push({
@@ -850,6 +1037,15 @@
                 alert("🔒 Subscription Constraint: Animated Scrolling Rainbow CSS Engines require Nitro Ultimate tier nodes."); return;
             }
 
+            // Apply Settings Matrix Multi-toggles
+            document.documentElement.style.setProperty('--ambient-blur', document.getElementById('configAmbientBlurSelect').value);
+            
+            if(document.getElementById('toggleDevDebugPanel').checked) {
+                document.getElementById('devDebugPanelBox').style.display = "block";
+            } else {
+                document.getElementById('devDebugPanelBox').style.display = "none";
+            }
+
             profile.color = targetColor;
             profile.theme = targetTheme;
             profile.customStatus = targetStatus;
@@ -930,7 +1126,8 @@
             setTimeout(() => { t.remove(); }, 4000);
         }
 
-        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function openModal(id) { triggerAudioTone(); document.getElementById(id).style.display = 'flex'; }
+        document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', (e) => { if(e.target === m) closeAllModals(); })});
         function closeAllModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
         function applyInterfaceTheme(val) { if(val === 'rainbow' && globalUsersDB[currentActiveUserKey].premiumTier !== 'ultimate') { alert("Locked criteria requirement mismatch."); document.getElementById('configThemeSelect').value = 'dark'; } }
         function logoutSession() { closeAllModals(); document.getElementById('appScreen').classList.remove('active'); document.getElementById('authScreen').classList.add('active'); }
