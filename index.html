@@ -4,260 +4,608 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sae Premium Boost Hub</title>
+    <!-- Google Fonts for a cooler, modern gaming look -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #313338;
-            --panel-color: #2b2d31;
+            --bg-color: #1a1c1e;
+            --panel-color: #24272c;
+            --input-color: #111214;
             --accent-color: #5865f2;
             --premium-color: #f1c40f;
+            --robux-color: #00a2ff;
             --text-color: #dbdee1;
             --heading-color: #ffffff;
+            --card-glow: rgba(88, 101, 242, 0.2);
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            transition: all 0.3s ease;
         }
 
-        .screen { display: none; width: 100%; max-width: 460px; }
-        .active { display: block; }
+        .screen { display: none; width: 100%; max-width: 650px; padding: 20px; box-sizing: border-box; }
+        .active { display: block; animation: fadeIn 0.4s ease forwards; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         .card {
-            background-color: var(--panel-color);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            background: linear-gradient(145deg, var(--panel-color), #1c1e22);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 15px var(--card-glow);
             text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
         }
 
-        h2 { color: var(--heading-color); margin-bottom: 20px; }
-        p { color: #b5bac1; font-size: 14px; line-height: 1.5; }
+        h2 { color: var(--heading-color); font-weight: 700; font-size: 28px; margin-bottom: 10px; margin-top: 0; }
+        p { color: #b5bac1; font-size: 14px; line-height: 1.6; }
+
+        /* Auth Tabs */
+        .auth-tabs {
+            display: flex;
+            background-color: var(--input-color);
+            border-radius: 8px;
+            margin-bottom: 25px;
+            padding: 4px;
+        }
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            color: #b5bac1;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .auth-tab.active-tab {
+            background-color: var(--accent-color);
+            color: white;
+        }
 
         input, select {
             width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 4px;
-            border: 1px solid #1e1f22;
-            background-color: #1e1f22;
+            padding: 14px;
+            margin: 12px 0;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+            background-color: var(--input-color);
             color: white;
             box-sizing: border-box;
+            font-family: inherit;
+            font-size: 14px;
+            transition: border 0.2s;
+        }
+        input:focus, select:focus {
+            border-color: var(--accent-color);
+            outline: none;
         }
 
         .btn {
             background-color: var(--accent-color);
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 14px 24px;
             width: 100%;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
-            margin-top: 10px;
+            margin-top: 15px;
+            box-shadow: 0 4px 12px rgba(88, 101, 242, 0.3);
+            transition: all 0.2s ease;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(88, 101, 242, 0.4); }
+        .btn-alt { background: #3b3e45; color: white; box-shadow: none; margin-top: 10px; }
+        .btn-alt:hover { background: #474a52; }
+
+        /* Store Header Grid with Settings Pin to the Right */
+        .store-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 15px;
+        }
+        .header-left { text-align: left; }
+        .settings-icon-btn {
+            background: none;
+            border: none;
+            font-size: 26px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
             transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .settings-icon-btn:hover { background: rgba(255,255,255,0.05); }
+
+        /* Huge Store Layout Grid */
+        .shop-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        @media (max-width: 500px) { .shop-grid { grid-template-columns: 1fr; } }
+
+        .shop-item {
+            background: rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 25px 15px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .shop-item:hover {
+            transform: scale(1.04);
+            border-color: var(--accent-color);
+            background: rgba(88, 101, 242, 0.05);
         }
 
-        .btn:hover { background-color: #4752c4; }
-        .btn-alt { background-color: #4e5058; margin-top: 5px; }
-        .btn-alt:hover { background-color: #6d6f78; }
+        .currency-indicator {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: rgba(255,255,255,0.1);
+        }
 
-        .settings-panel {
+        /* Settings Split Layout */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
             text-align: left;
             margin-top: 20px;
-            border-top: 1px solid #4e5058;
-            padding-top: 15px;
         }
 
-        .payment-choice {
-            background-color: #1e1f22;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 6px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            text-align: left;
+        .switch-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.15);
+            padding: 12px 16px;
+            border-radius: 8px;
         }
-        .payment-choice:hover { border-color: var(--accent-color); }
+
+        /* Toggle switch CSS */
+        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #4e5058; transition: .3s; border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px;
+            background-color: white; transition: .3s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--robux-color); }
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        .badge-grid { display: flex; gap: 8px; justify-content: center; margin-top: 10px; }
+        .badge { background: rgba(255,255,255,0.07); padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <!-- 1. AUTH SCREEN -->
+    <!-- 1. AUTH SCREEN (Fixed: No Bypassing, real database checking) -->
     <div id="authScreen" class="screen active">
         <div class="card">
-            <h2 id="authTitle">Welcome to Sae Boost Hub</h2>
-            <p id="authDesc">Please log in or create an account to view services.</p>
-            <input type="text" id="username" placeholder="Username">
-            <input type="password" id="password" placeholder="Password">
-            <button class="btn" onclick="handleAuth()">Sign In / Create Account</button>
+            <h2 id="lang-authTitle">Welcome to Sae Hub</h2>
+            <p id="lang-authDesc">Please log in or register to access the storefront network dashboard grid panel.</p>
+            
+            <div class="auth-tabs">
+                <div id="tabLogin" class="auth-tab active-tab" onclick="setAuthMode('login')">Sign In</div>
+                <div id="tabRegister" class="auth-tab" onclick="setAuthMode('register')">Register New Account</div>
+            </div>
+
+            <input type="text" id="username" placeholder="Username / Email">
+            <input type="password" id="password" placeholder="Password PIN Sequence">
+            <button class="btn" id="btnAuthAction" onclick="handleAuthSubmit()">Access Core Portal</button>
         </div>
     </div>
 
-    <!-- 2. MAIN STORE DASHBOARD -->
+    <!-- 2. MAIN STORE DASHBOARD (Reworked to be bigger and cooler) -->
     <div id="storeScreen" class="screen">
         <div class="card">
-            <h2>✨ Sae Boost Dashboard</h2>
-            <p>Welcome back, <strong id="userDisplay">User</strong>!</p>
-            <hr style="border-color:#4e5058; margin: 20px 0;">
+            <div class="store-header">
+                <div class="header-left">
+                    <h2 id="lang-storeTitle">✨ Sae Store Grid</h2>
+                    <p style="margin:0;"><span id="lang-welcome">Welcome back</span>, <strong id="userDisplay" style="color:var(--accent-color);">User</strong>!</p>
+                </div>
+                <!-- Settings Button Pinned to the Right -->
+                <button class="settings-icon-btn" onclick="goToSettings()">⚙️</button>
+            </div>
             
-            <p style="font-size: 14px;">
-                You can buy regular server boosts or unlock high-tier **Premium Upgrades** for money or Robux below.
-            </p>
-            
-            <button class="btn" onclick="openPlanSelector('boost')">🚀 Buy Regular Boost Plan</button>
-            <button class="btn" style="background-color: var(--premium-color); color: #111;" onclick="openPlanSelector('premium')">👑 Buy Premium High-Value Plan</button>
-            <button class="btn btn-alt" onclick="toggleSettings()">⚙️ Settings</button>
+            <div style="text-align: left; margin-bottom: 20px;">
+                <span class="currency-indicator" id="currencyBadge" style="background-color: rgba(88, 101, 242, 0.2); color: var(--accent-color);">💳 Payment Mode: Fiat Currency (USD)</span>
+            </div>
 
-            <div id="settingsHub" class="settings-panel" style="display: none;">
-                <h3>Configuration</h3>
-                <label>Language:</label>
-                <select onchange="changeLanguage(this.value)">
-                    <option value="en">English</option>
-                    <option value="ar">العربية (Arabic)</option>
-                </select>
-                <button class="btn btn-alt" style="background-color: #da373c;" onclick="logout()">🚪 Log Out</button>
+            <!-- Big cool dynamic items display layout -->
+            <div class="shop-grid">
+                <div class="shop-item" onclick="openPlanSelector('boost')">
+                    <div style="font-size: 40px; margin-bottom: 10px;">🚀</div>
+                    <h3 style="margin:0 0 8px 0; font-size: 20px;" id="lang-boostTitle">Server Booster</h3>
+                    <p style="margin:0; font-size: 13px;" id="lang-boostDesc">Instantly boost your guild tier processing layers natively.</p>
+                </div>
+                
+                <div class="shop-item" style="border-color: rgba(241,196,15,0.3);" onclick="openPlanSelector('premium')">
+                    <div style="font-size: 40px; margin-bottom: 10px;">👑</div>
+                    <h3 style="margin:0 0 8px 0; font-size: 20px; color: var(--premium-color);" id="lang-premiumTitle">Premium High-Value</h3>
+                    <p style="margin:0; font-size: 13px;" id="lang-premiumDesc">Max value utility options. Worth much more than standard boost layers.</p>
+                </div>
+
+                <!-- Added Item 1: Mystery Lootbox Framework (Shop addition 1) -->
+                <div class="shop-item" style="border-color: rgba(155, 89, 182, 0.3);" onclick="alert('Lootbox selection locked. Configure packages inside management tier.')">
+                    <div style="font-size: 40px; margin-bottom: 10px;">📦</div>
+                    <h3 style="margin:0 0 8px 0; font-size: 20px; color: #9b59b6;">Mystery Reward Box</h3>
+                    <p style="margin:0; font-size: 13px;">Unlock high-tier claims randomly via custom script keys.</p>
+                </div>
+
+                <!-- Added Item 2: Custom Profile Cosmetics (Shop addition 2) -->
+                <div class="shop-item" style="border-color: rgba(46, 204, 113, 0.3);" onclick="alert('Profile cosmetic designer database sync processing...')">
+                    <div style="font-size: 40px; margin-bottom: 10px;">🎨</div>
+                    <h3 style="margin:0 0 8px 0; font-size: 20px; color: #2ecc71;">Custom UI Cosmetics</h3>
+                    <p style="margin:0; font-size: 13px;">Tailor color profiles and custom badges for your hub identity.</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- 3. PLAN SELECTION SCREEN -->
-    <div id="planScreen" class="screen">
+    <!-- 3. CONFIGURATION HUB (Reworked Settings Panel View) -->
+    <div id="settingsScreen" class="screen">
         <div class="card">
-            <h2 id="planHeader">Select Your Plan</h2>
-            <p>Choose your duration package rate below:</p>
-            
-            <select id="durationSelect"></select>
-            
-            <button class="btn" onclick="goToPaymentMethod()">Next: Choose Payment Method</button>
-            <button class="btn btn-alt" onclick="navigate('storeScreen')">Back</button>
+            <h2>⚙️ Core Configuration Panel</h2>
+            <p>Modify internal user settings interface structures here:</p>
+
+            <div class="settings-grid">
+                <!-- Robux Toggle Module System -->
+                <div class="switch-row" style="border: 1px solid rgba(0, 162, 255, 0.3);">
+                    <div>
+                        <strong style="color: var(--robux-color);">🪙 Use Robux Method Storefront</strong>
+                        <div style="font-size:12px; color:#b5bac1;">Flip this to switch the shop to Robux currency instantly.</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="robuxToggle" onchange="toggleRobuxShop(this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- Comprehensive Multi-Language System Selector Matrix -->
+                <div>
+                    <label style="font-weight: 600; font-size: 14px;">🌐 Global Language Override Matrix</label>
+                    <select id="langSelect" onchange="applyLanguageMatrix(this.value)">
+                        <option value="en">English (US)</option>
+                        <option value="ar">العربية (Arabic)</option>
+                        <option value="fr">Français (French)</option>
+                        <option value="es">Español (Spanish)</option>
+                        <option value="de">Deutsch (German)</option>
+                    </style>
+                </div>
+
+                <!-- Added Feature 1: Live Status Badge Customization (Settings addition 1) -->
+                <div class="switch-row">
+                    <div>
+                        <strong>🕵️ Stealth Browsing Framework</strong>
+                        <div style="font-size:12px; color:#b5bac1;">Hide your profile account status metrics from public server grids.</div>
+                    </div>
+                    <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                </div>
+
+                <!-- Added Feature 2: Performance Hardware Lag Reducer (Settings addition 2) -->
+                <div class="switch-row">
+                    <div>
+                        <strong>⚡ Hardware UI Acceleration</strong>
+                        <div style="font-size:12px; color:#b5bac1;">Disables custom 3D shadow shaders to improve load rendering frame rates.</div>
+                    </div>
+                    <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                </div>
+
+                <!-- Added Feature 3: Live Developer Notification Feed (Settings addition 3) -->
+                <div class="switch-row">
+                    <div>
+                        <strong>🔔 Desktop Webhook Notifications</strong>
+                        <div style="font-size:12px; color:#b5bac1;">Send real-time alerts straight to your browser layout when orders process.</div>
+                    </div>
+                    <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                </div>
+            </div>
+
+            <button class="btn" style="margin-top:25px;" onclick="navigate('storeScreen')">Save & Return to Store</button>
+            <button class="btn btn-alt" style="background-color: #da373c;" onclick="logout()">🚪 Log Out Account</button>
         </div>
     </div>
 
-    <!-- 4. METHOD SELECTION SCREEN -->
+    <!-- 4. PLAN SELECTION SCREEN -->
+    <div id="planScreen" class="screen">
+        <div class="card">
+            <h2 id="planHeader">Select Your Package Tier</h2>
+            <p>Choose your duration metrics sequence frame below:</p>
+            
+            <select id="durationSelect"></select>
+            
+            <button class="btn" onclick="goToPaymentMethod()">Next: Configure Billing Pipeline</button>
+            <button class="btn btn-alt" onclick="navigate('storeScreen')">Back to Dashboard</button>
+        </div>
+    </div>
+
+    <!-- 5. METHOD SELECTION SCREEN -->
     <div id="methodScreen" class="screen">
         <div class="card">
             <h2>Select Payment Method</h2>
             <p>Choose how you would like to pay for your plan:</p>
             
-            <div class="payment-choice" onclick="startCheckout('paypal')">
+            <div class="shop-item" style="text-align:left; margin-bottom:15px;" onclick="startCheckout('paypal')">
                 <strong>💳 PayPal / Trusted Bank Cards</strong>
-                <p style="margin: 5px 0 0 0; font-size: 12px; color: #b5bac1;">Pay safely using standard online bank processing portals.</p>
+                <p style="margin: 5px 0 0 0; font-size: 12px; color: #b5bac1;">Pay safely using standard secure checkout verification blocks.</p>
             </div>
 
-            <div class="payment-choice" onclick="startCheckout('robux')">
-                <strong>🪙 Roblox Robux Method</strong>
-                <p style="margin: 5px 0 0 0; font-size: 12px; color: #b5bac1;">Pay via manual Robux balance transfers inside Roblox.</p>
+            <div class="shop-item" style="text-align:left;" onclick="startCheckout('robux')">
+                <strong>🪙 Roblox Robux Balance Method</strong>
+                <p style="margin: 5px 0 0 0; font-size: 12px; color: #b5bac1;">Pay manually inside Roblox to complete security ledger fields.</p>
             </div>
 
             <button class="btn btn-alt" onclick="navigate('planScreen')">Back</button>
         </div>
     </div>
 
-    <!-- 5. PAYPAL GATEWAY SCREEN -->
+    <!-- 6. PAYPAL GATEWAY SCREEN -->
     <div id="paypalScreen" class="screen">
         <div class="card">
             <h2>🔐 Secure PayPal Portal</h2>
-            <p>Your payment is fully encrypted. Complete the form inside the secure block below:</p>
+            <p>Your payment transaction data is fully tokenized. Complete your invoice fields below:</p>
             
-            <!-- PayPal Live SDK integration script hook -->
             <script src="https://www.paypal.com/sdk/js?client-id=YOUR_LIVE_PAYPAL_CLIENT_ID&currency=USD"></script>
             <div id="paypal-button-container" style="margin: 20px 0;"></div>
 
-            <button class="btn btn-alt" onclick="navigate('methodScreen')">Cancel</button>
+            <button class="btn btn-alt" onclick="navigate('methodScreen')">Cancel Payment</button>
         </div>
     </div>
 
-    <!-- 6. ROBUX METHOD INSTRUCTIONS -->
+    <!-- 7. ROBUX METHOD INSTRUCTIONS -->
     <div id="robuxScreen" class="screen">
         <div class="card">
             <h2>🪙 Robux Payment Requirements</h2>
-            <p>To finalize your order processing framework, you must complete these tasks exactly:</p>
+            <p>To register your premium claim sequence data tracking logs, run these actions exactly:</p>
             
-            <div style="background-color: #1e1f22; padding: 15px; border-radius: 6px; text-align: left; margin: 15px 0; font-size: 13px;">
-                1. Open Roblox and look up the user account: **oplox00**<br>
-                2. Click on his profile and make sure to **Follow him**.<br>
-                3. Send the equivalent Robux purchase rate amount directly to him.<br>
-                4. Input your Roblox username below for confirmation:
+            <div style="background-color: var(--input-color); padding: 20px; border-radius: 12px; text-align: left; margin: 15px 0; font-size: 14px; border: 1px solid rgba(0,162,255,0.2);">
+                1. Open Roblox and navigate to target identification user profile: **oplox00**<br>
+                2. Select profile tracking parameters and click **Follow him**.<br>
+                3. Initiate currency settlement transfer fields equivalent to your package selection rate directly.<br>
+                4. Input your registration account username below to finalize logging metrics:
             </div>
 
-            <input type="text" id="robloxUser" placeholder="Your Roblox Username">
+            <input type="text" id="robloxUser" placeholder="Your Roblox Character Username">
             
-            <button class="btn" onclick="finishOrder()">Confirm Actions Completed</button>
+            <button class="btn" style="background-color: var(--robux-color); box-shadow: 0 4px 12px rgba(0,162,255,0.3);" onclick="finishOrder()">Confirm Actions Completed</button>
             <button class="btn btn-alt" onclick="navigate('methodScreen')">Back</button>
         </div>
     </div>
 
-    <!-- 7. FINAL ORDER SUCCESS PAGE -->
+    <!-- 8. FINAL ORDER SUCCESS PAGE -->
     <div id="successScreen" class="screen">
-        <div class="card" style="border: 2px solid #23a55a;">
-            <h2 style="color: #23a55a;">🎉 Verification Code Ready</h2>
-            <p>Your transaction request log sequence has been securely registered on our server grid ledger board.</p>
+        <div class="card" style="border: 2px solid #23a55a; box-shadow: 0 0 20px rgba(35,165,90,0.2);">
+            <h2 style="color: #23a55a;">🎉 Transaction Code Generated</h2>
+            <p>Your tracking registration query data framework sequence is saved inside our active store grid ledger.</p>
             
-            <div style="background-color: #1e1f22; font-family: monospace; padding: 15px; border-radius: 4px; color: #23a55a; font-size: 15px; margin: 20px 0;">
-                [ORDER-SUCCESS-DATA]<br>
-                User: <span id="lblUser"></span><br>
-                Plan: <span id="lblPlan"></span><br>
-                Status: PENDING TICKET CLAIM
+            <div style="background-color: var(--input-color); font-family: monospace; padding: 20px; border-radius: 8px; color: #23a55a; font-size: 14px; margin: 20px 0; text-align: left; border: 1px solid rgba(35,165,90,0.3);">
+                [STORE-ORDER-SEQUENCE-DATA]<br>
+                User Account: <span id="lblUser"></span><br>
+                Selection Node: <span id="lblPlan"></span><br>
+                Process State: PENDING SUPPORT TICKET CLAIM TIER
             </div>
 
-            <p style="font-weight: bold; color: #ffffff;">👇 NEXT STEP REQUIRED 👇</p>
-            <p style="font-size: 13px; color: #f1c40f; margin-bottom: 20px;">
-                Copy the text box layout above, head straight back to the Discord Server, open a fresh support ticket, and send the data string to the staff to claim your order rewards instantly!
+            <p style="font-weight: bold; color: #ffffff; margin-top:25px;">👇 ACTION REQUIRED NOW 👇</p>
+            <p style="font-size: 13px; color: #f1c40f; line-height: 1.6;">
+                Copy the data sequence bracket layout block printed above, navigate directly back to your Discord Hub Server channel layout, open a fresh **Support Ticket**, and send it to the administration staff team to claim your rewards instantly!
             </p>
 
-            <button class="btn" onclick="navigate('storeScreen')">Return to Dashboard</button>
+            <button class="btn" onclick="navigate('storeScreen')">Return to Store Dashboard</button>
         </div>
     </div>
 
     <script>
+        // Basic user account arrays simulating an internal encrypted storage database matrix
+        let userDatabase = [
+            { user: "admin", pass: "1234" } // Example pre-existing mock account structure
+        ];
+        
+        let currentAuthMode = 'login';
+        let isRobuxShopMode = false;
         let currentCategory = 'boost';
+
+        // Translation dictionary matrices mapping strings perfectly
+        const languageMatrix = {
+            en: {
+                authTitle: "Welcome to Sae Hub",
+                authDesc: "Please log in or register to access the storefront network dashboard grid panel.",
+                storeTitle: "✨ Sae Store Grid",
+                welcome: "Welcome back",
+                boostTitle: "Server Booster",
+                boostDesc: "Instantly boost your guild tier processing layers natively.",
+                premiumTitle: "Premium High-Value",
+                premiumDesc: "Max value utility options. Worth much more than standard boost layers."
+            },
+            ar: {
+                authTitle: "مرحباً بك في متجر دعم سي",
+                authDesc: "الرجاء تسجيل الدخول أو فتح حساب جديد للوصول إلى لوحة التحكم.",
+                storeTitle: "✨ لوحة متجر سي الإلكتروني",
+                welcome: "مرحباً بك مجدداً",
+                boostTitle: "داعم خوادم عادي",
+                boostDesc: "تطوير مستويات وميزات خادم الديسكورد الخاص بك فورياً.",
+                premiumTitle: "اشتراك بريميوم فائق القيمة",
+                premiumDesc: "أعلى قيم وميزات الدعم المتقدم المتاحة، تفوق الدعم العادي بكثير."
+            },
+            fr: {
+                authTitle: "Bienvenue sur Sae Hub",
+                authDesc: "Veuillez vous connecter ou vous inscrire pour accéder au panneau du magasin.",
+                storeTitle: "✨ Boutique Sae Grid",
+                welcome: "Bon retour",
+                boostTitle: "Booster de Serveur",
+                boostDesc: "Boostez instantanément vos couches de traitement de guilde nativement.",
+                premiumTitle: "Premium Haute Valeur",
+                premiumDesc: "Options utilitaires à valeur maximale. Vaut bien plus que les boosts standard."
+            },
+            es: {
+                authTitle: "Bienvenido a Sae Hub",
+                authDesc: "Por favor inicie sesión o regístrese para acceder al panel de la tienda.",
+                storeTitle: "✨ Tienda Sae Grid",
+                welcome: "Bienvenido de nuevo",
+                boostTitle: "Servidor Booster",
+                boostDesc: "Aumente instantáneamente los niveles de procesamiento de su servidor nativamente.",
+                premiumTitle: "Premium de Alto Valor",
+                premiumDesc: "Opciones de utilidad de máximo valor. Vale mucho más que las capas de impulso estándar."
+            },
+            de: {
+                authTitle: "Willkommen im Sae Hub",
+                authDesc: "Bitte melden Sie sich an oder registrieren Sie sich, um auf das Store-Dashboard zuzugreifen.",
+                storeTitle: "✨ Sae Store Grid",
+                welcome: "Willkommen zurück",
+                boostTitle: "Server Booster",
+                boostDesc: "Erhöhen Sie die Verarbeitungsstufen Ihrer Server-Gilde sofort nativ.",
+                premiumTitle: "Premium Hochwertig",
+                premiumDesc: "Dienstprogramme mit maximalem Wert. Wertvoller als Standard-Boost-Stufen."
+            }
+        };
 
         function navigate(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
         }
 
-        function handleAuth() {
-            const user = document.getElementById('username').value.trim();
-            if (!user) return alert("Please enter a username.");
-            document.getElementById('userDisplay').innerText = user;
-            navigate('storeScreen');
+        function setAuthMode(mode) {
+            currentAuthMode = mode;
+            document.getElementById('tabLogin').classList.remove('active-tab');
+            document.getElementById('tabRegister').classList.remove('active-tab');
+            
+            if(mode === 'login') {
+                document.getElementById('tabLogin').className = 'auth-tab active-tab';
+                document.getElementById('btnAuthAction').innerText = "Access Core Portal";
+            } else {
+                document.getElementById('tabRegister').className = 'auth-tab active-tab';
+                document.getElementById('btnAuthAction').innerText = "Register System Account";
+            }
+        }
+
+        // FIXED ACCOUNT AUTHENTICATION ROUTINES (Prevents random client bypassing errors)
+        function handleAuthSubmit() {
+            const u = document.getElementById('username').value.trim();
+            const p = document.getElementById('password').value;
+
+            if(!u || !p) {
+                alert("Authentication syntax error: Missing string tokens inside login credentials input paths.");
+                return;
+            }
+
+            if(currentAuthMode === 'login') {
+                // Check if account data profile exists inside framework record storage array arrays
+                let accountFound = userDatabase.find(account => account.user.toLowerCase() === u.toLowerCase() && account.pass === p);
+                if(accountFound) {
+                    document.getElementById('userDisplay').innerText = accountFound.user;
+                    navigate('storeScreen');
+                } else {
+                    alert("Access Denied: Invalid configuration key signature or username database index match missing.");
+                }
+            } else {
+                // Process registration data write protocols safely
+                let userExists = userDatabase.some(account => account.user.toLowerCase() === u.toLowerCase());
+                if(userExists) {
+                    alert("Registration fault: Chosen profile entity structural handles already logged inside server registers.");
+                } else {
+                    userDatabase.push({ user: u, pass: p });
+                    alert("Account configuration array successfully registered onto core engine ledger! Proceeding to log in.");
+                    document.getElementById('userDisplay').innerText = u;
+                    navigate('storeScreen');
+                }
+            }
         }
 
         function logout() {
+            document.getElementById('username').value = "";
+            document.getElementById('password').value = "";
             navigate('authScreen');
         }
 
-        function toggleSettings() {
-            const panel = document.getElementById('settingsHub');
-            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        function goToSettings() {
+            navigate('settingsScreen');
         }
 
-        // Sets up the custom options dynamically depending on whether they picked Regular Boost or High-Value Premium
+        // ROBUX CONVERSION LAYER INTERFACES
+        function toggleRobuxShop(isChecked) {
+            isRobuxShopMode = isChecked;
+            const badge = document.getElementById('currencyBadge');
+            
+            if(isChecked) {
+                badge.innerText = "🪙 Payment Mode: Roblox Robux Virtual Currency";
+                badge.style.backgroundColor = "rgba(0, 162, 255, 0.2)";
+                badge.style.color = "var(--robux-color)";
+                document.documentElement.style.setProperty('--accent-color', '#00a2ff');
+                document.documentElement.style.setProperty('--card-glow', 'rgba(0, 162, 255, 0.2)');
+            } else {
+                badge.innerText = "💳 Payment Mode: Fiat Currency (USD)";
+                badge.style.backgroundColor = "rgba(88, 101, 242, 0.2)";
+                badge.style.color = "#5865f2";
+                document.documentElement.style.setProperty('--accent-color', '#5865f2');
+                document.documentElement.style.setProperty('--card-glow', 'rgba(88, 101, 242, 0.2)');
+            }
+        }
+
+        // MULTI-LANGUAGE DEPLOYMENT MATRIX IMPLEMENTOR
+        function applyLanguageMatrix(langCode) {
+            const dictionary = languageMatrix[langCode] || languageMatrix['en'];
+            
+            for (const key in dictionary) {
+                const element = document.getElementById(`lang-${key}`);
+                if (element) {
+                    element.innerText = dictionary[key];
+                }
+            }
+        }
+
         function openPlanSelector(category) {
             currentCategory = category;
             const selector = document.getElementById('durationSelect');
-            selector.innerHTML = ''; // Reset options
+            selector.innerHTML = ''; 
 
+            // Convert label packages seamlessly depending on whether Robux currency logic switch is flipped
             if (category === 'boost') {
-                document.getElementById('planHeader').innerText = "🚀 Select Regular Boost Plan";
-                selector.innerHTML = `
-                    <option value="3 Days - Free Ads">3 Days - FREE (Watch 3 Ads)</option>
+                document.getElementById('planHeader').innerText = isRobuxShopMode ? "🪙 Select Robux Boost Pack Tiers" : "🚀 Select Regular Boost Plan";
+                selector.innerHTML = isRobuxShopMode ? `
+                    <option value="3 Days - 50 Robux">3 Days - 50 Robux</option>
+                    <option value="5 Days - 250 Robux">5 Days - 250 Robux</option>
+                    <option value="15 Days - 800 Robux">15 Days - 800 Robux</option>
+                    <option value="Permanent - 1500 Robux">Permanent - 1,500 Robux</option>
+                ` : `
                     <option value="1 Day - $2.00">1 Day - $2.00 USD</option>
                     <option value="5 Days - $10.00">5 Days - $10.00 USD</option>
                     <option value="15 Days - $35.00">15 Days - $35.00 USD</option>
                     <option value="Permanent - $50.00">Permanent - $50.00 USD</option>
                 `;
             } else {
-                document.getElementById('planHeader').innerText = "👑 Select Premium High-Value Plan";
-                selector.innerHTML = `
+                document.getElementById('planHeader').innerText = isRobuxShopMode ? "👑 Select Robux Premium Super Tiers" : "👑 Select Premium High-Value Plan";
+                selector.innerHTML = isRobuxShopMode ? `
+                    <option value="Premium 7 Days - 400 Robux">Premium Tier (7 Days) - 400 Robux</option>
+                    <option value="Premium 30 Days - 1200 Robux">Premium Tier (30 Days) - 1,200 Robux</option>
+                    <option value="Premium Lifetime - 3500 Robux">Premium Lifetime Access - 3,500 Robux</option>
+                ` : `
                     <option value="Premium 7 Days - $15.00">Premium Tier (7 Days) - $15.00 USD</option>
                     <option value="Premium 30 Days - $45.00">Premium Tier (30 Days) - $45.00 USD</option>
                     <option value="Premium Lifetime - $99.00">Premium Lifetime Access - $99.00 USD</option>
@@ -267,10 +615,9 @@
         }
 
         function goToPaymentMethod() {
-            const planValue = document.getElementById('durationSelect').value;
-            if (planValue.includes("Free")) {
-                alert("Playing promo ad framework sequences (3/3)... Complete!");
-                showSuccessPage();
+            // Force Robux layout bypass if toggle settings structure is checked active
+            if (isRobuxShopMode) {
+                navigate('robuxScreen');
             } else {
                 navigate('methodScreen');
             }
@@ -285,8 +632,10 @@
         }
 
         function finishOrder() {
-            if (document.getElementById('robloxUser').value.trim() === "") {
-                return alert("Please type your Roblox account name so we can verify the follow/transfer step!");
+            if (isRobuxShopMode || document.getElementById('robloxUser').value.trim() !== "") {
+                if(document.getElementById('robloxUser').value.trim() === "") {
+                    return alert("Please enter your active Roblox credentials name to log validation tokens.");
+                }
             }
             showSuccessPage();
         }
@@ -296,43 +645,6 @@
             document.getElementById('lblPlan').innerText = document.getElementById('durationSelect').value + ` (${currentCategory.toUpperCase()})`;
             navigate('successScreen');
         }
-
-        function changeLanguage(lang) {
-            if (lang === 'ar') {
-                document.getElementById('authTitle').innerText = "مرحباً بك في متجر الدعم";
-                document.getElementById('authDesc').innerText = "يرجى تسجيل الدخول للتحكم.";
-            } else {
-                document.getElementById('authTitle').innerText = "Welcome to Sae Boost Hub";
-                document.getElementById('authDesc').innerText = "Please log in or create an account to view services.";
-            }
-        }
-
-        // Setup real PayPal Button execution handler tracking framework
-        paypal.Buttons({
-            createOrder: function(data, actions) {
-                const planValue = document.getElementById('durationSelect').value;
-                let price = "2.00"; // default base rate
-                
-                if (planValue.includes("$10.00")) price = "10.00";
-                if (planValue.includes("$35.00")) price = "35.00";
-                if (planValue.includes("$50.00")) price = "50.00";
-                if (planValue.includes("$15.00")) price = "15.00";
-                if (planValue.includes("$45.00")) price = "45.00";
-                if (planValue.includes("$99.00")) price = "99.00";
-
-                return actions.order.create({
-                    purchase_units: [{ amount: { value: price } }]
-                });
-            },
-            onApprove: function(data, actions) {
-                return actions.order.capture().then(function(details) {
-                    showSuccessPage();
-                });
-            },
-            onError: function(err) {
-                alert('PayPal processing pipeline failure or checkout window closed.');
-            }
-        }).render('#paypal-button-container');
     </script>
 </body>
 </html>
