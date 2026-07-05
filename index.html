@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sae.gen Premium Hybrid Hub Pro</title>
+    <title>Sae.gen Premium Hybrid Hub - Real Peer Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -53,7 +53,6 @@
 
         .app-layout { display: flex; width: 100%; height: 100%; }
 
-        /* SIDEBAR MESSAGES MODULE */
         .channels-sidebar {
             width: 260px; background-color: var(--bg-sidebar);
             display: flex; flex-direction: column; justify-content: space-between;
@@ -79,10 +78,8 @@
         }
         .chan-left-block { display: flex; align-items: center; gap: 10px; }
 
-        /* CENTER VIEW CONTROLLER */
         .center-stage-container { flex: 1; display: flex; flex-direction: column; background-color: var(--bg-chat); }
         
-        /* FRIENDS HUB SUB-INTERFACE */
         .friends-dashboard { display: none; flex: 1; flex-direction: column; }
         .friends-dashboard.active-panel { display: flex; }
         .friends-nav-bar {
@@ -107,7 +104,6 @@
         .friend-card-avatar { width: 38px; height: 38px; border-radius: 50%; background: #111214; }
         .friend-card-actions { display: flex; gap: 8px; }
 
-        /* CONSOLE CHAT VIEW */
         .chat-dashboard { display: none; flex: 1; flex-direction: column; }
         .chat-dashboard.active-panel { display: flex; }
         .chat-header {
@@ -126,20 +122,18 @@
         .chat-input-wrapper { background: #383a40; border-radius: 8px; padding: 14px 16px; display: flex; align-items: center; }
         .chat-input-wrapper input { width: 100%; background: transparent; border: none; color: white; font-family: inherit; font-size: 15px; outline: none; }
 
-        /* LIVE TELEMETRY TELEGRAM NOTIFICATIONS */
         #liveEventAlertToastBox {
             position: fixed; top: 20px; right: 20px; z-index: 1000;
             display: flex; flex-direction: column; gap: 10px; pointer-events: none;
         }
         .live-toast {
             background: rgba(20, 21, 23, 0.95); border-left: 4px solid var(--accent-discord);
-            padding: 14px 20px; border-radius: 6px; box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+            padding: 14px 20px; border-radius: 6px; box-shadow: 0 8px 166px rgba(0,0,0,0.4);
             color: white; font-size: 13px; font-family: 'JetBrains Mono', monospace;
             min-width: 260px; transform: translateX(120%); animation: slideInToast 0.3s forwards;
         }
         @keyframes slideInToast { to { transform: translateX(0); } }
 
-        /* MODALS ARCHITECTURE */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.75); z-index: 500; display: none;
@@ -188,38 +182,36 @@
 </head>
 <body>
 
-    <!-- NOTIFICATION WRAPPER -->
     <div id="liveEventAlertToastBox"></div>
 
-    <!-- PORTAL AUTH NODE -->
+    <!-- SIGN-IN RE-ENGINEERED PORTAL -->
     <div id="authScreen" class="screen active">
         <div class="auth-container">
             <div style="font-size: 40px; margin-bottom:10px;">🛡️</div>
             <h2>Sae.gen Secure Gateway</h2>
-            <p style="color:var(--text-muted); font-size:13px; margin-bottom:20px;">Synchronize your account credentials to connect to the peer network.</p>
+            <p style="color:var(--text-muted); font-size:13px; margin-bottom:20px;">Log into a real peer database profile profile. Creating a new username auto-registers a profile node instantly.</p>
             
-            <input type="text" id="loginUser" placeholder="Account Key Identifier" value="administrator">
-            <input type="password" id="loginPass" placeholder="Security Password Protocol" value="securepassword123">
+            <input type="text" id="loginUser" placeholder="Username Handle" value="administrator">
+            <input type="password" id="loginPass" placeholder="Security Password" value="password123">
             <button class="btn" onclick="processSecureAuth()">Establish Link Node</button>
         </div>
     </div>
 
-    <!-- MAIN APP FLOW LAYOUT -->
+    <!-- APPLICATION GRID -->
     <div id="appScreen" class="screen">
         <div class="app-layout" id="appRootBody">
             
-            <!-- LEFT WORKSPACE NAVIGATION SIDEBAR -->
             <div class="channels-sidebar">
                 <div>
                     <div class="sidebar-header">
                         <div class="sidebar-brand">
-                            <span>🔮 Sae.gen Network Hub</span>
+                            <span>🔮 Sae.gen Real Link</span>
                         </div>
                     </div>
                     
                     <div class="channel-list">
                         <div class="channel-item" id="friendsTabNavItem" onclick="uiNavigateToPanel('friends')">
-                            <div class="chan-left-block"><span>👥</span> <strong>Friends</strong></div>
+                            <div class="chan-left-block"><span>👥</span> <strong>Friends Dashboard</strong></div>
                             <span id="uiFriendsOnlineCounterBadge" style="background:var(--accent-red); color:white; font-size:10px; padding:2px 6px; border-radius:10px; font-weight:bold;">0</span>
                         </div>
                         
@@ -229,18 +221,17 @@
                         <div class="list-section-title">Group Channels</div>
                         <div id="groupActiveListingContainer"></div>
                         <div class="channel-item" style="border: 1px dashed rgba(255,255,255,0.1); justify-content: center;" onclick="openModal('modalCreateGroup')">
-                            <span style="font-size:12px; color:var(--text-normal);">➕ Create Private Group</span>
+                            <span style="font-size:12px; color:var(--text-normal);">➕ Create Real Group Channel</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- BOTTOM STATUS BAR INFO -->
                 <div class="user-status-bar">
                     <div class="user-mini-profile">
-                        <img id="statusBarAvatar" src="image_530324.png" class="msg-avatar" alt="Avatar" onerror="this.src='https://i.imgur.com/6VBx3io.png'">
+                        <img id="statusBarAvatar" src="https://i.imgur.com/6VBx3io.png" class="msg-avatar" alt="Avatar">
                         <div style="overflow:hidden;">
                             <div id="statusBarName" style="font-weight:600; font-size:13px; white-space:nowrap; text-overflow:ellipsis;">User</div>
-                            <div id="statusBarStatus" style="font-size:11px; color:var(--text-muted); white-space:nowrap; text-overflow:ellipsis;">Active Online</div>
+                            <div id="statusBarStatus" style="font-size:11px; color:var(--text-muted); white-space:nowrap; text-overflow:ellipsis;">Active Connection</div>
                         </div>
                     </div>
                     <div style="display:flex; gap:8px;">
@@ -250,33 +241,30 @@
                 </div>
             </div>
 
-            <!-- MAIN CENTER WORKSPACE STAGE -->
             <div class="center-stage-container">
                 
-                <!-- LIVE AUTOMATION DATA TICKER -->
                 <div class="live-ticker-banner">
                     <div class="ticker-wrap">
-                        ⚡ Network Load: Optimal (14.2ms) | Active Peer Nodes: 4,812 | Mining Hashrate: 824 MH/s | Global Chat Relay Active... ⚡ Network Load: Optimal (14.2ms) | Active Peer Nodes: 4,812 | Mining Hashrate: 824 MH/s | Global Chat Relay Active...
+                        ⚡ Network Load: Optimal | Local Storage Sync Engine Active | Real Peer Modules Synchronized Live ⚡
                     </div>
                 </div>
 
-                <!-- PANEL 1: FRIENDS ENGINE PANEL -->
+                <!-- FRIENDS INTERFACE DECK -->
                 <div id="panelFriendsStage" class="friends-dashboard active-panel">
                     <div class="friends-nav-bar">
                         <div style="font-weight:600; color:white; font-size:14px; border-right:1px solid rgba(255,255,255,0.1); padding-right:15px; display:flex; align-items:center; gap:6px;"><span>👥</span> Friends</div>
-                        <div class="friends-tab-btn active-tab" id="tabBtnOnline" onclick="renderFriendsSubTab('online')">Online</div>
-                        <div class="friends-tab-btn" id="tabBtnAll" onclick="renderFriendsSubTab('all')">All Peers</div>
+                        <div class="friends-tab-btn active-tab" id="tabBtnAll" onclick="renderFriendsSubTab('all')">All Registered Peers</div>
                         <div class="friends-tab-btn" id="tabBtnPending" onclick="renderFriendsSubTab('pending')">Pending Requests</div>
-                        <div class="friends-tab-btn" id="tabBtnBlocked" onclick="renderFriendsSubTab('blocked')">Blocked Index</div>
+                        <div class="friends-tab-btn" id="tabBtnBlocked" onclick="renderFriendsSubTab('blocked')">Blocked Directory</div>
                         <div class="friends-tab-btn add-friend-btn" onclick="openModal('modalAddFriendAction')">Add Friend</div>
                     </div>
                     <div class="friends-content-area">
-                        <h3 id="friendsStageSectionTitle" style="margin-top:0; color:white; font-size:16px;">Online Friends</h3>
+                        <h3 id="friendsStageSectionTitle" style="margin-top:0; color:white; font-size:16px;">Active Connections</h3>
                         <div class="friends-list-wrapper" id="friendsDynamicListContainer"></div>
                     </div>
                 </div>
 
-                <!-- PANEL 2: CONSOLE CHAT PLATFORM -->
+                <!-- LIVE CONSOLE CHAT STREAM -->
                 <div id="panelChatStage" class="chat-dashboard">
                     <div class="chat-header">
                         <div style="display:flex; align-items:center; gap:8px; font-weight:600;">
@@ -290,7 +278,7 @@
 
                     <div class="chat-input-area">
                         <div class="chat-input-wrapper">
-                            <input type="text" id="chatInputField" placeholder="Write message package stream..." onkeydown="if(event.key === 'Enter') dispatchChatMessage()">
+                            <input type="text" id="chatInputField" placeholder="Write message packet stream..." onkeydown="if(event.key === 'Enter') dispatchChatMessage()">
                         </div>
                     </div>
                 </div>
@@ -299,33 +287,32 @@
         </div>
     </div>
 
-    <!-- MODAL: ADD FRIEND DISPATCHER -->
+    <!-- MODAL: REQUEST FRIEND RELATIONAL ROUTE -->
     <div id="modalAddFriendAction" class="modal-overlay">
         <div class="modal-card">
-            <h3>Add Peer Node Friend</h3>
-            <p style="color:var(--text-muted); font-size:12px;">Input the network identifier key of the user you want to request connection parameters with.</p>
-            <input type="text" id="addFriendUsernameInput" placeholder="Enter peer identifier user...">
-            <button class="btn" onclick="executeSendFriendRequest()">Dispatch Request Signal</button>
+            <h3>Add Real User Node</h3>
+            <p style="color:var(--text-muted); font-size:12px;">Input the username identifier of another real user configuration inside the storage engine database.</p>
+            <input type="text" id="addFriendUsernameInput" placeholder="Ex: kenza, ss, admin...">
+            <button class="btn" onclick="executeSendFriendRequest()">Dispatch Signal Request</button>
             <button class="btn btn-alt" onclick="closeAllModals()">Cancel</button>
         </div>
     </div>
 
-    <!-- MODAL: FORGE GROUP MESH -->
+    <!-- MODAL: FORGE GROUP ROUTING MESH -->
     <div id="modalCreateGroup" class="modal-overlay">
         <div class="modal-card">
-            <h3>Establish Private Group Mesh</h3>
-            <p style="color:var(--text-muted); font-size:12px;">Spin up an encrypted multi-peer routing route channel.</p>
-            <input type="text" id="newGroupNameInput" placeholder="Enter custom group chat tag...">
+            <h3>Create Real Multi-User Group</h3>
+            <p style="color:var(--text-muted); font-size:12px;">Spin up a multi-user communications frame tracking room.</p>
+            <input type="text" id="newGroupNameInput" placeholder="Group Profile Title Tag...">
             <button class="btn" onclick="executeCreateGroup()">Forge Group Route</button>
             <button class="btn btn-alt" onclick="closeAllModals()">Cancel</button>
         </div>
     </div>
 
-    <!-- MODAL: SYSTEM CONFIGURATION MATRIX (SETTINGS) -->
+    <!-- MODAL: CORE CONFIG MATRIX -->
     <div id="modalConfigPanel" class="modal-overlay">
         <div class="modal-card" style="max-height:85vh; overflow-y:auto;">
             <h2>⚙️ Core Configuration Matrix</h2>
-            <p style="color:var(--text-muted); font-size:12px; margin-top:-10px; margin-bottom:20px;">Fine tune internal display layers, identity handles, and profile metadata variables.</p>
             
             <div style="margin-bottom:15px;">
                 <label style="font-size:13px; font-weight:600; color:white;">Interface Background Skin Core</label>
@@ -336,18 +323,18 @@
             </div>
 
             <div style="margin-bottom:15px;">
-                <label style="font-size:13px; font-weight:600; color:white;">Identity Tag Signature Color (Hex Code)</label>
-                <input type="text" id="configHexNameColor" placeholder="#5865f2 (Nitro Basic/Ultimate Unlock)" value="#ffffff">
+                <label style="font-size:13px; font-weight:600; color:white;">Identity Tag Signature Color (Hex)</label>
+                <input type="text" id="configHexNameColor" placeholder="#5865f2" value="#ffffff">
             </div>
 
             <div style="margin-bottom:15px;">
                 <label style="font-size:13px; font-weight:600; color:white;">Identity Name String</label>
-                <input type="text" id="configProfileNameInput">
+                <input type="text" id="configProfileNameInput" readonly>
             </div>
 
             <div style="margin-bottom:15px;">
                 <label style="font-size:13px; font-weight:600; color:white;">Custom Profile Status Message</label>
-                <input type="text" id="configCustomStatusInput" placeholder="What's on your mind?">
+                <input type="text" id="configCustomStatusInput" placeholder="Set live status summary...">
             </div>
 
             <div style="margin-bottom:15px;">
@@ -355,27 +342,9 @@
                 <input type="text" id="configAvatarUrlInput">
             </div>
 
-            <div style="margin-bottom:15px;">
-                <label style="font-size:13px; font-weight:600; color:white;">Localization Engine</label>
-                <select id="configLangSelect">
-                    <option value="en">English (US Network)</option>
-                    <option value="fr">Français (EU Node)</option>
-                    <option value="jp">日本語 (Asia Node)</option>
-                </select>
-            </div>
-
-            <div style="margin-bottom:15px;">
-                <label style="font-size:13px; font-weight:600; color:white;">Audio Feedback & Notifications</label>
-                <select id="configAudioSelect">
-                    <option value="on">Enabled Ping Relays</option>
-                    <option value="off">Muted Connection Environment</option>
-                </select>
-            </div>
-
-            <!-- ADMIN TELEMETRY REPORT SUB-PANEL -->
             <div id="adminReportNodePanel" style="display:none; background:rgba(242,63,67,0.1); border:1px solid var(--accent-red); padding:15px; border-radius:8px; margin-bottom:15px;">
-                <h4 style="margin:0 0 10px 0; color:var(--accent-red);">🕵️ Admin Incoming Telemetry Reports</h4>
-                <div id="adminReportStreamArea" style="font-size:12px; display:flex; flex-direction:column; gap:8px; font-family:'JetBrains Mono', monospace;">No database infraction logs.</div>
+                <h4 style="margin:0 0 10px 0; color:var(--accent-red);">🕵️ Admin Incoming Infraction Telemetry Reports</h4>
+                <div id="adminReportStreamArea" style="font-size:12px; display:flex; flex-direction:column; gap:8px; font-family:'JetBrains Mono', monospace;">No infraction reports filed.</div>
             </div>
 
             <button class="btn" onclick="saveConfigurationSettings()">Commit Changes To Node</button>
@@ -384,19 +353,19 @@
         </div>
     </div>
 
-    <!-- MODAL: INCIDENT TELEMETRY REPORT INPUT BOX -->
+    <!-- MODAL: INFRACTION INTERFACE FORM -->
     <div id="modalReportInfractionForm" class="modal-overlay">
         <div class="modal-card">
             <h3 style="color:var(--accent-red);">🚨 Structural Infraction Report Dispatch</h3>
-            <p style="color:var(--text-muted); font-size:12px;">You are lodging a network infraction report against user node: <strong id="lblReportTargetNodeUser" style="color:white;">None</strong>.</p>
+            <p style="color:var(--text-muted); font-size:12px;">Filing code protocol violation report against user: <strong id="lblReportTargetNodeUser" style="color:white;">None</strong>.</p>
             <label style="font-size:12px; font-weight:600;">Specify Verification Log Reason</label>
-            <textarea id="txtReportInfractionReason" placeholder="Describe the structural logs violation, toxic framework output, or behavior parameters anomalies..."></textarea>
+            <textarea id="txtReportInfractionReason" placeholder="Describe the reason for reporting this user..."></textarea>
             <button class="btn btn-danger" onclick="executeSubmitReportPayload()">Route Report to Admin Dash</button>
             <button class="btn btn-alt" onclick="closeAllModals()">Abort Transmission</button>
         </div>
     </div>
 
-    <!-- MODAL: MARKET DECK STORE -->
+    <!-- MODAL: MARKETPLACE SYSTEM -->
     <div id="modalShopDeck" class="modal-overlay">
         <div class="modal-card">
             <h2>🛒 Sae.gen Marketplace Exchange</h2>
@@ -408,7 +377,7 @@
                         <strong style="color:var(--boost-pink);">⚡ Nitro Basic (Boost Pack)</strong>
                         <span style="background:rgba(255,115,250,0.2); font-size:11px; padding:3px 6px; border-radius:4px; font-weight:bold; color:var(--boost-pink);">20 Coins</span>
                     </div>
-                    <p style="font-size:12px; color:var(--text-muted); margin:6px 0 0 0;">Basic profile boost! Modifies your entry text identity node with custom name coloring hex values.</p>
+                    <p style="font-size:12px; color:var(--text-muted); margin:6px 0 0 0;">Modifies entry identity node with custom hex profile text names.</p>
                 </div>
 
                 <div class="store-card" onclick="purchasePremiumTier('ultimate')">
@@ -416,65 +385,62 @@
                         <strong style="color:var(--premium-gold);">👑 Nitro Ultimate Core</strong>
                         <span style="background:rgba(241,196,15,0.2); font-size:11px; padding:3px 6px; border-radius:4px; font-weight:bold; color:var(--premium-gold);">50 Coins</span>
                     </div>
-                    <p style="font-size:12px; color:var(--text-muted); margin:6px 0 0 0;">Ultimate deployment! Unlocks animated dynamic full-app scrolling Rainbow background themes.</p>
+                    <p style="font-size:12px; color:var(--text-muted); margin:6px 0 0 0;">Unlocks fully animated dynamic full-app scrolling Rainbow background layout engines.</p>
                 </div>
 
                 <div class="store-card" onclick="claimDailyMiningAllowance()">
                     <div style="font-size:20px; float:left; margin-right:10px;">⛏️</div>
                     <strong>Daily Blockchain Miner</strong>
-                    <p style="font-size:11px; color:var(--text-muted); margin:2px 0 0 0;">Process a transaction cluster block to claim free utility exchange coins instantly.</p>
+                    <p style="font-size:11px; color:var(--text-muted); margin:2px 0 0 0;">Process verification blocks to claim +25 utility coins instantly.</p>
                 </div>
             </div>
-            <button class="btn btn-alt" style="margin-top:15px;" onclick="closeAllModals()">Return To Messaging Layout</button>
+            <button class="btn btn-alt" style="margin-top:15px;" onclick="closeAllModals()">Return To Layout</button>
         </div>
     </div>
 
-    <!-- CORE LOGIC FRAMEWORK SCRIPT -->
+    <!-- JAVASCRIPT REAL PEER HUB PIPELINE ENGINE -->
     <script>
-        // CLIENT LOCAL ACCOUNT DATABASE
-        let globalUsersDB = JSON.parse(localStorage.getItem('sae_v4_users')) || {
-            "administrator": { user: "administrator", pass: "securepassword123", coins: 150, premiumTier: "ultimate", theme: "rainbow", color: "#f1c40f", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "System Admin Core Active" },
-            "kenza": { user: "kenza", pass: "pass123", coins: 100, premiumTier: "none", theme: "dark", color: "#ff7675", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Sleeping..." },
-            "saebot": { user: "SaeBot", pass: "botpass", coins: 9999, premiumTier: "ultimate", theme: "dark", color: "#2ecc71", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Automated Utility Pipeline" },
-            "ss": { user: "ss", pass: "ss123", coins: 200, premiumTier: "basic", theme: "dark", color: "#ff73fa", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Programming bots 💻" }
+        // CLIENT PERSISTENT REAL PEER DATABASE
+        let globalUsersDB = JSON.parse(localStorage.getItem('sae_v5_users')) || {
+            "administrator": { user: "administrator", pass: "password123", coins: 150, premiumTier: "ultimate", theme: "rainbow", color: "#f1c40f", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "System Core Root Admin" },
+            "kenza": { user: "kenza", pass: "password123", coins: 100, premiumTier: "none", theme: "dark", color: "#ff7675", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Sae Hub Connected" },
+            "ss": { user: "ss", pass: "password123", coins: 200, premiumTier: "basic", theme: "dark", color: "#ff73fa", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Writing functional files 🚀" }
         };
 
-        // NETWORK SYSTEM DATABASES
-        let telemetryNetworkReports = JSON.parse(localStorage.getItem('sae_v4_reports')) || [];
-        let networkFriendsRelationshipRegistry = JSON.parse(localStorage.getItem('sae_v4_friends')) || {
-            "administrator": [
-                { user: "kenza", status: "accepted" },
-                { user: "saebot", status: "accepted" },
-                { user: "ss", status: "pending_received" }
-            ]
+        let telemetryNetworkReports = JSON.parse(localStorage.getItem('sae_v5_reports')) || [];
+        
+        let networkFriendsRelationshipRegistry = JSON.parse(localStorage.getItem('sae_v5_friends')) || {
+            "administrator": [{ user: "kenza", status: "accepted" }, { user: "ss", status: "pending_received" }],
+            "kenza": [{ user: "administrator", status: "accepted" }],
+            "ss": [{ user: "administrator", status: "pending_sent" }]
         };
+
+        // SHARED COMPREHENSIVE TEXT PERSISTENCE
+        let chatHistoryEngine = JSON.parse(localStorage.getItem('sae_v5_chathistory')) || {
+            "dm_administrator_kenza": [{ user: "kenza", color: "#ff7675", text: "Hey! This is a completely real peer user message stream.", timestamp: "12:04 PM", avatar: "https://i.imgur.com/6VBx3io.png" }]
+        };
+
+        let chatChannelsRegistry = JSON.parse(localStorage.getItem('sae_v5_channels')) || {
+            "group_global_mesh": { type: "group", name: "🛸 Global Mesh Network", owner: "administrator" }
+        };
+
+        if(!chatHistoryEngine["group_global_mesh"]) {
+            chatHistoryEngine["group_global_mesh"] = [{ user: "System Core", color: "#5865f2", text: "Welcome to the open Global Channel Mesh.", timestamp: "System Init", avatar: "https://i.imgur.com/6VBx3io.png" }];
+        }
 
         let currentActiveUserKey = "administrator";
-        let activePanelType = "friends"; // "friends" or "chat"
-        let activeChatTargetId = "";     // ID string of chat target room
-        let currentFriendsSubTabSelection = "online";
+        let activePanelType = "friends";
+        let activeChatTargetId = "";
+        let currentFriendsSubTabSelection = "all";
         let currentReportTargetUsername = "";
 
-        // CHAT PACKET SYSTEM ARCHITECTURE
-        let chatChannelsRegistry = {
-            "dm_kenza": { type: "dm", name: "Kenza ❤️", peerUser: "kenza" },
-            "dm_saebot": { type: "dm", name: "SaeBot Client", peerUser: "saebot" }
-        };
-
-        let chatHistoryEngine = {
-            "dm_kenza": [{ user: "kenza", color: "#ff7675", text: "Hey! Did you finish updating the layout files yet? 😊", timestamp: "12:04 PM", avatar: "https://i.imgur.com/6VBx3io.png" }],
-            "dm_saebot": [{ user: "SaeBot", color: "#2ecc71", text: "Pipeline connection up. Feed me command strings.", timestamp: "08:15 AM", avatar: "https://i.imgur.com/6VBx3io.png" }]
-        };
-
-        // RUNTIME LIFECYCLE INITIALIZER
         document.addEventListener("DOMContentLoaded", () => {
-            initializeSystemMockDataLoop();
+            saveGlobalDatabaseStates();
             syncUserDisplayBars();
             rebuildNavigationSidebars();
-            renderFriendsSubTab("online");
+            renderFriendsSubTab("all");
         });
 
-        // AUTHENTICATION LOGIC ENGINE
         function processSecureAuth() {
             let u = document.getElementById('loginUser').value.trim().toLowerCase();
             let p = document.getElementById('loginPass').value;
@@ -483,6 +449,7 @@
             
             if(!globalUsersDB[u]) {
                 globalUsersDB[u] = { user: u, pass: p, coins: 100, premiumTier: "none", theme: "dark", color: "#ffffff", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "New Node Linked" };
+                triggerEventToastNotification(`Registered brand new user profile account: ${u.toUpperCase()}`);
             } else if (globalUsersDB[u].pass !== p) {
                 alert("Gatekeeper Error: Authentication payload data mismatch."); return;
             }
@@ -508,7 +475,7 @@
             document.getElementById('authScreen').classList.remove('active');
             document.getElementById('appScreen').classList.add('active');
             
-            triggerEventToastNotification(`System: Account initialized as ${u.toUpperCase()}`);
+            triggerEventToastNotification(`Successfully logged into account node: ${u.toUpperCase()}`);
             
             if(currentActiveUserKey === 'administrator') {
                 document.getElementById('adminReportNodePanel').style.display = 'block';
@@ -519,12 +486,13 @@
         }
 
         function saveGlobalDatabaseStates() {
-            localStorage.setItem('sae_v4_users', JSON.stringify(globalUsersDB));
-            localStorage.setItem('sae_v4_reports', JSON.stringify(telemetryNetworkReports));
-            localStorage.setItem('sae_v4_friends', JSON.stringify(networkFriendsRelationshipRegistry));
+            localStorage.setItem('sae_v5_users', JSON.stringify(globalUsersDB));
+            localStorage.setItem('sae_v5_reports', JSON.stringify(telemetryNetworkReports));
+            localStorage.setItem('sae_v5_friends', JSON.stringify(networkFriendsRelationshipRegistry));
+            localStorage.setItem('sae_v5_chathistory', JSON.stringify(chatHistoryEngine));
+            localStorage.setItem('sae_v5_channels', JSON.stringify(chatChannelsRegistry));
         }
 
-        // VIEW VIEW CONTROL DECK NAVIGATION
         function uiNavigateToPanel(targetPanel) {
             activePanelType = targetPanel;
             document.getElementById('panelFriendsStage').classList.remove('active-panel');
@@ -540,34 +508,24 @@
             }
         }
 
-        // FRIEND REALTIONSHIP DATA PARSING CONTROLLER
-        function getFriendsCollectionByStatus(statusType) {
-            let userRelations = networkFriendsRelationshipRegistry[currentActiveUserKey] || [];
-            return userRelations.filter(item => item.status === statusType);
-        }
-
         function renderFriendsSubTab(tab) {
             currentFriendsSubTabSelection = tab;
             let container = document.getElementById('friendsDynamicListContainer');
             container.innerHTML = '';
             
             document.querySelectorAll('.friends-tab-btn').forEach(b => b.classList.remove('active-tab'));
-            let tabIdMap = { "online": "tabBtnOnline", "all": "tabBtnAll", "pending": "tabBtnPending", "blocked": "tabBtnBlocked" };
+            let tabIdMap = { "all": "tabBtnAll", "pending": "tabBtnPending", "blocked": "tabBtnBlocked" };
             if(tabIdMap[tab]) document.getElementById(tabIdMap[tab]).classList.add('active-tab');
 
             let userRelations = networkFriendsRelationshipRegistry[currentActiveUserKey] || [];
             let outputRowsCount = 0;
 
-            if(tab === 'online' || tab === 'all') {
-                document.getElementById('friendsStageSectionTitle').innerText = tab === 'online' ? "Online Friends" : "All Peers In Core Registry";
+            if(tab === 'all') {
+                document.getElementById('friendsStageSectionTitle').innerText = "Connected Peer Nodes";
                 userRelations.forEach(rel => {
                     if(rel.status !== 'accepted') return;
-                    // 'saebot' and 'kenza' are mapped online for presentation framework layers
-                    let isOnline = (rel.user === 'saebot' || rel.user === 'kenza' || Math.random() > 0.3);
-                    if(tab === 'online' && !isOnline) return;
-
                     outputRowsCount++;
-                    let peerData = globalUsersDB[rel.user] || { user: rel.user, color: "#fff", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Offline node linkage" };
+                    let peerData = globalUsersDB[rel.user] || { user: rel.user, color: "#fff", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Peer connection offline" };
                     
                     let div = document.createElement('div');
                     div.className = 'friend-row-card';
@@ -577,13 +535,12 @@
                             <div>
                                 <div style="font-weight:600; color:white; display:flex; align-items:center; gap:6px;">
                                     <span style="color:${peerData.color}">${peerData.user}</span>
-                                    <span style="font-size:9px; background:rgba(255,255,255,0.1); padding:2px 4px; border-radius:3px; color:var(--text-muted); font-family:'JetBrains Mono';">ONLINE</span>
                                 </div>
                                 <div style="font-size:12px; color:var(--text-muted);">${peerData.customStatus || ''}</div>
                             </div>
                         </div>
                         <div class="friend-card-actions">
-                            <button class="btn btn-sm" onclick="initiateDirectMessageSession('${rel.user}')">💬 DM</button>
+                            <button class="btn btn-sm" onclick="initiateDirectMessageSession('${rel.user}')">💬 Msg</button>
                             <button class="btn btn-sm btn-alt" onclick="openReportInfractionForm('${rel.user}')">🚨 Report</button>
                             <button class="btn btn-sm btn-danger" onclick="executeAlterFriendStatus('${rel.user}', 'blocked')">🚫 Block</button>
                         </div>
@@ -591,7 +548,7 @@
                     container.appendChild(div);
                 });
             } else if (tab === 'pending') {
-                document.getElementById('friendsStageSectionTitle').innerText = "Pending Network Operations Requests";
+                document.getElementById('friendsStageSectionTitle').innerText = "Pending Validation Relays";
                 userRelations.forEach(rel => {
                     if(rel.status !== 'pending_received' && rel.status !== 'pending_sent') return;
                     outputRowsCount++;
@@ -602,18 +559,18 @@
                             <div class="friend-card-avatar" style="background:#5865f2; display:flex; align-items:center; justify-content:center; font-size:18px;">📥</div>
                             <div>
                                 <div style="font-weight:600; color:white;">${rel.user}</div>
-                                <div style="font-size:11px; color:var(--text-muted); font-family:'JetBrains Mono';">${rel.status === 'pending_received' ? 'INCOMING FRIEND SIGNAL LINK' : 'OUTBOUND SYNC SIGNAL SENT'}</div>
+                                <div style="font-size:11px; color:var(--text-muted); font-family:'JetBrains Mono';">${rel.status === 'pending_received' ? 'INCOMING PAIRING REQUEST' : 'OUTBOUND SIGNAL SEARCHING'}</div>
                             </div>
                         </div>
                         <div class="friend-card-actions">
                             ${rel.status === 'pending_received' ? `<button class="btn btn-sm" onclick="executeAlterFriendStatus('${rel.user}', 'accepted')">Accept</button>` : ''}
-                            <button class="btn btn-sm btn-alt" onclick="executeRemoveFriendRelation('${rel.user}')">Cancel</button>
+                            <button class="btn btn-sm btn-alt" onclick="executeRemoveFriendRelation('${rel.user}')">Cancel Link</button>
                         </div>
                     `;
                     container.appendChild(div);
                 });
             } else if (tab === 'blocked') {
-                document.getElementById('friendsStageSectionTitle').innerText = "Blocked Peer Hardware Channels";
+                document.getElementById('friendsStageSectionTitle').innerText = "Blocked Peer Indexes";
                 userRelations.forEach(rel => {
                     if(rel.status !== 'blocked') return;
                     outputRowsCount++;
@@ -625,7 +582,7 @@
                             <div><div style="font-weight:600; color:white;">${rel.user}</div></div>
                         </div>
                         <div class="friend-card-actions">
-                            <button class="btn btn-sm btn-alt" onclick="executeRemoveFriendRelation('${rel.user}')">Unblock/Restore</button>
+                            <button class="btn btn-sm btn-alt" onclick="executeRemoveFriendRelation('${rel.user}')">Unblock</button>
                         </div>
                     `;
                     container.appendChild(div);
@@ -633,23 +590,22 @@
             }
 
             if(outputRowsCount === 0) {
-                container.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:13px; padding:40px 0;">No peer channels matching target filter logs found.</div>`;
+                container.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:13px; padding:40px 0;">No active profile matches found inside this pipeline view tier.</div>`;
             }
             updateFriendsBadgeCounterMetrics();
         }
 
-        // FRIENDS LOGIC MODIFICATIONS ACTIONS
         function executeSendFriendRequest() {
             let target = document.getElementById('addFriendUsernameInput').value.trim().toLowerCase();
-            if(!target || target === currentActiveUserKey) { alert("Invalid user transaction parameter."); return; }
+            if(!target || target === currentActiveUserKey) { alert("Invalid username transaction metric."); return; }
             
-            let userRelations = networkFriendsRelationshipRegistry[currentActiveUserKey] || [];
-            if(userRelations.some(r => r.user === target)) { alert("An active relationship routing link already exists for this target code."); return; }
-
-            // Target user verification validation setup layer
             if(!globalUsersDB[target]) {
-                globalUsersDB[target] = { user: target, pass: "123", coins: 100, premiumTier: "none", theme: "dark", color: "#ffffff", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Simulated peer node link" };
+                alert(`The username identity '${target}' does not exist inside the persistent profile registry database yet! Log into it first to register it.`);
+                return;
             }
+
+            let userRelations = networkFriendsRelationshipRegistry[currentActiveUserKey] || [];
+            if(userRelations.some(r => r.user === target)) { alert("An active routing link relationship exists for this targeted configuration."); return; }
 
             userRelations.push({ user: target, status: "pending_sent" });
             networkFriendsRelationshipRegistry[currentActiveUserKey] = userRelations;
@@ -661,7 +617,7 @@
             closeAllModals();
             document.getElementById('addFriendUsernameInput').value = '';
             renderFriendsSubTab('pending');
-            triggerEventToastNotification(`Dispatched friend sync packet to user: ${target}`);
+            triggerEventToastNotification(`Dispatched outward handshake to: ${target}`);
         }
 
         function executeAlterFriendStatus(targetUser, newStatus) {
@@ -669,7 +625,6 @@
             let rel = userRelations.find(r => r.user === targetUser);
             if(rel) rel.status = newStatus;
             
-            // Sync up corresponding inverse peer channel metrics variables
             let peerRelations = networkFriendsRelationshipRegistry[targetUser] || [];
             let pRel = peerRelations.find(r => r.user === currentActiveUserKey);
             if(pRel) {
@@ -679,7 +634,7 @@
             saveGlobalDatabaseStates();
             renderFriendsSubTab(currentFriendsSubTabSelection);
             rebuildNavigationSidebars();
-            triggerEventToastNotification(`Updated mapping key for ${targetUser} -> ${newStatus.toUpperCase()}`);
+            triggerEventToastNotification(`Mapping state update complete: ${targetUser} -> ${newStatus.toUpperCase()}`);
         }
 
         function executeRemoveFriendRelation(targetUser) {
@@ -689,61 +644,68 @@
             saveGlobalDatabaseStates();
             renderFriendsSubTab(currentFriendsSubTabSelection);
             rebuildNavigationSidebars();
-            triggerEventToastNotification(`Purged structural relationship matrix with ${targetUser}`);
+            triggerEventToastNotification(`Purged link relationship with user element: ${targetUser}`);
         }
 
-        // SIDEBAR LISTING GENERATION LOGIC
         function rebuildNavigationSidebars() {
             let dmContainer = document.getElementById('dmActiveListingContainer');
             let groupContainer = document.getElementById('groupActiveListingContainer');
             dmContainer.innerHTML = '';
             groupContainer.innerHTML = '';
 
-            // Map standard chat items out dynamically
+            // Find all accepted friends to show as real direct messaging channels
+            let userRelations = networkFriendsRelationshipRegistry[currentActiveUserKey] || [];
+            userRelations.forEach(rel => {
+                if(rel.status !== 'accepted') return;
+                
+                // Real, deterministic private key generated dynamically between two exact names alphabetically
+                let sortedArray = [currentActiveUserKey, rel.user].sort();
+                let chId = `dm_${sortedArray[0]}_${sortedArray[1]}`;
+
+                let div = document.createElement('div');
+                div.className = `channel-item ${(activePanelType === 'chat' && activeChatTargetId === chId) ? 'active-channel' : ''}`;
+                div.onclick = () => uiLaunchActiveChatSession(chId, 'dm', rel.user);
+                div.innerHTML = `<div class="chan-left-block"><span>👤</span> <span>${rel.user}</span></div>`;
+                dmContainer.appendChild(div);
+            });
+
+            // Parse group chats
             for(let chId in chatChannelsRegistry) {
+                if(!chId.startsWith('group_')) continue;
                 let chan = chatChannelsRegistry[chId];
                 let div = document.createElement('div');
                 div.className = `channel-item ${(activePanelType === 'chat' && activeChatTargetId === chId) ? 'active-channel' : ''}`;
-                
-                if(chan.type === 'dm') {
-                    div.onclick = () => uiLaunchActiveChatSession(chId);
-                    div.innerHTML = `<div class="chan-left-block"><span>👤</span> <span>${chan.name}</span></div>`;
-                    dmContainer.appendChild(div);
-                } else if (chan.type === 'group') {
-                    div.onclick = () => uiLaunchActiveChatSession(chId);
-                    div.innerHTML = `<div class="chan-left-block"><span>💬</span> <span>${chan.name}</span></div>
-                    <span style="font-size:10px; color:var(--text-muted); font-family:'JetBrains Mono';" onclick="event.stopPropagation(); executeDeleteGroupRoute('${chId}')">❌</span>`;
-                    groupContainer.appendChild(div);
-                }
+                div.onclick = () => uiLaunchActiveChatSession(chId, 'group', chan.name);
+                div.innerHTML = `<div class="chan-left-block"><span>💬</span> <span>${chan.name}</span></div>
+                <span style="font-size:10px; color:var(--text-muted);" onclick="event.stopPropagation(); executeDeleteGroupRoute('${chId}')">❌</span>`;
+                groupContainer.appendChild(div);
             }
             updateFriendsBadgeCounterMetrics();
         }
 
         function initiateDirectMessageSession(peerUsername) {
-            let generatedId = `dm_${peerUsername}`;
-            if(!chatChannelsRegistry[generatedId]) {
-                let peerProfile = globalUsersDB[peerUsername] || { user: peerUsername };
-                chatChannelsRegistry[generatedId] = { type: "dm", name: peerProfile.user, peerUser: peerUsername };
-                chatHistoryEngine[generatedId] = [{ user: "System Wire", color: "#5865f2", text: `Secure private peer link established with ${peerProfile.user}.`, timestamp: "Just Now", avatar: "https://i.imgur.com/6VBx3io.png" }];
-            }
-            uiLaunchActiveChatSession(generatedId);
+            let sortedArray = [currentActiveUserKey, peerUsername].sort();
+            let generatedId = `dm_${sortedArray[0]}_${sortedArray[1]}`;
+            uiLaunchActiveChatSession(generatedId, 'dm', peerUsername);
         }
 
-        function uiLaunchActiveChatSession(chId) {
+        function uiLaunchActiveChatSession(chId, type, targetNameLabel) {
             activeChatTargetId = chId;
-            let chan = chatChannelsRegistry[chId];
-            if(!chan) return;
+            
+            if(!chatHistoryEngine[chId]) {
+                chatHistoryEngine[chId] = [];
+            }
 
-            document.getElementById('activeChatTargetName').innerText = chan.name;
-            document.getElementById('activeChatTargetTypeIcon').innerText = chan.type === 'dm' ? "👤" : "👥";
+            document.getElementById('activeChatTargetName').innerText = targetNameLabel;
+            document.getElementById('activeChatTargetTypeIcon').innerText = type === 'dm' ? "👤" : "👥";
 
             let modBar = document.getElementById('moderationActionPanel');
             modBar.innerHTML = '';
 
-            if(chan.type === 'dm') {
+            if(type === 'dm') {
                 modBar.innerHTML = `
-                    <button class="btn btn-sm btn-alt" onclick="openReportInfractionForm('${chan.peerUser}')">🚨 Report Peer</button>
-                    <button class="btn btn-sm btn-danger" onclick="executeAlterFriendStatus('${chan.peerUser}', 'blocked')">🚫 Block Node</button>
+                    <button class="btn btn-sm btn-alt" onclick="openReportInfractionForm('${targetNameLabel}')">🚨 Report Node</button>
+                    <button class="btn btn-sm btn-danger" onclick="executeAlterFriendStatus('${targetNameLabel}', 'blocked')">🚫 Block User</button>
                 `;
             }
 
@@ -752,7 +714,6 @@
             renderChatMessagePool();
         }
 
-        // CHAT PACKETS BROADCAST INTERFACE ENGINE
         function renderChatMessagePool() {
             let messageBox = document.getElementById('chatMessageFlowStream');
             messageBox.innerHTML = '';
@@ -784,10 +745,12 @@
             let profile = globalUsersDB[currentActiveUserKey];
             
             // Check structural logs validation lock criteria before letting text stream render if it is blocked
-            let activeChan = chatChannelsRegistry[activeChatTargetId];
-            if(activeChan && activeChan.type === 'dm') {
+            if(activeChatTargetId.startsWith('dm_')) {
+                // Parse out the other username
+                let parts = activeChatTargetId.split('_');
+                let peerUser = parts[1] === currentActiveUserKey ? parts[2] : parts[1];
                 let rels = networkFriendsRelationshipRegistry[currentActiveUserKey] || [];
-                let matchRel = rels.find(r => r.user === activeChan.peerUser);
+                let matchRel = rels.find(r => r.user === peerUser);
                 if(matchRel && matchRel.status === 'blocked') {
                     alert("Infraction Constraint Alert: You cannot dispatch stream packets to a blocked user interface.");
                     return;
@@ -804,59 +767,35 @@
                 avatar: profile.avatar || "https://i.imgur.com/6VBx3io.png"
             });
 
-            let trackingTargetRoomId = activeChatTargetId;
             input.value = '';
+            saveGlobalDatabaseStates();
             renderChatMessagePool();
-
-            // AI/Automated Echo response simulator matrix
-            if(activeChan && (activeChan.peerUser === 'saebot' || activeChan.peerUser === 'kenza')) {
-                setTimeout(() => {
-                    let automatedResponses = [
-                        "Data cluster parsing complete. Synchronized status returned code: 200.",
-                        "That sounds intriguing. Let's look further into the source parameters.",
-                        "Transactional node confirmation verified. What's the next task payload?",
-                        "Running diagnostic metrics loop updates. Wait a second..."
-                    ];
-                    let chosenMsg = automatedResponses[Math.floor(Math.random() * automatedResponses.length)];
-                    
-                    if(chatHistoryEngine[trackingTargetRoomId]) {
-                        chatHistoryEngine[trackingTargetRoomId].push({
-                            user: activeChan.peerUser,
-                            color: globalUsersDB[activeChan.peerUser]?.color || '#2ecc71',
-                            text: `[Echo Automata Stream]: ${chosenMsg}`,
-                            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                            avatar: "https://i.imgur.com/6VBx3io.png"
-                        });
-                        if(activeChatTargetId === trackingTargetRoomId) renderChatMessagePool();
-                    }
-                }, 1100);
-            }
         }
 
-        // GROUP ROUTING GENERATION MECHANICS
         function executeCreateGroup() {
             let name = document.getElementById('newGroupNameInput').value.trim();
             if(!name) return;
             let id = 'group_' + Date.now();
 
-            chatChannelsRegistry[id] = { type: "group", name: `🛸 ${name}`, peerUser: "group_router" };
-            chatHistoryEngine[id] = [{ user: "System Core", color: "#f1c40f", text: `Multi-peer frame active route spawned for tag: "${name}".`, timestamp: "System Init", avatar: "https://i.imgur.com/6VBx3io.png" }];
+            chatChannelsRegistry[id] = { type: "group", name: `${name}`, owner: currentActiveUserKey };
+            chatHistoryEngine[id] = [{ user: "System Core", color: "#f1c40f", text: `Multi-peer frame group chat initialized: "${name}".`, timestamp: "System Init", avatar: "https://i.imgur.com/6VBx3io.png" }];
 
             document.getElementById('newGroupNameInput').value = '';
+            saveGlobalDatabaseStates();
             closeAllModals();
-            uiLaunchActiveChatSession(id);
+            uiLaunchActiveChatSession(id, 'group', name);
             triggerEventToastNotification(`Forged group mesh route channel: ${name}`);
         }
 
         function executeDeleteGroupRoute(chId) {
             delete chatChannelsRegistry[chId];
             delete chatHistoryEngine[chId];
+            saveGlobalDatabaseStates();
             if(activeChatTargetId === chId) activeChatTargetId = "";
             uiNavigateToPanel('friends');
             rebuildNavigationSidebars();
         }
 
-        // STRUCTURAL REFORTS SYSTEM CONSOLE MODAL LAUNCHERS
         function openReportInfractionForm(username) {
             currentReportTargetUsername = username;
             document.getElementById('lblReportTargetNodeUser').innerText = username.toUpperCase();
@@ -877,9 +816,9 @@
             };
 
             telemetryNetworkReports.push(payload);
-            localStorage.setItem('sae_v4_reports', JSON.stringify(telemetryNetworkReports));
+            saveGlobalDatabaseStates();
             closeAllModals();
-            alert("Incident Warning Transmitted: Infraction parameters saved to master administrative dashboards.");
+            alert(`Incident Warning Transmitted: Infraction parameter reported logged against user: ${currentReportTargetUsername}`);
             if(currentActiveUserKey === 'administrator') renderAdminTelemetryReports();
         }
 
@@ -887,7 +826,7 @@
             let area = document.getElementById('adminReportStreamArea');
             if(!area) return;
             if(telemetryNetworkReports.length === 0) {
-                area.innerText = "No structural warning alerts logged in database."; return;
+                area.innerText = "No infraction reports filed."; return;
             }
             area.innerHTML = '';
             telemetryNetworkReports.forEach(rep => {
@@ -898,31 +837,24 @@
             });
         }
 
-        // PROFILE SYSTEM AND LOCAL STORAGE COMMIT CONSOLES
         function saveConfigurationSettings() {
             let profile = globalUsersDB[currentActiveUserKey];
-            let targetName = document.getElementById('configProfileNameInput').value.trim().toLowerCase();
             let targetColor = document.getElementById('configHexNameColor').value.trim();
             let targetTheme = document.getElementById('configThemeSelect').value;
             let targetStatus = document.getElementById('configCustomStatusInput').value.trim();
             
-            if(targetName.length < 2) { alert("Identifier tag string required to be longer."); return; }
-
             if(targetColor !== '#ffffff' && profile.premiumTier === 'none') {
-                alert("🔒 Subscription Constraint: Name text hexadecimal tinting overrides require Nitro Basic or higher verification."); return;
+                alert("🔒 Subscription Constraint: Hex color overrides require Nitro Basic or higher verification."); return;
             }
             if(targetTheme === 'rainbow' && profile.premiumTier !== 'ultimate') {
                 alert("🔒 Subscription Constraint: Animated Scrolling Rainbow CSS Engines require Nitro Ultimate tier nodes."); return;
             }
 
-            delete globalUsersDB[currentActiveUserKey];
-            profile.user = targetName;
             profile.color = targetColor;
             profile.theme = targetTheme;
             profile.customStatus = targetStatus;
             profile.avatar = document.getElementById('configAvatarUrlInput').value.trim() || "https://i.imgur.com/6VBx3io.png";
 
-            currentActiveUserKey = targetName;
             globalUsersDB[currentActiveUserKey] = profile;
 
             saveGlobalDatabaseStates();
@@ -949,7 +881,7 @@
                     document.getElementById('statusBarStatus').innerText = profile.customStatus || "⚡ Nitro Basic";
                     document.getElementById('statusBarStatus').style.color = "var(--boost-pink)";
                 } else {
-                    document.getElementById('statusBarStatus').innerText = profile.customStatus || "Active Online Link";
+                    document.getElementById('statusBarStatus').innerText = profile.customStatus || "Active Connection";
                     document.getElementById('statusBarStatus').style.color = "var(--text-muted)";
                 }
             }
@@ -957,11 +889,10 @@
         }
 
         function updateFriendsBadgeCounterMetrics() {
-            let onlineCount = getFriendsCollectionByStatus('accepted').length;
+            let onlineCount = (networkFriendsRelationshipRegistry[currentActiveUserKey] || []).filter(r => r.status === 'accepted').length;
             document.getElementById('uiFriendsOnlineCounterBadge').innerText = onlineCount;
         }
 
-        // STORE COIN MARKET LEDGERS
         function purchasePremiumTier(tier) {
             let profile = globalUsersDB[currentActiveUserKey];
             let cost = tier === 'basic' ? 20 : 50;
@@ -990,7 +921,6 @@
             triggerEventToastNotification("Miner Block Claim Success: Assigned +25 Sae Coins.");
         }
 
-        // TELEMETRY LIVE TOAST DEPLOYMENT LOOPS
         function triggerEventToastNotification(textMessage) {
             let box = document.getElementById('liveEventAlertToastBox');
             let t = document.createElement('div');
@@ -1000,21 +930,6 @@
             setTimeout(() => { t.remove(); }, 4000);
         }
 
-        function initializeSystemMockDataLoop() {
-            setInterval(() => {
-                let logs = [
-                    "Telemetry cluster index cleared.",
-                    "Incoming background traffic node ping response: 18ms.",
-                    "Cryptographic puzzle validation block submitted.",
-                    "Active connections mesh routing reorganized securely."
-                ];
-                if(Math.random() > 0.7) {
-                    triggerEventToastNotification(logs[Math.floor(Math.random() * logs.length)]);
-                }
-            }, 6000);
-        }
-
-        // INTERFACE VISIBILITY HELPERS
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeAllModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
         function applyInterfaceTheme(val) { if(val === 'rainbow' && globalUsersDB[currentActiveUserKey].premiumTier !== 'ultimate') { alert("Locked criteria requirement mismatch."); document.getElementById('configThemeSelect').value = 'dark'; } }
