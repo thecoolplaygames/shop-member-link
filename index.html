@@ -29,6 +29,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            transition: background 0.3s ease;
         }
 
         .screen { display: none; width: 100%; max-width: 900px; padding: 20px; box-sizing: border-box; }
@@ -42,10 +43,27 @@
             text-align: center;
             border: 2px solid var(--neon-border);
             position: relative;
+            transition: all 0.3s ease;
         }
 
         h2 { color: var(--heading-color); font-weight: 700; font-size: 32px; margin-bottom: 10px; margin-top: 0; }
         
+        /* Profile Frame Customizations */
+        .profile-badge-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-align: left;
+        }
+        .user-avatar-frame {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            background: #111214;
+        }
+
         /* Auth Styles */
         .auth-container { max-width: 450px; margin: 0 auto; }
         .auth-tabs {
@@ -71,7 +89,6 @@
         .auth-form { display: none; }
         .auth-form.active-form { display: block; }
 
-        /* FIXED CSS TARGETING: Specifically styles input fields without breaking toggle switches */
         input[type="text"], input[type="password"], select {
             width: 100%;
             padding: 16px;
@@ -110,6 +127,7 @@
         }
         .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
         .btn-alt { background: #3b3e45; color: white; margin-top: 10px; }
+        .btn-premium { background: linear-gradient(90deg, #f1c40f, #f39c12); color: black; font-weight: 700; }
 
         /* Store Header Components */
         .store-header {
@@ -176,7 +194,7 @@
             background: rgba(255,255,255,0.02);
         }
 
-        /* Built-In Price Guide Tables Inside Cards */
+        /* Price Guide Tables */
         .price-sheet {
             margin-top: 15px;
             background: rgba(0,0,0,0.3);
@@ -207,7 +225,17 @@
         input:checked + .slider { background-color: var(--accent-color); }
         input:checked + .slider:before { transform: translateX(24px); }
 
-        /* ADVERTISEMENT MODAL LAYER */
+        /* Premium locked menu styling elements */
+        .premium-lock-box {
+            border: 2px dashed var(--premium-color);
+            background: rgba(241, 196, 15, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        /* AD OVERLAY MODAL WINDOW */
         .ad-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95); z-index: 9999;
@@ -256,9 +284,13 @@
     <div id="storeScreen" class="screen">
         <div class="card">
             <div class="store-header">
-                <div class="header-left">
-                    <h2 id="lang-storeTitle">✨ Sae Store Grid</h2>
-                    <p style="margin:0;"><span id="lang-welcome">Welcome back</span>, <strong id="userDisplay" style="color:var(--accent-color);">User</strong>!</p>
+                <div class="profile-badge-area">
+                    <img id="dashboardAvatar" class="user-avatar-frame" src="https://www.roblox.com/headshot-thumbnail/image?userId=1&width=420&height=420&format=png" alt="User Headshot">
+                    <div>
+                        <h2 id="lang-storeTitle" style="margin:0; font-size:26px;">✨ Sae Store Grid</h2>
+                        <p style="margin:0;"><span id="lang-welcome">Welcome back</span>, <strong id="userDisplay" style="color:var(--accent-color);">User</strong>! <span id="premiumCrown" style="display:none;">👑</span></p>
+                        <div id="customBioDisplay" style="font-size:11px; color:#b5bac1; font-style:italic;">No custom bio status added.</div>
+                    </div>
                 </div>
                 <div class="header-right">
                     <div style="font-size:12px; text-align:right; color:#23a55a;">● Core Sync: ONLINE</div>
@@ -270,6 +302,11 @@
             <div class="stats-row">
                 <span class="currency-indicator" id="currencyBadge" style="background-color: rgba(88, 101, 242, 0.2); color: var(--accent-color);">💳 Mode: USD Store</span>
                 <span class="currency-indicator" style="background-color: rgba(231, 76, 60, 0.2); color: var(--coin-color);">🪙 Sae Wallet: <strong id="coinWalletBalance">0</strong> Coins</span>
+            </div>
+
+            <!-- LIVE ACTION MODULES -->
+            <div id="boosterStatusPanel" style="display:none; background:rgba(88,101,242,0.15); border:1px dashed var(--accent-color); padding:12px; margin-bottom:20px; border-radius:8px; font-size:13px; font-weight:bold; color:white;">
+                🚀 GUILD BOOST CHANNELS FULLY ACTIVE! Next operational reload window in: <span id="boostCooldownTimer" style="color:#f1c40f;">02:00:00</span>
             </div>
 
             <!-- SHOP CARDS WITH PRICING SCHEMES -->
@@ -314,13 +351,13 @@
                     </div>
                 </div>
 
-                <!-- Card 4: Custom Profile Cosmetics Area -->
-                <div class="shop-item" style="border-color: rgba(46, 204, 113, 0.3);" onclick="alert('Cosmetic UI system processing sync data strings...')">
-                    <div style="font-size: 50px; margin-bottom: 10px;">🎨</div>
-                    <h3 style="margin:0 0 4px 0; font-size: 22px; color: #2ecc71;">Custom UI Cosmetics</h3>
-                    <p style="margin:0 0 10px 0; font-size: 13px;">Tailor color profiles and custom badges for your hub identity.</p>
-                    <div class="price-sheet">
-                        <div class="price-row"><span>Custom Visual Theme Pack:</span><strong>$5.00 USD / 15 Coins</strong></div>
+                <!-- Card 4: Run Live Engine Boost Execution (2 hour matrix loop) -->
+                <div class="shop-item" style="border-color: rgba(46, 204, 113, 0.3);" onclick="triggerDirectServerBoost()">
+                    <div style="font-size: 50px; margin-bottom: 10px;">⚡</div>
+                    <h3 style="margin:0 0 4px 0; font-size: 22px; color: #2ecc71;">Run Micro Boost Script</h3>
+                    <p style="margin:0 0 10px 0; font-size: 13px;">Fire temporary server signal vectors. Can be run once every 2 hours directly.</p>
+                    <div style="background: rgba(46,204,113,0.15); padding: 6px; border-radius: 6px; font-size: 12px; font-weight: bold; color: #2ecc71;">
+                        ⚡ Cost: FREE for active account nodes
                     </div>
                 </div>
 
@@ -359,28 +396,49 @@
                     </select>
                 </div>
 
+                <!-- PREMIUM CUSTOM CONTROLS AREA -->
+                <div id="premiumMenuContainer" class="premium-lock-box">
+                    <div id="premiumLockedCover" style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:flex; flex-direction:column; justify-content:center; align-items:center; border-radius:10px; z-index:10;">
+                        <span style="font-size:30px;">🔒</span>
+                        <strong style="color:var(--premium-color); margin-top:5px;">Premium Access Matrix Required</strong>
+                        <p style="font-size:11px; color:#b5bac1; margin:4px 0 0 0; text-align:center; padding:0 10px;">Unlock Premium packages inside the shop panel grid to utilize custom theme shaders, account name configurations, and photo changes.</p>
+                    </div>
+
+                    <h3 style="margin:0 0 15px 0; color:var(--premium-color); text-align:left;">👑 Premium Control Grid Command</h3>
+                    
+                    <!-- Color Web theme picker -->
+                    <div style="margin-bottom:15px; text-align:left;">
+                        <label style="font-size:13px; font-weight:bold; display:block; margin-bottom:4px;">🎨 Web Interface Core Theme Skin</label>
+                        <select id="premiumThemeSelect" onchange="changeWebThemeSkin(this.value)" style="margin:0;">
+                            <option value="default">Default Deep Space (Discord Blue)</option>
+                            <option value="purple">Neon Orchid Purple</option>
+                            <option value="crimson">Crimson Blood Vampire</option>
+                            <option value="hacker">Mint Matrix Hacker</option>
+                            <option value="dark">Total Midnight Blackout</option>
+                        </select>
+                    </div>
+
+                    <!-- Change Username Box Anytime -->
+                    <div style="margin-bottom:15px; text-align:left;">
+                        <label style="font-size:13px; font-weight:bold; display:block; margin-bottom:4px;">✏️ Change Account Username (Anytime)</label>
+                        <input type="text" id="premiumUserBox" placeholder="Type new display name key..." style="margin:0; padding:12px;">
+                        <button class="btn" style="padding:10px; font-size:13px; margin-top:6px;" onclick="applyPremiumUsernameChange()">Apply Username Node</button>
+                    </div>
+
+                    <!-- Change Photo Box Anytime -->
+                    <div style="text-align:left;">
+                        <label style="font-size:13px; font-weight:bold; display:block; margin-bottom:4px;">🖼️ Profile Photo Asset URL Link</label>
+                        <input type="text" id="premiumAvatarBox" placeholder="Paste custom image link address here..." style="margin:0; padding:12px;">
+                        <button class="btn" style="padding:10px; font-size:13px; margin-top:6px;" onclick="applyPremiumAvatarLink()">Sync Avatar Image</button>
+                    </div>
+                </div>
+
                 <div class="switch-row">
                     <div>
                         <strong>🕵️ Stealth Browsing Framework</strong>
-                        <div style="font-size:12px; color:#b5bac1;">Hide your profile account status metrics from public server grids.</div>
+                        <div style="font-size:12px; color:#b5bac1;">Hide profile status metrics from public server grids.</div>
                     </div>
                     <label class="switch"><input type="checkbox"><span class="slider"></span></label>
-                </div>
-
-                <div class="switch-row">
-                    <div>
-                        <strong>⚡ Hardware UI Acceleration</strong>
-                        <div style="font-size:12px; color:#b5bac1;">Disables custom heavy layout shadow shaders to boost frame rates.</div>
-                    </div>
-                    <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
-                </div>
-
-                <div class="switch-row">
-                    <div>
-                        <strong>🌈 Neon Cyan Border Glow Matrices</strong>
-                        <div style="font-size:12px; color:#b5bac1;">Switches default layout panel frames into bright RGB canvas strips.</div>
-                    </div>
-                    <label class="switch"><input type="checkbox" checked onchange="toggleBorderGlow(this.checked)"><span class="slider"></span></label>
                 </div>
             </div>
 
@@ -405,7 +463,7 @@
             <h2>Select Payment Method</h2>
             <div id="coinPayOption" class="shop-item" style="text-align:left; margin-bottom:15px; padding:20px; border-color:var(--coin-color);" onclick="startCheckout('coins')">
                 <strong>🪙 Spend Sae Coins From Wallet</strong>
-                <p style="margin:5px 0 0 0; font-size:12px; color:#b5bac1;">Deduct cost directly from your earned coin balance pool.</p>
+                <p style="margin:5px 0 0 0; font-size:12px; color:#b5bac1;">Deduct cost directly from earned wallet balance.</p>
             </div>
             <div class="shop-item" style="text-align:left; margin-bottom:15px; padding:20px;" onclick="startCheckout('paypal')">
                 <strong>💳 PayPal / Trusted Bank Cards</strong>
@@ -474,16 +532,18 @@
     </div>
 
     <script>
-        // FIXED DATABASE: Uses localStorage so data survives page refreshes!
+        // PERSISTENT STORAGE ARRAYS AND DICTIONARIES
         let localUserDatabase = JSON.parse(localStorage.getItem('sae_user_db')) || [
-            { user: "administrator", pass: "securepassword123" }
+            { user: "administrator", pass: "securepassword123", isPremium: false, avatar: "https://www.roblox.com/headshot-thumbnail/image?userId=1&width=420&height=420&format=png", webTheme: "default", bio: "System Admin Node Active." }
         ];
         let saeCoinBalance = parseInt(localStorage.getItem('sae_coin_balance')) || 0;
         let lastBoxOpenTime = parseInt(localStorage.getItem('sae_last_box_time')) || 0; 
+        let lastBoostExecutionTime = parseInt(localStorage.getItem('sae_last_boost_time')) || 0;
         let adCycleIndex = parseInt(localStorage.getItem('sae_ad_cycle')) || 1; 
 
         let isRobuxShopMode = false;
         let currentCategory = 'boost';
+        let loggedInUserIndex = -1;
 
         const languageMatrix = {
             en: {
@@ -504,18 +564,59 @@
             3: { title: "⚽ BLUE LOCK RIVALS MODIFIER", desc: "Grab fresh promotion code logs for Blue Lock Rivals maps. Build the ultimate character lineup before codes expire." }
         };
 
-        // DOM Loader to ensure variables show correctly right away
         document.addEventListener("DOMContentLoaded", () => {
             document.getElementById('coinWalletBalance').innerText = saeCoinBalance;
+            startCooldownIntervalEngine();
         });
 
+        // 2 HOUR LIMITATION BOOST LOOP CALCULATOR
+        function triggerDirectServerBoost() {
+            const now = Date.now();
+            const twoHoursMs = 2 * 60 * 60 * 1000;
+            
+            if (now - lastBoostExecutionTime < twoHoursMs) {
+                let msLeft = twoHoursMs - (now - lastBoostExecutionTime);
+                let hours = Math.floor(msLeft / (1000 * 60 * 60));
+                let minutes = Math.floor((msLeft % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((msLeft % (1000 * 60)) / 1000);
+                alert(`⏳ Booster Core Cooling Down: You can execute this sequence matrix vector again in ${hours}h ${minutes}m ${seconds}s.`);
+                return;
+            }
+
+            lastBoostExecutionTime = now;
+            localStorage.setItem('sae_last_boost_time', lastBoostExecutionTime);
+            
+            document.getElementById('boosterStatusPanel').style.display = 'block';
+            alert("🚀 TRANSMISSION SUCCESS: High frequency boost signals sent successfully! Layout status locked in for 2 hours.");
+        }
+
+        function startCooldownIntervalEngine() {
+            setInterval(() => {
+                const now = Date.now();
+                const twoHoursMs = 2 * 60 * 60 * 1000;
+                
+                if (now - lastBoostExecutionTime < twoHoursMs) {
+                    let msLeft = twoHoursMs - (now - lastBoostExecutionTime);
+                    let hours = String(Math.floor(msLeft / (1000 * 60 * 60))).padStart(2, '0');
+                    let minutes = String(Math.floor((msLeft % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+                    let seconds = String(Math.floor((msLeft % (1000 * 60)) / 1000)).padStart(2, '0');
+                    
+                    document.getElementById('boosterStatusPanel').style.display = 'block';
+                    document.getElementById('boostCooldownTimer').innerText = `${hours}:${minutes}:${seconds}`;
+                } else {
+                    document.getElementById('boosterStatusPanel').style.display = 'none';
+                }
+            }, 1000);
+        }
+
+        // AD OPERATION SYSTEM
         function triggerAdRoutine() {
             const now = Date.now();
             if (now - lastBoxOpenTime < 24 * 60 * 60 * 1000) {
                 let msLeft = (24 * 60 * 60 * 1000) - (now - lastBoxOpenTime);
                 let hoursLeft = Math.floor(msLeft / (1000 * 60 * 60));
                 let minutesLeft = Math.floor((msLeft % (1000 * 60 * 60)) / (1000 * 60));
-                alert(`⚠️ Loot Ledger Locked: You have already claimed your daily box content node! Return in ${hoursLeft}h ${minutesLeft}m.`);
+                alert(`⚠️ Loot Ledger Locked: Box on cooldown! Return in ${hoursLeft}h ${minutesLeft}m.`);
                 return;
             }
 
@@ -546,18 +647,82 @@
             let droppedCoins = Math.floor(Math.random() * 91) + 10;
             saeCoinBalance += droppedCoins;
             lastBoxOpenTime = Date.now();
-
             adCycleIndex = adCycleIndex >= 3 ? 1 : adCycleIndex + 1;
 
-            // Save variables securely to local browser storage memory
             localStorage.setItem('sae_coin_balance', saeCoinBalance);
             localStorage.setItem('sae_last_box_time', lastBoxOpenTime);
             localStorage.setItem('sae_ad_cycle', adCycleIndex);
 
             document.getElementById('coinWalletBalance').innerText = saeCoinBalance;
-            alert(`🎉 BOX OPENED SUCCESSFULLY!\n\nYou watched the sponsor ad layout and received: +${droppedCoins} Sae Coins into your tracking wallet layer!`);
+            alert(`🎉 BOX OPENED SUCCESSFULLY!\n\nYou earned: +${droppedCoins} Sae Coins!`);
         }
 
+        // PREMIUM APP SETTINGS CONTROLLERS
+        function updatePremiumUIProfileLayouts() {
+            if (loggedInUserIndex === -1) return;
+            let user = localUserDatabase[loggedInUserIndex];
+
+            if (user.isPremium) {
+                document.getElementById('premiumLockedCover').style.display = 'none';
+                document.getElementById('premiumCrown').style.display = 'inline';
+            } else {
+                document.getElementById('premiumLockedCover').style.display = 'flex';
+                document.getElementById('premiumCrown').style.display = 'none';
+            }
+
+            document.getElementById('userDisplay').innerText = user.user;
+            document.getElementById('dashboardAvatar').src = user.avatar || "https://www.roblox.com/headshot-thumbnail/image?userId=1&width=420&height=420&format=png";
+            document.getElementById('premiumUserBox').value = user.user;
+            document.getElementById('premiumAvatarBox').value = user.avatar || "";
+            document.getElementById('customBioDisplay').innerText = user.bio || "No custom bio status added.";
+            
+            changeWebThemeSkin(user.webTheme || 'default');
+            document.getElementById('premiumThemeSelect').value = user.webTheme || 'default';
+        }
+
+        function changeWebThemeSkin(themeName) {
+            if (loggedInUserIndex === -1 || !localUserDatabase[loggedInUserIndex].isPremium) return;
+            
+            const roots = {
+                default: { bg: "#1a1c1e", panel: "#24272c", accent: "#5865f2" },
+                purple: { bg: "#120a1c", panel: "#221435", accent: "#9b59b6" },
+                crimson: { bg: "#1a0505", panel: "#2d0d0d", accent: "#c0392b" },
+                hacker: { bg: "#051405", panel: "#0d280d", accent: "#2ecc71" },
+                dark: { bg: "#090a0a", panel: "#111214", accent: "#718096" }
+            };
+
+            let colors = roots[themeName] || roots.default;
+            document.documentElement.style.setProperty('--bg-color', colors.bg);
+            document.documentElement.style.setProperty('--panel-color', colors.panel);
+            document.documentElement.style.setProperty('--accent-color', isRobuxShopMode ? '#00a2ff' : colors.accent);
+            
+            localUserDatabase[loggedInUserIndex].webTheme = themeName;
+            localStorage.setItem('sae_user_db', JSON.stringify(localUserDatabase));
+        }
+
+        function applyPremiumUsernameChange() {
+            if (loggedInUserIndex === -1 || !localUserDatabase[loggedInUserIndex].isPremium) return;
+            let newName = document.getElementById('premiumUserBox').value.trim();
+            if (newName.length < 2) { alert("❌ System Error: Name parameter too short."); return; }
+            
+            localUserDatabase[loggedInUserIndex].user = newName;
+            localStorage.setItem('sae_user_db', JSON.stringify(localUserDatabase));
+            updatePremiumUIProfileLayouts();
+            alert("🎉 Profile Identity String Updated Successfully!");
+        }
+
+        function applyPremiumAvatarLink() {
+            if (loggedInUserIndex === -1 || !localUserDatabase[loggedInUserIndex].isPremium) return;
+            let newURL = document.getElementById('premiumAvatarBox').value.trim();
+            if (newURL.length < 5) { alert("❌ System Error: Image URL asset link is broken."); return; }
+            
+            localUserDatabase[loggedInUserIndex].avatar = newURL;
+            localStorage.setItem('sae_user_db', JSON.stringify(localUserDatabase));
+            updatePremiumUIProfileLayouts();
+            alert("🎉 Profile Frame Asset Synced Successfully!");
+        }
+
+        // CHECKOUT PLATFORMS
         function startCheckout(method) {
             if (method === 'coins') {
                 const selectedOption = document.getElementById('durationSelect').options[document.getElementById('durationSelect').selectedIndex];
@@ -571,7 +736,14 @@
                 saeCoinBalance -= costInCoins;
                 localStorage.setItem('sae_coin_balance', saeCoinBalance);
                 document.getElementById('coinWalletBalance').innerText = saeCoinBalance;
-                alert(`🪙 Purchase Authenticated! Deducted ${costInCoins} Sae Coins from your profile ledger balance mapping seamlessly.`);
+                
+                if (currentCategory === 'premium') {
+                    localUserDatabase[loggedInUserIndex].isPremium = true;
+                    localUserDatabase[loggedInUserIndex].bio = "👑 Premium Core Member";
+                    localStorage.setItem('sae_user_db', JSON.stringify(localUserDatabase));
+                }
+
+                alert(`🪙 Purchase Authenticated! Deducted ${costInCoins} Sae Coins.`);
                 finishOrder();
             } else if (method === 'paypal') {
                 navigate('paypalScreen');
@@ -587,7 +759,7 @@
             let exists = localUserDatabase.some(acc => acc.user.toLowerCase() === u.toLowerCase());
             if (exists) { alert("Account already claimed."); }
             else {
-                localUserDatabase.push({ user: u, pass: p });
+                localUserDatabase.push({ user: u, pass: p, isPremium: false, avatar: "https://www.roblox.com/headshot-thumbnail/image?userId=1&width=420&height=420&format=png", webTheme: "default", bio: "Hobbyist Account Node Active." });
                 localStorage.setItem('sae_user_db', JSON.stringify(localUserDatabase));
                 
                 alert("Account created successfully! Log in now.");
@@ -603,11 +775,13 @@
             const err = document.getElementById('loginError');
             if (u.length < 6 || p.length < 10) { err.style.display = "block"; return; }
             err.style.display = "none";
-            let accountFound = localUserDatabase.find(acc => acc.user.toLowerCase() === u.toLowerCase() && acc.pass === p);
-            if (accountFound) {
-                document.getElementById('userDisplay').innerText = accountFound.user;
+            
+            let index = localUserDatabase.findIndex(acc => acc.user.toLowerCase() === u.toLowerCase() && acc.pass === p);
+            if (index !== -1) {
+                loggedInUserIndex = index;
+                updatePremiumUIProfileLayouts();
                 navigate('storeScreen');
-            } else { alert("Access Denied: Invalid parameters or user key registry not found."); }
+            } else { alert("Access Denied: User key registry not found."); }
         }
 
         function toggleBorderGlow(isChecked) {
@@ -617,6 +791,9 @@
         function navigate(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
+            if(screenId === 'storeScreen' || screenId === 'settingsScreen') {
+                updatePremiumUIProfileLayouts();
+            }
         }
 
         function switchAuthTab(mode) {
@@ -633,7 +810,7 @@
             }
         }
 
-        function logout() { navigate('authScreen'); }
+        function logout() { loggedInUserIndex = -1; navigate('authScreen'); }
 
         function toggleRobuxShop(isChecked) {
             isRobuxShopMode = isChecked;
@@ -647,7 +824,9 @@
                 badge.innerText = "💳 Mode: USD Store";
                 badge.style.backgroundColor = "rgba(88, 101, 242, 0.2)";
                 badge.style.color = "#5865f2";
-                document.documentElement.style.setProperty('--accent-color', '#5865f2');
+                if(loggedInUserIndex !== -1) {
+                    changeWebThemeSkin(localUserDatabase[loggedInUserIndex].webTheme || 'default');
+                }
             }
         }
 
@@ -693,11 +872,26 @@
         }
 
         function goToPaymentMethod() {
-            if (isRobuxShopMode) navigate('robuxScreen');
+            if (isRobuxShopMode) {
+                if (currentCategory === 'premium' && loggedInUserIndex !== -1) {
+                    localUserDatabase[loggedInUserIndex].isPremium = true;
+                    localUserDatabase[loggedInUserIndex].bio = "👑 Premium Core Member";
+                    localStorage.setItem('sae_user_db', JSON.stringify(localUserDatabase));
+                }
+                navigate('robuxScreen');
+            }
             else navigate('methodScreen');
         }
 
         function finishOrder() {
+            if (loggedInUserIndex !== -1 && !isRobuxShopMode) {
+                // If checking out via simulated premium options
+                if (currentCategory === 'premium') {
+                    localUserDatabase[loggedInUserIndex].isPremium = true;
+                    localUserDatabase[loggedInUserIndex].bio = "👑 Premium Core Member";
+                    localStorage.setItem('sae_user_db', JSON.stringify(localUserDatabase));
+                }
+            }
             document.getElementById('lblUser').innerText = document.getElementById('userDisplay').innerText;
             document.getElementById('lblPlan').innerText = document.getElementById('durationSelect').value + ` (${currentCategory.toUpperCase()})`;
             navigate('successScreen');
