@@ -71,6 +71,7 @@
         .auth-form { display: none; }
         .auth-form.active-form { display: block; }
 
+        /* FIXED CSS TARGETING: Specifically styles input fields without breaking toggle switches */
         input[type="text"], input[type="password"], select {
             width: 100%;
             padding: 16px;
@@ -81,6 +82,7 @@
             color: white;
             box-sizing: border-box;
             font-size: 15px;
+            font-family: inherit;
         }
 
         .error-msg {
@@ -149,7 +151,7 @@
             gap: 6px;
         }
 
-        /* Enormous Re-engineered Shop Item Matrix Panels */
+        /* Shop Item Matrix Panels */
         .shop-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -184,7 +186,7 @@
             text-align: left;
         }
         .price-row { display: flex; justify-content: space-between; padding: 4px 6px; border-bottom: 1px solid rgba(255,255,255,0.03); }
-        .price-row:last-child { border-none; }
+        .price-row:last-child { border-bottom: none; }
 
         .settings-grid { display: grid; grid-template-columns: 1fr; gap: 20px; text-align: left; margin-top: 25px; }
         .switch-row {
@@ -205,7 +207,7 @@
         input:checked + .slider { background-color: var(--accent-color); }
         input:checked + .slider:before { transform: translateX(24px); }
 
-        /* ADVERTISEMENT SIMULATOR HUB POPUP MODULES */
+        /* ADVERTISEMENT MODAL LAYER */
         .ad-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95); z-index: 9999;
@@ -237,14 +239,14 @@
             <div id="loginForm" class="auth-form active-form">
                 <input type="text" id="loginUser" placeholder="Enter Username">
                 <input type="password" id="loginPass" placeholder="Enter Password">
-                <div id="loginError" class="error-msg">❌ Requirements broken: Username must be > 6 words, Password must be > 10 words.</div>
+                <div id="loginError" class="error-msg">❌ Requirements broken: Username must be > 6 characters, Password must be > 10 characters.</div>
                 <button class="btn" onclick="processLogin()">Log In Securely</button>
             </div>
 
             <div id="registerForm" class="auth-form">
                 <input type="text" id="regUser" placeholder="Create Username (Min 6 Characters)">
                 <input type="password" id="regPass" placeholder="Create Password (Min 10 Characters)">
-                <div id="regError" class="error-msg">❌ Requirements broken: Username must be > 6 words, Password must be > 10 words.</div>
+                <div id="regError" class="error-msg">❌ Requirements broken: Username must be > 6 characters, Password must be > 10 characters.</div>
                 <button class="btn" onclick="processRegister()">Create Account Node</button>
             </div>
         </div>
@@ -259,7 +261,6 @@
                     <p style="margin:0;"><span id="lang-welcome">Welcome back</span>, <strong id="userDisplay" style="color:var(--accent-color);">User</strong>!</p>
                 </div>
                 <div class="header-right">
-                    <!-- Cool Additions 1 & 2: Network Tracker & Daily Streak Tracker Display -->
                     <div style="font-size:12px; text-align:right; color:#23a55a;">● Core Sync: ONLINE</div>
                     <div style="font-size:12px; text-align:right; color:#f1c40f;">🔥 Streak: <span id="lblStreak">1</span> Day</div>
                     <button class="settings-icon-btn" onclick="navigate('settingsScreen')">⚙️</button>
@@ -268,11 +269,10 @@
             
             <div class="stats-row">
                 <span class="currency-indicator" id="currencyBadge" style="background-color: rgba(88, 101, 242, 0.2); color: var(--accent-color);">💳 Mode: USD Store</span>
-                <!-- Sae Coins wallet display layer -->
                 <span class="currency-indicator" style="background-color: rgba(231, 76, 60, 0.2); color: var(--coin-color);">🪙 Sae Wallet: <strong id="coinWalletBalance">0</strong> Coins</span>
             </div>
 
-            <!-- ENORMOUS COMPREHENSIVE CARD GRID CONSTRUCTIONS -->
+            <!-- SHOP CARDS WITH PRICING SCHEMES -->
             <div class="shop-grid">
                 
                 <!-- Card 1: Server Booster Pack Area -->
@@ -304,7 +304,7 @@
                     </div>
                 </div>
 
-                <!-- Card 3: Reworked Daily Mystery Reward Box (Watch Ad to earn coins) -->
+                <!-- Card 3: Daily Mystery Reward Box -->
                 <div class="shop-item" style="border-color: rgba(155, 89, 182, 0.4);" onclick="triggerAdRoutine()">
                     <div style="font-size: 50px; margin-bottom: 10px;">📦</div>
                     <h3 style="margin:0 0 4px 0; font-size: 22px; color: #9b59b6;">Daily Mystery Reward Box</h3>
@@ -359,7 +359,6 @@
                     </select>
                 </div>
 
-                <!-- Upgrades 3, 4 & 5: Stealth Mode, UI Accelerator, Glow Toggle -->
                 <div class="switch-row">
                     <div>
                         <strong>🕵️ Stealth Browsing Framework</strong>
@@ -456,13 +455,13 @@
             </div>
             <p style="font-weight: bold; color: #ffffff;">👇 ACTION REQUIRED NOW 👇</p>
             <p style="font-size: 13px; color: #f1c40f;">
-                Copy the data block block printed above, navigate directly back to your Discord Hub Server channel layout, open a fresh Support Ticket, and send it to the administration staff team to claim your rewards instantly!
+                Copy the data block printed above, navigate directly back to your Discord Hub Server channel layout, open a fresh Support Ticket, and send it to the administration staff team to claim your rewards instantly!
             </p>
             <button class="btn" onclick="navigate('storeScreen')">Return to Store Dashboard</button>
         </div>
     </div>
 
-    <!-- AD INTERFACE ELEMENTS -->
+    <!-- AD OVERLAY MODAL WINDOW -->
     <div id="adContainer" class="ad-overlay">
         <div class="ad-box">
             <div id="adTimerElement" class="ad-timer">Ad: 5s</div>
@@ -475,14 +474,16 @@
     </div>
 
     <script>
-        let localUserDatabase = [{ user: "administrator", pass: "securepassword123" }];
+        // FIXED DATABASE: Uses localStorage so data survives page refreshes!
+        let localUserDatabase = JSON.parse(localStorage.getItem('sae_user_db')) || [
+            { user: "administrator", pass: "securepassword123" }
+        ];
+        let saeCoinBalance = parseInt(localStorage.getItem('sae_coin_balance')) || 0;
+        let lastBoxOpenTime = parseInt(localStorage.getItem('sae_last_box_time')) || 0; 
+        let adCycleIndex = parseInt(localStorage.getItem('sae_ad_cycle')) || 1; 
+
         let isRobuxShopMode = false;
         let currentCategory = 'boost';
-        
-        // Extended logic metrics values
-        let saeCoinBalance = 0;
-        let lastBoxOpenTime = 0; 
-        let adCycleIndex = 1; 
 
         const languageMatrix = {
             en: {
@@ -497,19 +498,24 @@
             }
         };
 
-        // AD LAYOUT ROTATOR CORE ENGINE
         const adDatabase = {
             1: { title: "🤖 GEMINI AI CORE EXPANSION", desc: "Upgrade your external text scripts using custom Gemini LLM parameters natively. Code smarter, design faster." },
-            2: { title: "👑 ROBLOX PLUS UTILITY NETWORK", desc: "Unlock exclusive server tracking grids and custom asset layers on your newly registered Roblox profiles today!" },
+            2: { title: "👑 ROBLOX PLUS UTILITY NETWORK", desc: "Unlock exclusive server tracking grids and custom asset layers on your registered Roblox profiles today!" },
             3: { title: "⚽ BLUE LOCK RIVALS MODIFIER", desc: "Grab fresh promotion code logs for Blue Lock Rivals maps. Build the ultimate character lineup before codes expire." }
         };
 
+        // DOM Loader to ensure variables show correctly right away
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('coinWalletBalance').innerText = saeCoinBalance;
+        });
+
         function triggerAdRoutine() {
             const now = Date.now();
-            // 24 Hour open verification check block
             if (now - lastBoxOpenTime < 24 * 60 * 60 * 1000) {
-                let hoursLeft = Math.ceil((24 * 60 * 60 * 1000 - (now - lastBoxOpenTime)) / (1000 * 60 * 60));
-                alert(`⚠️ Loot Ledger Locked: You have already claimed your daily box content node! Return in ${hoursLeft} hours.`);
+                let msLeft = (24 * 60 * 60 * 1000) - (now - lastBoxOpenTime);
+                let hoursLeft = Math.floor(msLeft / (1000 * 60 * 60));
+                let minutesLeft = Math.floor((msLeft % (1000 * 60 * 60)) / (1000 * 60));
+                alert(`⚠️ Loot Ledger Locked: You have already claimed your daily box content node! Return in ${hoursLeft}h ${minutesLeft}m.`);
                 return;
             }
 
@@ -537,16 +543,71 @@
         }
 
         function rewardBoxDrop() {
-            // Drop anywhere from 10 to 100 coins randomly
             let droppedCoins = Math.floor(Math.random() * 91) + 10;
             saeCoinBalance += droppedCoins;
             lastBoxOpenTime = Date.now();
 
-            // Cycle ads sequentially (1 -> 2 -> 3 -> 1)
             adCycleIndex = adCycleIndex >= 3 ? 1 : adCycleIndex + 1;
+
+            // Save variables securely to local browser storage memory
+            localStorage.setItem('sae_coin_balance', saeCoinBalance);
+            localStorage.setItem('sae_last_box_time', lastBoxOpenTime);
+            localStorage.setItem('sae_ad_cycle', adCycleIndex);
 
             document.getElementById('coinWalletBalance').innerText = saeCoinBalance;
             alert(`🎉 BOX OPENED SUCCESSFULLY!\n\nYou watched the sponsor ad layout and received: +${droppedCoins} Sae Coins into your tracking wallet layer!`);
+        }
+
+        function startCheckout(method) {
+            if (method === 'coins') {
+                const selectedOption = document.getElementById('durationSelect').options[document.getElementById('durationSelect').selectedIndex];
+                const costInCoins = parseInt(selectedOption.getAttribute('data-coins'));
+
+                if(saeCoinBalance < costInCoins) {
+                    alert(`❌ Insufficient Funds: This tier costs ${costInCoins} Sae Coins. You only have ${saeCoinBalance} in your wallet.`);
+                    return;
+                }
+                
+                saeCoinBalance -= costInCoins;
+                localStorage.setItem('sae_coin_balance', saeCoinBalance);
+                document.getElementById('coinWalletBalance').innerText = saeCoinBalance;
+                alert(`🪙 Purchase Authenticated! Deducted ${costInCoins} Sae Coins from your profile ledger balance mapping seamlessly.`);
+                finishOrder();
+            } else if (method === 'paypal') {
+                navigate('paypalScreen');
+            }
+        }
+
+        function processRegister() {
+            const u = document.getElementById('regUser').value.trim();
+            const p = document.getElementById('regPass').value;
+            const err = document.getElementById('regError');
+            if (u.length < 6 || p.length < 10) { err.style.display = "block"; return; }
+            err.style.display = "none";
+            let exists = localUserDatabase.some(acc => acc.user.toLowerCase() === u.toLowerCase());
+            if (exists) { alert("Account already claimed."); }
+            else {
+                localUserDatabase.push({ user: u, pass: p });
+                localStorage.setItem('sae_user_db', JSON.stringify(localUserDatabase));
+                
+                alert("Account created successfully! Log in now.");
+                switchAuthTab('login');
+                document.getElementById('loginUser').value = u;
+                document.getElementById('loginPass').value = p;
+            }
+        }
+
+        function processLogin() {
+            const u = document.getElementById('loginUser').value.trim();
+            const p = document.getElementById('loginPass').value;
+            const err = document.getElementById('loginError');
+            if (u.length < 6 || p.length < 10) { err.style.display = "block"; return; }
+            err.style.display = "none";
+            let accountFound = localUserDatabase.find(acc => acc.user.toLowerCase() === u.toLowerCase() && acc.pass === p);
+            if (accountFound) {
+                document.getElementById('userDisplay').innerText = accountFound.user;
+                navigate('storeScreen');
+            } else { alert("Access Denied: Invalid parameters or user key registry not found."); }
         }
 
         function toggleBorderGlow(isChecked) {
@@ -569,36 +630,6 @@
             } else {
                 document.getElementById('tabRegisterBtn').classList.add('active-tab');
                 document.getElementById('registerForm').classList.add('active-form');
-            }
-        }
-
-        function processLogin() {
-            const u = document.getElementById('loginUser').value.trim();
-            const p = document.getElementById('loginPass').value;
-            const err = document.getElementById('loginError');
-            if (u.length <= 6 || p.length <= 10) { err.style.display = "block"; return; }
-            err.style.display = "none";
-            let accountFound = localUserDatabase.find(acc => acc.user.toLowerCase() === u.toLowerCase() && acc.pass === p);
-            if (accountFound) {
-                document.getElementById('userDisplay').innerText = accountFound.user;
-                navigate('storeScreen');
-            } else { alert("Access Denied."); }
-        }
-
-        function processRegister() {
-            const u = document.getElementById('regUser').value.trim();
-            const p = document.getElementById('regPass').value;
-            const err = document.getElementById('regError');
-            if (u.length <= 6 || p.length <= 10) { err.style.display = "block"; return; }
-            err.style.display = "none";
-            let exists = localUserDatabase.some(acc => acc.user.toLowerCase() === u.toLowerCase());
-            if (exists) { alert("Account already claimed."); }
-            else {
-                localUserDatabase.push({ user: u, pass: p });
-                alert("Account created! Log in now.");
-                switchAuthTab('login');
-                document.getElementById('loginUser').value = u;
-                document.getElementById('loginPass').value = p;
             }
         }
 
@@ -664,25 +695,6 @@
         function goToPaymentMethod() {
             if (isRobuxShopMode) navigate('robuxScreen');
             else navigate('methodScreen');
-        }
-
-        function startCheckout(method) {
-            if (method === 'coins') {
-                const selectedOption = document.getElementById('durationSelect').options[document.getElementById('durationSelect').selectedIndex];
-                const costInCoins = parseInt(selectedOption.getAttribute('data-coins'));
-
-                if(saeCoinBalance < costInCoins) {
-                    alert(`❌ Insufficient Funds: This tier costs ${costInCoins} Sae Coins. You only have ${saeCoinBalance} in your wallet.`);
-                    return;
-                }
-                
-                saeCoinBalance -= costInCoins;
-                document.getElementById('coinWalletBalance').innerText = saeCoinBalance;
-                alert(`🪙 Purchase Authenticated! Deducted ${costInCoins} Sae Coins from your profile ledger balance mapping seamlessly.`);
-                finishOrder();
-            } else if (method === 'paypal') {
-                navigate('paypalScreen');
-            }
         }
 
         function finishOrder() {
