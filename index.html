@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sae.gen Premium Hybrid Hub - Live Peer Edition</title>
+    <title>thecoolplaygames | Premium Shop Member Link Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -18,20 +18,7 @@
             --text-muted: #949ba4;
             --premium-gold: #f1c40f;
             --boost-pink: #ff73fa;
-            --rainbow-speed: 6s;
             --ambient-blur: rgba(0,0,0,0);
-        }
-
-        @keyframes rainbowGlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .rainbow-theme {
-            background: linear-gradient(-45deg, #1a1c1e, #2b1035, #0d2823, #351010) !important;
-            background-size: 400% 400% !important;
-            animation: rainbowGlow var(--rainbow-speed) ease infinite !important;
         }
 
         body {
@@ -64,11 +51,11 @@
             border-right: 1px solid rgba(0,0,0,0.4); flex-shrink: 0; z-index: 2;
         }
         .sidebar-header {
-            padding: 16px; font-weight: bold; font-size: 15px;
+            padding: 16px; font-weight: bold; font-size: 14px;
             border-bottom: 1px solid rgba(0,0,0,0.2);
             display: flex; justify-content: space-between; align-items: center;
         }
-        .sidebar-brand { display: flex; align-items: center; gap: 8px; font-size: 14px; color: white; }
+        .sidebar-brand { display: flex; align-items: center; gap: 8px; color: white; }
         
         .channel-list { padding: 10px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; flex: 1; }
         .list-section-title { font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; padding: 12px 8px 4px 8px; letter-spacing: 0.5px; }
@@ -102,7 +89,7 @@
         .friends-main-pane { flex: 1; display: flex; flex-direction: column; gap: 10px; }
         .friends-list-wrapper { display: flex; flex-direction: column; gap: 8px; }
         
-        /* DASHBOARD LIVE ADDITION 1: SIDEBAR DASHBOARD MATRIX PANELS */
+        /* DASHBOARD ITEM 1: SIDEBAR WIDGET PANELS */
         .friends-side-activity-pane { width: 280px; display: flex; flex-direction: column; gap: 15px; }
         .dash-widget-box { background: var(--bg-sidebar); border-radius: 8px; padding: 16px; border: 1px solid rgba(255,255,255,0.03); }
         .dash-widget-title { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
@@ -111,7 +98,7 @@
         .activity-pulse-item:last-child { border: none; padding: 0; }
         .pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green); }
 
-        /* DASHBOARD LIVE ADDITION 2: BROADCAST BAR */
+        /* DASHBOARD ITEM 2: QUICK-SHOUT BROADCAST BAR */
         .broadcast-shout-banner { background: #232428; border-radius: 6px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; font-size: 13px; }
         .broadcast-shout-banner input { background: transparent; border: none; color: white; outline: none; flex: 1; font-size: 13px; }
 
@@ -147,18 +134,6 @@
         .chat-input-wrapper { background: #383a40; border-radius: 8px; padding: 14px 16px; display: flex; align-items: center; }
         .chat-input-wrapper input { width: 100%; background: transparent; border: none; color: white; font-family: inherit; font-size: 15px; outline: none; }
 
-        #liveEventAlertToastBox {
-            position: fixed; top: 20px; right: 20px; z-index: 1000;
-            display: flex; flex-direction: column; gap: 10px; pointer-events: none;
-        }
-        .live-toast {
-            background: rgba(20, 21, 23, 0.95); border-left: 4px solid var(--accent-discord);
-            padding: 14px 20px; border-radius: 6px; box-shadow: 0 8px 166px rgba(0,0,0,0.4);
-            color: white; font-size: 13px; font-family: 'JetBrains Mono', monospace;
-            min-width: 260px; transform: translateX(120%); animation: slideInToast 0.3s forwards;
-        }
-        @keyframes slideInToast { to { transform: translateX(0); } }
-
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.75); z-index: 500; display: none;
@@ -175,7 +150,6 @@
             border: 1px solid rgba(0,0,0,0.3); background-color: #1e1f22;
             color: white; box-sizing: border-box; font-family: inherit; outline: none;
         }
-        textarea { height: 80px; resize: none; }
 
         .toggle-row { display: flex; justify-content: space-between; align-items: center; margin: 12px 0; padding: 6px 0; }
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
@@ -198,41 +172,26 @@
         .user-status-bar { background: #232428; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
         .user-mini-profile { display: flex; align-items: center; gap: 8px; overflow: hidden; }
 
-        .store-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
-        .store-card {
-            background: #1e1f22; border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 8px; padding: 16px; cursor: pointer; transition: border 0.2s;
-        }
-        .store-card:hover { border-color: var(--accent-discord); }
-
-        .live-ticker-banner {
-            background: #111214; padding: 6px 12px; font-family: 'JetBrains Mono', monospace;
-            font-size: 11px; color: var(--accent-green); display: flex; gap: 20px; overflow: hidden; white-space: nowrap;
-        }
-        .ticker-wrap { display: inline-block; animation: marqueeScroll 25s linear infinite; }
-        @keyframes marqueeScroll { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
-
+        /* SETTINGS ITEM 4: DYNAMIC CODE OUTFLOW LOGGER VIEWPORT */
         #devDebugPanelBox { display: none; background: #000; border-top: 2px solid var(--accent-discord); padding: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #00ff00; max-height: 100px; overflow-y: auto; }
     </style>
 </head>
 <body>
 
-    <div id="liveEventAlertToastBox"></div>
-
-    <!-- RE-ENGINEERED PORTAL -->
+    <!-- PORTAL ENTRY SCREEN -->
     <div id="authScreen" class="screen active">
         <div class="auth-container">
-            <div style="font-size: 40px; margin-bottom:10px;">🛡️</div>
-            <h2>Sae.gen Secure Gateway</h2>
-            <p style="color:var(--text-muted); font-size:13px; margin-bottom:20px;">Log into a real peer database profile profile. Creating a new username auto-registers a profile node instantly.</p>
+            <div style="font-size: 40px; margin-bottom:10px;">🔑</div>
+            <h2>Shop Member Gate</h2>
+            <p style="color:var(--text-muted); font-size:13px; margin-bottom:20px;">Provide user username node handle profile configuration.</p>
             
-            <input type="text" id="loginUser" placeholder="Username Handle" value="administrator">
+            <input type="text" id="loginUser" placeholder="Username Handle" value="thecoolplaygames">
             <input type="password" id="loginPass" placeholder="Security Password" value="password123">
-            <button class="btn" onclick="processSecureAuth()">Establish Link Node</button>
+            <button class="btn" onclick="processSecureAuth()">Establish Member Node Link</button>
         </div>
     </div>
 
-    <!-- APPLICATION GRID -->
+    <!-- MAIN INTERFACE APPLICATION FRAME -->
     <div id="appScreen" class="screen">
         <div class="app-layout" id="appRootBody">
             
@@ -240,23 +199,23 @@
                 <div>
                     <div class="sidebar-header">
                         <div class="sidebar-brand">
-                            <span>🔮 Sae.gen Real Link</span>
+                            <span>🛒 shop-member-link</span>
                         </div>
                     </div>
                     
                     <div class="channel-list">
                         <div class="channel-item" id="friendsTabNavItem" onclick="uiNavigateToPanel('friends')">
-                            <div class="chan-left-block"><span>👥</span> <strong>Friends Dashboard</strong></div>
+                            <div class="chan-left-block"><span>👥</span> <strong>Members Hub</strong></div>
                             <span id="uiFriendsOnlineCounterBadge" style="background:var(--accent-red); color:white; font-size:10px; padding:2px 6px; border-radius:10px; font-weight:bold;">0</span>
                         </div>
                         
-                        <div class="list-section-title">Direct Messages</div>
+                        <div class="list-section-title">Private Relays</div>
                         <div id="dmActiveListingContainer"></div>
 
-                        <div class="list-section-title">Group Channels</div>
+                        <div class="list-section-title">Global Channels</div>
                         <div id="groupActiveListingContainer"></div>
                         <div class="channel-item" style="border: 1px dashed rgba(255,255,255,0.1); justify-content: center;" onclick="openModal('modalCreateGroup')">
-                            <span style="font-size:12px; color:var(--text-normal);">➕ Create Real Group Channel</span>
+                            <span style="font-size:12px; color:var(--text-normal);">➕ Forge Group Channel Frame</span>
                         </div>
                     </div>
                 </div>
@@ -270,59 +229,50 @@
                         </div>
                     </div>
                     <div style="display:flex; gap:8px;">
-                        <button style="background:transparent; border:none; color:white; cursor:pointer; font-size:16px;" onclick="openModal('modalShopDeck')" title="Marketplace Exchange">🛒</button>
                         <button style="background:transparent; border:none; color:white; cursor:pointer; font-size:16px;" onclick="openModal('modalConfigPanel')" title="Settings Matrix">⚙️</button>
                     </div>
                 </div>
             </div>
 
             <div class="center-stage-container">
-                
-                <div class="live-ticker-banner">
-                    <div class="ticker-wrap" id="masterLiveTickerField">
-                        ⚡ Network Load: Optimal | Local Storage Sync Engine Active | Real Peer Modules Synchronized Live ⚡
-                    </div>
-                </div>
 
-                <!-- FRIENDS INTERFACE DECK -->
+                <!-- MEMBERS HUB STAGE INTERFACE -->
                 <div id="panelFriendsStage" class="friends-dashboard active-panel">
                     <div class="friends-nav-bar">
-                        <div style="font-weight:600; color:white; font-size:14px; border-right:1px solid rgba(255,255,255,0.1); padding-right:15px; display:flex; align-items:center; gap:6px;"><span>👥</span> Friends</div>
-                        <div class="friends-tab-btn active-tab" id="tabBtnAll" onclick="renderFriendsSubTab('all')">All Registered Peers</div>
-                        <div class="friends-tab-btn" id="tabBtnPending" onclick="renderFriendsSubTab('pending')">Pending Requests</div>
-                        <div class="friends-tab-btn" id="tabBtnBlocked" onclick="renderFriendsSubTab('blocked')">Blocked Directory</div>
-                        <div class="friends-tab-btn add-friend-btn" onclick="openModal('modalAddFriendAction')">Add Friend</div>
+                        <div style="font-weight:600; color:white; font-size:14px; border-right:1px solid rgba(255,255,255,0.1); padding-right:15px; display:flex; align-items:center; gap:6px;"><span>👥</span> Members</div>
+                        <div class="friends-tab-btn active-tab" id="tabBtnAll" onclick="renderFriendsSubTab('all')">All Member Indexes</div>
+                        <div class="friends-tab-btn" id="tabBtnPending" onclick="renderFriendsSubTab('pending')">Pending Links</div>
+                        <div class="friends-tab-btn add-friend-btn" onclick="openModal('modalAddFriendAction')">Link User Node</div>
                     </div>
                     
                     <div class="friends-content-area">
                         <div class="friends-main-pane">
                             
-                            <!-- DASHBOARD LIVE ADDITION 2: BROADCAST SHOUT BAR -->
+                            <!-- DASHBOARD ITEM 2: INTERACTIVE QUICK-SHOUT BROADCAST BAR -->
                             <div class="broadcast-shout-banner">
                                 <span style="font-size:14px;">📣</span>
-                                <input type="text" id="shoutStatusInput" placeholder="Broadcast a rapid matrix network shout banner... (Press Enter)" onkeydown="if(event.key === 'Enter') dispatchGlobalShoutText()">
+                                <input type="text" id="shoutStatusInput" placeholder="Broadcast a rapid network shout banner... (Press Enter)" onkeydown="if(event.key === 'Enter') dispatchGlobalShoutText()">
                             </div>
 
-                            <h3 id="friendsStageSectionTitle" style="margin:8px 0 0 0; color:white; font-size:15px;">Active Connections</h3>
+                            <h3 id="friendsStageSectionTitle" style="margin:8px 0 0 0; color:white; font-size:15px;">Active Profiles</h3>
                             <div class="friends-list-wrapper" id="friendsDynamicListContainer"></div>
                         </div>
 
-                        <!-- DASHBOARD LIVE ADDITION 1 & 3: ADVANCED SUB-PANELS -->
+                        <!-- DASHBOARD ITEMS 1 & 3: LIVE PULSE TICKER PANEL & STRUCTURAL TELEMETRY -->
                         <div class="friends-side-activity-pane">
                             <div class="dash-widget-box">
-                                <div class="dash-widget-title"><span>🔥</span> Peer Hub Activity Pulse</div>
+                                <div class="dash-widget-title"><span>🔥</span> Member Status Pulse</div>
                                 <div id="liveActivityPulseStack" style="display:flex; flex-direction:column; gap:10px;">
-                                    <div class="activity-pulse-item"><div class="pulse-dot"></div><div><strong>ss</strong> is configuring discord.py bots</div></div>
-                                    <div class="activity-pulse-item"><div class="pulse-dot"></div><div><strong>kenza</strong> is looking at matrix themes</div></div>
+                                    <div class="activity-pulse-item"><div class="pulse-dot"></div><div><strong>thecoolplaygames</strong> looking up configurations</div></div>
+                                    <div class="activity-pulse-item"><div class="pulse-dot"></div><div><strong>administrator</strong> monitoring grid mesh channels</div></div>
                                 </div>
                             </div>
 
                             <div class="dash-widget-box">
-                                <div class="dash-widget-title"><span>📊</span> Telemetry Grid Stats</div>
+                                <div class="dash-widget-title"><span>📊</span> Structural Telemetry</div>
                                 <div style="font-size:12px; font-family:'JetBrains Mono', monospace; display:flex; flex-direction:column; gap:6px;">
                                     <div style="display:flex; justify-content:space-between;"><span>Active Nodes:</span><span style="color:var(--accent-green);" id="statActiveNodes">3 / 3</span></div>
-                                    <div style="display:flex; justify-content:space-between;"><span>Ping Relays:</span><span style="color:var(--premium-gold);" id="statPingRelay">14ms</span></div>
-                                    <div style="display:flex; justify-content:space-between;"><span>DB Buffer Load:</span><span style="color:var(--boost-pink);">0.02%</span></div>
+                                    <div style="display:flex; justify-content:space-between;"><span>Link Ping Relay:</span><span style="color:var(--premium-gold);" id="statPingRelay">12ms</span></div>
                                 </div>
                             </div>
                         </div>
@@ -330,48 +280,45 @@
                     </div>
                 </div>
 
-                <!-- LIVE CONSOLE CHAT STREAM -->
+                <!-- LIVE CONSOLE MESSAGE STREAM PANEL -->
                 <div id="panelChatStage" class="chat-dashboard">
                     <div class="chat-header">
                         <div style="display:flex; align-items:center; gap:8px; font-weight:600;">
                             <span id="activeChatTargetTypeIcon" style="color:var(--text-muted); font-size:16px;">💬</span>
                             <span id="activeChatTargetName" style="color:white;">Select a Connection</span>
                         </div>
-                        <div id="moderationActionPanel" style="display:flex; gap:8px;"></div>
                     </div>
 
                     <div class="chat-messages" id="chatMessageFlowStream"></div>
 
                     <div class="chat-input-area">
                         <div class="chat-input-wrapper">
-                            <input type="text" id="chatInputField" placeholder="Write message packet stream..." onkeydown="if(event.key === 'Enter') dispatchChatMessage()">
+                            <input type="text" id="chatInputField" placeholder="Write message packet stream data..." onkeydown="if(event.key === 'Enter') dispatchChatMessage()">
                         </div>
                     </div>
                 </div>
 
-                <!-- SETTINGS LIVE ADDITION 4: OPTIONAL DEBUG CONSOLE BOTTOM SLIDER -->
-                <div id="devDebugPanelBox">> Core Thread Process Init Complete. Ready for inputs.</div>
+                <!-- SETTINGS ITEM 4 VIEWPORT FOOTER TARGET -->
+                <div id="devDebugPanelBox">> System Node Frame Initialized. Ready.</div>
 
             </div>
         </div>
     </div>
 
-    <!-- MODAL: REQUEST FRIEND RELATIONAL ROUTE -->
+    <!-- MODAL: ADD FRIEND LINK -->
     <div id="modalAddFriendAction" class="modal-overlay">
         <div class="modal-card">
-            <h3>Add Real User Node</h3>
-            <p style="color:var(--text-muted); font-size:12px;">Input the username identifier of another real user configuration inside the storage engine database.</p>
-            <input type="text" id="addFriendUsernameInput" placeholder="Ex: kenza, ss, admin...">
-            <button class="btn" onclick="executeSendFriendRequest()">Dispatch Signal Request</button>
+            <h3>Link New Member Profile</h3>
+            <input type="text" id="addFriendUsernameInput" placeholder="Ex: administrator, ss...">
+            <button class="btn" onclick="executeSendFriendRequest()">Dispatch Pairing Signals</button>
             <button class="btn btn-alt" onclick="closeAllModals()">Cancel</button>
         </div>
     </div>
 
-    <!-- MODAL: FORGE GROUP ROUTING MESH -->
+    <!-- MODAL: CREATE FORGE GROUP CHANNELS -->
     <div id="modalCreateGroup" class="modal-overlay">
         <div class="modal-card">
-            <h3>Create Real Multi-User Group</h3>
-            <p style="color:var(--text-muted); font-size:12px;">Spin up a multi-user communications frame tracking room.</p>
+            <h3>Create Group Stream Room</h3>
             <input type="text" id="newGroupNameInput" placeholder="Group Profile Title Tag...">
             <button class="btn" onclick="executeCreateGroup()">Forge Group Route</button>
             <button class="btn btn-alt" onclick="closeAllModals()">Cancel</button>
@@ -382,87 +329,59 @@
     <div id="modalConfigPanel" class="modal-overlay">
         <div class="modal-card" style="max-height:85vh; overflow-y:auto;">
             <h2>⚙️ Core Configuration Matrix</h2>
-            
-            <div style="margin-bottom:15px;">
-                <label style="font-size:13px; font-weight:600; color:white;">Interface Background Skin Core</label>
-                <select id="configThemeSelect" onchange="applyInterfaceTheme(this.value)">
-                    <option value="dark">Standard Charcoal Slate</option>
-                    <option value="rainbow">🌈 Scrolling Rainbow Skin (Requires Nitro Ultimate)</option>
-                </select>
-            </div>
 
-            <!-- SETTINGS LIVE ADDITION 1: BACKGROUND BLUR OVERLAY OPACITY -->
+            <!-- SETTINGS ITEM 1: DYNAMIC CUSTOM AMBIENT BLUR OVERLAY OPACITY SELECT -->
             <div style="margin-bottom:15px;">
-                <label style="font-size:13px; font-weight:600; color:white;">Ambient HUD Vignette Tint Opacity</label>
+                <label style="font-size:13px; font-weight:600; color:white;">Ambient HUD Vignette Tint Opacity Override</label>
                 <select id="configAmbientBlurSelect">
                     <option value="rgba(0,0,0,0)">Clear (None)</option>
                     <option value="rgba(0,0,0,0.3)">Soft Cinematic Fade</option>
-                    <option value="rgba(15,16,18,0.6)">Deep Dark High Contrast</option>
+                    <option value="rgba(15,16,18,0.7)">Deep High Contrast Charcoal Slate</option>
                 </select>
             </div>
 
             <div style="margin-bottom:15px;">
-                <label style="font-size:13px; font-weight:600; color:white;">Identity Tag Signature Color (Hex)</label>
-                <input type="text" id="configHexNameColor" placeholder="#5865f2" value="#ffffff">
-            </div>
-
-            <div style="margin-bottom:15px;">
-                <label style="font-size:13px; font-weight:600; color:white;">Identity Name String</label>
+                <label style="font-size:13px; font-weight:600; color:white;">Node Profile Member Handle String</label>
                 <input type="text" id="configProfileNameInput" readonly>
-            </div>
-
-            <div style="margin-bottom:15px;">
-                <label style="font-size:13px; font-weight:600; color:white;">Custom Profile Status Message</label>
-                <input type="text" id="configCustomStatusInput" placeholder="Set live status summary...">
-            </div>
-
-            <div style="margin-bottom:15px;">
-                <label style="font-size:13px; font-weight:600; color:white;">Avatar Image URL Frame Node</label>
-                <input type="text" id="configAvatarUrlInput">
             </div>
 
             <hr style="border:0; border-top:1px solid rgba(255,255,255,0.08); margin:20px 0;">
             <h4 style="margin:0 0 10px 0; color:white; font-size:14px;">🛠️ Interface Live Matrix Mechanics</h4>
 
-            <!-- SETTINGS LIVE ADDITION 2: AUDIO INTERFACE TOGGLE -->
+            <!-- SETTINGS ITEM 2: AUDIO INTERFACE ACOUSTICS WAVEFORM TOGGLE -->
             <div class="toggle-row">
                 <div>
-                    <div style="font-size:13px; font-weight:600; color:white;">Audio Interface Feedback</div>
-                    <div style="font-size:11px; color:var(--text-muted);">Triggers systemic audio feedback clicks on clicks</div>
+                    <div style="font-size:13px; font-weight:600; color:white;">Audio Interface Acoustic Navigation Feedback</div>
+                    <div style="font-size:11px; color:var(--text-muted);">Triggers audio acoustic wave output on actions</div>
                 </div>
                 <label class="switch"><input type="checkbox" id="toggleAudioFeedback"><span class="slider"></span></label>
             </div>
 
-            <!-- SETTINGS LIVE ADDITION 3: COMPACT MODE SWITCHER -->
+            <!-- SETTINGS ITEM 3: COMPACT / COMFORTABLE CHAT LAYOUT SWITCHER -->
             <div class="toggle-row">
                 <div>
-                    <div style="font-size:13px; font-weight:600; color:white;">Compact Messaging Stream</div>
-                    <div style="font-size:11px; color:var(--text-muted);">Reduces vertical message line gap constraints</div>
+                    <div style="font-size:13px; font-weight:600; color:white;">Compact Message Content Stream Layout</div>
+                    <div style="font-size:11px; color:var(--text-muted);">Reduces vertical message item chat row gap limits</div>
                 </div>
                 <label class="switch"><input type="checkbox" id="toggleCompactChat"><span class="slider"></span></label>
             </div>
 
-            <!-- SETTINGS LIVE ADDITION 4: DEV LOGGER CONTROL -->
+            <!-- SETTINGS ITEM 4: DEVELOPER DEBUG TRANSACTION LOGGER -->
             <div class="toggle-row">
                 <div>
-                    <div style="font-size:13px; font-weight:600; color:white;">Developer Debug Engine Log Console</div>
-                    <div style="font-size:11px; color:var(--text-muted);">Displays systemic client-side storage ledger writes</div>
+                    <div style="font-size:13px; font-weight:600; color:white;">Developer Debug System Log Engine Console</div>
+                    <div style="font-size:11px; color:var(--text-muted);">Displays client storage reads and script thread writes</div>
                 </div>
                 <label class="switch"><input type="checkbox" id="toggleDevDebugPanel"><span class="slider"></span></label>
             </div>
 
-            <!-- SETTINGS LIVE ADDITION 5: ENGINE PERFORMANCE INCREMENTER -->
+            <!-- SETTINGS ITEM 5: REAL-TIME CLIENT PRIORITY ACCELERATION OPTIMIZATION -->
             <div class="toggle-row">
                 <div>
-                    <div style="font-size:13px; font-weight:600; color:white;">Performance Acceleration Optimization</div>
-                    <div style="font-size:11px; color:var(--text-muted);">Maximizes tick refresh arrays for tracking loops</div>
+                    <div style="font-size:13px; font-weight:600; color:white;">Performance Acceleration Optimization Priorities</div>
+                    <div style="font-size:11px; color:var(--text-muted);">Maximizes internal thread loop calculation clock speeds</div>
                 </div>
                 <label class="switch"><input type="checkbox" id="togglePerformanceOptimization" checked><span class="slider"></span></label>
-            </div>
-
-            <div id="adminReportNodePanel" style="display:none; background:rgba(242,63,67,0.1); border:1px solid var(--accent-red); padding:15px; border-radius:8px; margin-bottom:15px;">
-                <h4 style="margin:0 0 10px 0; color:var(--accent-red);">🕵️ Admin Incoming Infraction Telemetry Reports</h4>
-                <div id="adminReportStreamArea" style="font-size:12px; display:flex; flex-direction:column; gap:8px; font-family:'JetBrains Mono', monospace;">No infraction reports filed.</div>
             </div>
 
             <button class="btn" onclick="saveConfigurationSettings()">Commit Changes To Node</button>
@@ -471,91 +390,35 @@
         </div>
     </div>
 
-    <!-- MODAL: INFRACTION INTERFACE FORM -->
-    <div id="modalReportInfractionForm" class="modal-overlay">
-        <div class="modal-card">
-            <h3 style="color:var(--accent-red);">🚨 Structural Infraction Report Dispatch</h3>
-            <p style="color:var(--text-muted); font-size:12px;">Filing code protocol violation report against user: <strong id="lblReportTargetNodeUser" style="color:white;">None</strong>.</p>
-            <label style="font-size:12px; font-weight:600;">Specify Verification Log Reason</label>
-            <textarea id="txtReportInfractionReason" placeholder="Describe the reason for reporting this user..."></textarea>
-            <button class="btn btn-danger" onclick="executeSubmitReportPayload()">Route Report to Admin Dash</button>
-            <button class="btn btn-alt" onclick="closeAllModals()">Abort Transmission</button>
-        </div>
-    </div>
-
-    <!-- MODAL: MARKETPLACE SYSTEM -->
-    <div id="modalShopDeck" class="modal-overlay">
-        <div class="modal-card">
-            <h2>🛒 Sae.gen Marketplace Exchange</h2>
-            <p style="font-size:13px; color:var(--text-muted);">Current Wallet Balance: <strong id="shopCoinsCounter" style="color:var(--premium-gold);">100</strong> Sae Coins</p>
-            
-            <div class="store-grid">
-                <div class="store-card" onclick="purchasePremiumTier('basic')">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <strong style="color:var(--boost-pink);">⚡ Nitro Basic (Boost Pack)</strong>
-                        <span style="background:rgba(255,115,250,0.2); font-size:11px; padding:3px 6px; border-radius:4px; font-weight:bold; color:var(--boost-pink);">20 Coins</span>
-                    </div>
-                    <p style="font-size:12px; color:var(--text-muted); margin:6px 0 0 0;">Modifies entry identity node with custom hex profile text names.</p>
-                </div>
-
-                <div class="store-card" onclick="purchasePremiumTier('ultimate')">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <strong style="color:var(--premium-gold);">👑 Nitro Ultimate Core</strong>
-                        <span style="background:rgba(241,196,15,0.2); font-size:11px; padding:3px 6px; border-radius:4px; font-weight:bold; color:var(--premium-gold);">50 Coins</span>
-                    </div>
-                    <p style="font-size:12px; color:var(--text-muted); margin:6px 0 0 0;">Unlocks fully animated dynamic full-app scrolling Rainbow background layout engines.</p>
-                </div>
-
-                <div class="store-card" onclick="claimDailyMiningAllowance()">
-                    <div style="font-size:20px; float:left; margin-right:10px;">⛏️</div>
-                    <strong>Daily Blockchain Miner</strong>
-                    <p style="font-size:11px; color:var(--text-muted); margin:2px 0 0 0;">Process verification blocks to claim +25 utility coins instantly.</p>
-                </div>
-            </div>
-            <button class="btn btn-alt" style="margin-top:15px;" onclick="closeAllModals()">Return To Layout</button>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT REAL PEER HUB PIPELINE ENGINE -->
     <script>
-        // CLIENT PERSISTENT DATABASE LOCKS
         let globalUsersDB = JSON.parse(localStorage.getItem('sae_v5_users')) || {
-            "administrator": { user: "administrator", pass: "password123", coins: 150, premiumTier: "ultimate", theme: "rainbow", color: "#f1c40f", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "System Core Root Admin" },
-            "kenza": { user: "kenza", pass: "password123", coins: 100, premiumTier: "none", theme: "dark", color: "#ff7675", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Sae Hub Connected" },
-            "ss": { user: "ss", pass: "password123", coins: 200, premiumTier: "basic", theme: "dark", color: "#ff73fa", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Writing functional files 🚀" }
+            "administrator": { user: "administrator", pass: "password123", color: "#f1c40f", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Global Admin Engine" },
+            "thecoolplaygames": { user: "thecoolplaygames", pass: "password123", color: "#ff7675", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Deploying repository structures" },
+            "ss": { user: "ss", pass: "password123", color: "#ff73fa", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Programming background elements" }
         };
-
-        let telemetryNetworkReports = JSON.parse(localStorage.getItem('sae_v5_reports')) || [];
         
         let networkFriendsRelationshipRegistry = JSON.parse(localStorage.getItem('sae_v5_friends')) || {
-            "administrator": [{ user: "kenza", status: "accepted" }, { user: "ss", status: "pending_received" }],
-            "kenza": [{ user: "administrator", status: "accepted" }],
-            "ss": [{ user: "administrator", status: "pending_sent" }]
+            "thecoolplaygames": [{ user: "administrator", status: "accepted" }, { user: "ss", status: "pending_received" }],
+            "administrator": [{ user: "thecoolplaygames", status: "accepted" }],
+            "ss": [{ user: "thecoolplaygames", status: "pending_sent" }]
         };
 
         let chatHistoryEngine = JSON.parse(localStorage.getItem('sae_v5_chathistory')) || {
-            "dm_administrator_kenza": [{ user: "kenza", color: "#ff7675", text: "Hey! This is a completely real peer user message stream.", timestamp: "12:04 PM", avatar: "https://i.imgur.com/6VBx3io.png" }]
+            "dm_administrator_thecoolplaygames": [{ user: "administrator", color: "#f1c40f", text: "Link node framework verified online successfully.", timestamp: "12:00 PM", avatar: "https://i.imgur.com/6VBx3io.png" }]
         };
 
         let chatChannelsRegistry = JSON.parse(localStorage.getItem('sae_v5_channels')) || {
-            "group_global_mesh": { type: "group", name: "🛸 Global Mesh Network", owner: "administrator" }
+            "group_global_mesh": { type: "group", name: "🛸 Verification Room Mesh", owner: "administrator" }
         };
 
         if(!chatHistoryEngine["group_global_mesh"]) {
-            chatHistoryEngine["group_global_mesh"] = [{ user: "System Core", color: "#5865f2", text: "Welcome to the open Global Channel Mesh.", timestamp: "System Init", avatar: "https://i.imgur.com/6VBx3io.png" }];
+            chatHistoryEngine["group_global_mesh"] = [{ user: "System Core", color: "#5865f2", text: "Welcome to the open channel mesh frame.", timestamp: "Init", avatar: "https://i.imgur.com/6VBx3io.png" }];
         }
 
-        let currentActiveUserKey = "administrator";
+        let currentActiveUserKey = "thecoolplaygames";
         let activePanelType = "friends";
         let activeChatTargetId = "";
         let currentFriendsSubTabSelection = "all";
-        let currentReportTargetUsername = "";
-
-        // Simulated background variations for activity arrays
-        const dynamicStatusPool = [
-            "coding discord.py slash engines", "playing Roblox server threads", 
-            "mining ledger tokens", "inspecting telemetry logs", "resting link state"
-        ];
 
         document.addEventListener("DOMContentLoaded", () => {
             saveGlobalDatabaseStates();
@@ -563,91 +426,58 @@
             rebuildNavigationSidebars();
             renderFriendsSubTab("all");
 
-            // Loop track for alive performance stats simulation
+            // Tick loop for performance simulation updates
             setInterval(() => {
-                let checkOptimize = document.getElementById('togglePerformanceOptimization').checked;
-                let scalePing = checkOptimize ? Math.floor(Math.random() * 8) + 4 : Math.floor(Math.random() * 25) + 12;
-                document.getElementById('statPingRelay').innerText = `${scalePing}ms`;
-                
-                // Roll activity shuffle
-                if(Math.random() > 0.6) {
-                    let users = Object.keys(globalUsersDB).filter(u => u !== currentActiveUserKey);
-                    if(users.length > 0) {
-                        let randU = users[Math.floor(Math.random() * users.length)];
-                        let randS = dynamicStatusPool[Math.floor(Math.random() * dynamicStatusPool.length)];
-                        writeLogOutput(`Activity Matrix Node Push: ${randU} updated activity.`);
-                        updateActivityPulseUI(randU, randS);
-                    }
-                }
+                let optimizeEnabled = document.getElementById('togglePerformanceOptimization').checked;
+                let calculatedPing = optimizeEnabled ? Math.floor(Math.random() * 5) + 5 : Math.floor(Math.random() * 15) + 15;
+                document.getElementById('statPingRelay').innerText = `${calculatedPing}ms`;
             }, 3000);
         });
 
-        function writeLogOutput(str) {
+        function writeLogOutput(messageString) {
             let box = document.getElementById('devDebugPanelBox');
             if(!box) return;
-            box.innerText += `\n> [${new Date().toLocaleTimeString()}] ${str}`;
+            box.innerText += `\n> [${new Date().toLocaleTimeString()}] ${messageString}`;
             box.scrollTop = box.scrollHeight;
-        }
-
-        function updateActivityPulseUI(username, status) {
-            let container = document.getElementById('liveActivityPulseStack');
-            if(!container) return;
-            // Clear existing rows or keep up to 2
-            container.innerHTML = `
-                <div class="activity-pulse-item"><div class="pulse-dot"></div><div><strong>${username}</strong> is ${status}</div></div>
-                <div class="activity-pulse-item"><div class="pulse-dot" style="background:var(--accent-discord); box-shadow:none;"></div><div><strong>System</strong> tracking mesh links...</div></div>
-            `;
         }
 
         function dispatchGlobalShoutText() {
             let input = document.getElementById('shoutStatusInput');
-            let val = input.value.trim();
-            if(!val) return;
+            let content = input.value.trim();
+            if(!content) return;
             triggerAudioTone();
-            document.getElementById('masterLiveTickerField').innerText = `📣 BROADCAST FROM ${currentActiveUserKey.toUpperCase()}: "${val}" | ⚡ Sync Engines Safe`;
-            writeLogOutput(`Global shout pipeline processed: "${val}"`);
+            writeLogOutput(`Global quick-shout stream broadcast text sent: "${content}"`);
             input.value = '';
         }
 
         function triggerAudioTone() {
             if(!document.getElementById('toggleAudioFeedback').checked) return;
             try {
-                let context = new (window.AudioContext || window.webkitAudioContext)();
-                let osc = context.createOscillator();
-                let gain = context.createGain();
-                osc.connect(gain); gain.connect(context.destination);
-                osc.type = 'sine'; osc.frequency.setValueAtTime(580, context.currentTime);
-                gain.gain.setValueAtTime(0.04, context.currentTime);
-                osc.start(); osc.stop(context.currentTime + 0.06);
-            } catch(e){}
+                let ctx = new (window.AudioContext || window.webkitAudioContext)();
+                let osc = ctx.createOscillator();
+                let gain = ctx.createGain();
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.type = 'sine'; osc.frequency.setValueAtTime(550, ctx.currentTime);
+                gain.gain.setValueAtTime(0.02, ctx.currentTime);
+                osc.start(); osc.stop(ctx.currentTime + 0.05);
+            } catch(error){}
         }
 
         function processSecureAuth() {
             let u = document.getElementById('loginUser').value.trim().toLowerCase();
             let p = document.getElementById('loginPass').value;
             
-            if(u.length < 2) { alert("Invalid Handle String length parameter."); return; }
-            
             if(!globalUsersDB[u]) {
-                globalUsersDB[u] = { user: u, pass: p, coins: 100, premiumTier: "none", theme: "dark", color: "#ffffff", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "New Node Linked" };
-                triggerEventToastNotification(`Registered brand new user profile account: ${u.toUpperCase()}`);
+                globalUsersDB[u] = { user: u, pass: p, color: "#ffffff", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Member Hub Connection Online" };
             } else if (globalUsersDB[u].pass !== p) {
-                alert("Gatekeeper Error: Authentication payload data mismatch."); return;
+                alert("Gatekeeper validation check failed."); return;
             }
             
             currentActiveUserKey = u;
-            if(!networkFriendsRelationshipRegistry[currentActiveUserKey]) {
-                networkFriendsRelationshipRegistry[currentActiveUserKey] = [];
-            }
+            if(!networkFriendsRelationshipRegistry[currentActiveUserKey]) networkFriendsRelationshipRegistry[currentActiveUserKey] = [];
             
             saveGlobalDatabaseStates();
-            
-            let profile = globalUsersDB[currentActiveUserKey];
-            document.getElementById('configProfileNameInput').value = profile.user;
-            document.getElementById('configAvatarUrlInput').value = profile.avatar;
-            document.getElementById('configHexNameColor').value = profile.color;
-            document.getElementById('configThemeSelect').value = profile.theme;
-            document.getElementById('configCustomStatusInput').value = profile.customStatus || "";
+            document.getElementById('configProfileNameInput').value = globalUsersDB[currentActiveUserKey].user;
             
             syncUserDisplayBars();
             rebuildNavigationSidebars();
@@ -655,25 +485,14 @@
             
             document.getElementById('authScreen').classList.remove('active');
             document.getElementById('appScreen').classList.add('active');
-            
-            triggerEventToastNotification(`Successfully logged into account node: ${u.toUpperCase()}`);
-            document.getElementById('statActiveNodes').innerText = `${Object.keys(globalUsersDB).length} / ${Object.keys(globalUsersDB).length}`;
-            
-            if(currentActiveUserKey === 'administrator') {
-                document.getElementById('adminReportNodePanel').style.display = 'block';
-                renderAdminTelemetryReports();
-            } else {
-                document.getElementById('adminReportNodePanel').style.display = 'none';
-            }
+            writeLogOutput(`Auth Handshake complete. Connected profile node target: ${u}`);
         }
 
         function saveGlobalDatabaseStates() {
             localStorage.setItem('sae_v5_users', JSON.stringify(globalUsersDB));
-            localStorage.setItem('sae_v5_reports', JSON.stringify(telemetryNetworkReports));
             localStorage.setItem('sae_v5_friends', JSON.stringify(networkFriendsRelationshipRegistry));
             localStorage.setItem('sae_v5_chathistory', JSON.stringify(chatHistoryEngine));
             localStorage.setItem('sae_v5_channels', JSON.stringify(chatChannelsRegistry));
-            writeLogOutput("Database committed to client LocalStorage arrays successfully.");
         }
 
         function uiNavigateToPanel(targetPanel) {
@@ -698,102 +517,61 @@
             container.innerHTML = '';
             
             document.querySelectorAll('.friends-tab-btn').forEach(b => b.classList.remove('active-tab'));
-            let tabIdMap = { "all": "tabBtnAll", "pending": "tabBtnPending", "blocked": "tabBtnBlocked" };
-            if(tabIdMap[tab]) document.getElementById(tabIdMap[tab]).classList.add('active-tab');
+            if(tab === 'all') document.getElementById('tabBtnAll').classList.add('active-tab');
+            if(tab === 'pending') document.getElementById('tabBtnPending').classList.add('active-tab');
 
             let userRelations = networkFriendsRelationshipRegistry[currentActiveUserKey] || [];
-            let outputRowsCount = 0;
 
             if(tab === 'all') {
-                document.getElementById('friendsStageSectionTitle').innerText = "Connected Peer Nodes";
+                document.getElementById('friendsStageSectionTitle').innerText = "Active Profiles In Directory Map";
                 userRelations.forEach(rel => {
                     if(rel.status !== 'accepted') return;
-                    outputRowsCount++;
-                    let peerData = globalUsersDB[rel.user] || { user: rel.user, color: "#fff", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "Peer connection offline" };
-                    
+                    let peer = globalUsersDB[rel.user] || { user: rel.user, color: "#fff", avatar: "https://i.imgur.com/6VBx3io.png", customStatus: "" };
                     let div = document.createElement('div');
                     div.className = 'friend-row-card';
                     div.innerHTML = `
                         <div class="friend-card-meta">
-                            <img class="friend-card-avatar" src="${peerData.avatar}" onerror="this.src='https://i.imgur.com/6VBx3io.png'">
+                            <img class="friend-card-avatar" src="${peer.avatar}">
                             <div>
-                                <div style="font-weight:600; color:white; display:flex; align-items:center; gap:6px;">
-                                    <span style="color:${peerData.color}">${peerData.user}</span>
-                                </div>
-                                <div style="font-size:12px; color:var(--text-muted);">${peerData.customStatus || ''}</div>
+                                <div style="font-weight:600; color:${peer.color}">${peer.user}</div>
+                                <div style="font-size:12px; color:var(--text-muted);">${peer.customStatus || ''}</div>
                             </div>
                         </div>
                         <div class="friend-card-actions">
-                            <button class="btn btn-sm" onclick="initiateDirectMessageSession('${rel.user}')">💬 Msg</button>
-                            <button class="btn btn-sm btn-alt" onclick="openReportInfractionForm('${rel.user}')">🚨 Report</button>
-                            <button class="btn btn-sm btn-danger" onclick="executeAlterFriendStatus('${rel.user}', 'blocked')">🚫 Block</button>
+                            <button class="btn btn-sm" onclick="initiateDirectMessageSession('${rel.user}')">💬 Connect DM</button>
                         </div>
                     `;
                     container.appendChild(div);
                 });
             } else if (tab === 'pending') {
-                document.getElementById('friendsStageSectionTitle').innerText = "Pending Validation Relays";
+                document.getElementById('friendsStageSectionTitle').innerText = "Pending Relationship Signal Links";
                 userRelations.forEach(rel => {
                     if(rel.status !== 'pending_received' && rel.status !== 'pending_sent') return;
-                    outputRowsCount++;
                     let div = document.createElement('div');
                     div.className = 'friend-row-card';
                     div.innerHTML = `
                         <div class="friend-card-meta">
-                            <div class="friend-card-avatar" style="background:#5865f2; display:flex; align-items:center; justify-content:center; font-size:18px;">📥</div>
+                            <div class="friend-card-avatar" style="background:#5865f2; display:flex; align-items:center; justify-content:center;">📥</div>
                             <div>
                                 <div style="font-weight:600; color:white;">${rel.user}</div>
-                                <div style="font-size:11px; color:var(--text-muted); font-family:'JetBrains Mono';">${rel.status === 'pending_received' ? 'INCOMING PAIRING REQUEST' : 'OUTBOUND SIGNAL SEARCHING'}</div>
+                                <div style="font-size:11px; color:var(--text-muted);">${rel.status === 'pending_received' ? 'INBOUND REQUEST' : 'OUTBOUND SYNC'}</div>
                             </div>
                         </div>
                         <div class="friend-card-actions">
-                            ${rel.status === 'pending_received' ? `<button class="btn btn-sm" onclick="executeAlterFriendStatus('${rel.user}', 'accepted')">Accept</button>` : ''}
-                            <button class="btn btn-sm btn-alt" onclick="executeRemoveFriendRelation('${rel.user}')">Cancel Link</button>
+                            ${rel.status === 'pending_received' ? `<button class="btn btn-sm" onclick="executeAlterFriendStatus('${rel.user}', 'accepted')">Accept Link</button>` : ''}
                         </div>
                     `;
                     container.appendChild(div);
                 });
-            } else if (tab === 'blocked') {
-                document.getElementById('friendsStageSectionTitle').innerText = "Blocked Peer Indexes";
-                userRelations.forEach(rel => {
-                    if(rel.status !== 'blocked') return;
-                    outputRowsCount++;
-                    let div = document.createElement('div');
-                    div.className = 'friend-row-card';
-                    div.innerHTML = `
-                        <div class="friend-card-meta">
-                            <div class="friend-card-avatar" style="background:var(--accent-red); display:flex; align-items:center; justify-content:center; font-size:18px;">🚫</div>
-                            <div><div style="font-weight:600; color:white;">${rel.user}</div></div>
-                        </div>
-                        <div class="friend-card-actions">
-                            <button class="btn btn-sm btn-alt" onclick="executeRemoveFriendRelation('${rel.user}')">Unblock</button>
-                        </div>
-                    `;
-                    container.appendChild(div);
-                });
-            }
-
-            if(outputRowsCount === 0) {
-                container.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:13px; padding:40px 0;">No active profile matches found inside this pipeline view tier.</div>`;
             }
             updateFriendsBadgeCounterMetrics();
         }
 
         function executeSendFriendRequest() {
             let target = document.getElementById('addFriendUsernameInput').value.trim().toLowerCase();
-            if(!target || target === currentActiveUserKey) { alert("Invalid username transaction metric."); return; }
+            if(!target || target === currentActiveUserKey || !globalUsersDB[target]) { alert("Invalid client target node pairing data."); return; }
             
-            if(!globalUsersDB[target]) {
-                alert(`The username identity '${target}' does not exist inside the persistent profile database tier! Log into it via another login session first to build it.`);
-                return;
-            }
-
-            let userRelations = networkFriendsRelationshipRegistry[currentActiveUserKey] || [];
-            if(userRelations.some(r => r.user === target)) { alert("An active routing link relationship exists for this targeted configuration."); return; }
-
-            userRelations.push({ user: target, status: "pending_sent" });
-            networkFriendsRelationshipRegistry[currentActiveUserKey] = userRelations;
-
+            networkFriendsRelationshipRegistry[currentActiveUserKey].push({ user: target, status: "pending_sent" });
             if(!networkFriendsRelationshipRegistry[target]) networkFriendsRelationshipRegistry[target] = [];
             networkFriendsRelationshipRegistry[target].push({ user: currentActiveUserKey, status: "pending_received" });
 
@@ -801,48 +579,30 @@
             closeAllModals();
             document.getElementById('addFriendUsernameInput').value = '';
             renderFriendsSubTab('pending');
-            triggerEventToastNotification(`Dispatched outward handshake to: ${target}`);
+            writeLogOutput(`Outbound handshake sent to user cell target: ${target}`);
         }
 
         function executeAlterFriendStatus(targetUser, newStatus) {
-            let userRelations = networkFriendsRelationshipRegistry[currentActiveUserKey] || [];
-            let rel = userRelations.find(r => r.user === targetUser);
+            let rel = networkFriendsRelationshipRegistry[currentActiveUserKey].find(r => r.user === targetUser);
             if(rel) rel.status = newStatus;
             
-            let peerRelations = networkFriendsRelationshipRegistry[targetUser] || [];
-            let pRel = peerRelations.find(r => r.user === currentActiveUserKey);
-            if(pRel) {
-                pRel.status = newStatus === 'accepted' ? 'accepted' : (newStatus === 'blocked' ? 'none' : pRel.status);
-            }
+            let peerRel = (networkFriendsRelationshipRegistry[targetUser] || []).find(r => r.user === currentActiveUserKey);
+            if(peerRel) peerRel.status = newStatus;
 
             saveGlobalDatabaseStates();
             renderFriendsSubTab(currentFriendsSubTabSelection);
             rebuildNavigationSidebars();
-            triggerEventToastNotification(`Mapping state update complete: ${targetUser} -> ${newStatus.toUpperCase()}`);
-        }
-
-        function executeRemoveFriendRelation(targetUser) {
-            networkFriendsRelationshipRegistry[currentActiveUserKey] = (networkFriendsRelationshipRegistry[currentActiveUserKey] || []).filter(r => r.user !== targetUser);
-            networkFriendsRelationshipRegistry[targetUser] = (networkFriendsRelationshipRegistry[targetUser] || []).filter(r => r.user !== currentActiveUserKey);
-            
-            saveGlobalDatabaseStates();
-            renderFriendsSubTab(currentFriendsSubTabSelection);
-            rebuildNavigationSidebars();
-            triggerEventToastNotification(`Purged link relationship with user element: ${targetUser}`);
         }
 
         function rebuildNavigationSidebars() {
             let dmContainer = document.getElementById('dmActiveListingContainer');
             let groupContainer = document.getElementById('groupActiveListingContainer');
-            dmContainer.innerHTML = '';
-            groupContainer.innerHTML = '';
+            dmContainer.innerHTML = ''; groupContainer.innerHTML = '';
 
-            let userRelations = networkFriendsRelationshipRegistry[currentActiveUserKey] || [];
-            userRelations.forEach(rel => {
+            (networkFriendsRelationshipRegistry[currentActiveUserKey] || []).forEach(rel => {
                 if(rel.status !== 'accepted') return;
-                
-                let sortedArray = [currentActiveUserKey, rel.user].sort();
-                let chId = `dm_${sortedArray[0]}_${sortedArray[1]}`;
+                let sorted = [currentActiveUserKey, rel.user].sort();
+                let chId = `dm_${sorted[0]}_${sorted[1]}`;
 
                 let div = document.createElement('div');
                 div.className = `channel-item ${(activePanelType === 'chat' && activeChatTargetId === chId) ? 'active-channel' : ''}`;
@@ -852,111 +612,73 @@
             });
 
             for(let chId in chatChannelsRegistry) {
-                if(!chId.startsWith('group_')) continue;
                 let chan = chatChannelsRegistry[chId];
                 let div = document.createElement('div');
                 div.className = `channel-item ${(activePanelType === 'chat' && activeChatTargetId === chId) ? 'active-channel' : ''}`;
                 div.onclick = () => uiLaunchActiveChatSession(chId, 'group', chan.name);
-                div.innerHTML = `<div class="chan-left-block"><span>💬</span> <span>${chan.name}</span></div>
-                <span style="font-size:10px; color:var(--text-muted);" onclick="event.stopPropagation(); executeDeleteGroupRoute('${chId}')">❌</span>`;
+                div.innerHTML = `<div class="chan-left-block"><span>💬</span> <span>${chan.name}</span></div>`;
                 groupContainer.appendChild(div);
             }
             updateFriendsBadgeCounterMetrics();
         }
 
         function initiateDirectMessageSession(peerUsername) {
-            let sortedArray = [currentActiveUserKey, peerUsername].sort();
-            let generatedId = `dm_${sortedArray[0]}_${sortedArray[1]}`;
-            uiLaunchActiveChatSession(generatedId, 'dm', peerUsername);
+            let sorted = [currentActiveUserKey, peerUsername].sort();
+            uiLaunchActiveChatSession(`dm_${sorted[0]}_${sorted[1]}`, 'dm', peerUsername);
         }
 
         function uiLaunchActiveChatSession(chId, type, targetNameLabel) {
             activeChatTargetId = chId;
-            
-            if(!chatHistoryEngine[chId]) {
-                chatHistoryEngine[chId] = [];
-            }
+            if(!chatHistoryEngine[chId]) chatHistoryEngine[chId] = [];
 
             document.getElementById('activeChatTargetName').innerText = targetNameLabel;
-            document.getElementById('activeChatTargetTypeIcon').innerText = type === 'dm' ? "👤" : "👥";
-
-            let modBar = document.getElementById('moderationActionPanel');
-            modBar.innerHTML = '';
-
-            if(type === 'dm') {
-                modBar.innerHTML = `
-                    <button class="btn btn-sm btn-alt" onclick="openReportInfractionForm('${targetNameLabel}')">🚨 Report Node</button>
-                    <button class="btn btn-sm btn-danger" onclick="executeAlterFriendStatus('${targetNameLabel}', 'blocked')">🚫 Block User</button>
-                `;
-            }
-
             uiNavigateToPanel('chat');
             rebuildNavigationSidebars();
             renderChatMessagePool();
         }
 
         function renderChatMessagePool() {
-            let messageBox = document.getElementById('chatMessageFlowStream');
-            messageBox.innerHTML = '';
-            let history = chatHistoryEngine[activeChatTargetId] || [];
-
-            // Apply live dynamic toggle toggle layouts 
+            let streamBox = document.getElementById('chatMessageFlowStream');
+            streamBox.innerHTML = '';
+            
             if(document.getElementById('toggleCompactChat').checked) {
-                messageBox.classList.add('compact-chat');
+                streamBox.classList.add('compact-chat');
             } else {
-                messageBox.classList.remove('compact-chat');
+                streamBox.classList.remove('compact-chat');
             }
 
-            history.forEach(msg => {
+            (chatHistoryEngine[activeChatTargetId] || []).forEach(msg => {
                 let div = document.createElement('div');
                 div.className = 'msg-row';
                 div.innerHTML = `
-                    <img class="msg-avatar" src="${msg.avatar || 'https://i.imgur.com/6VBx3io.png'}" onerror="this.src='https://i.imgur.com/6VBx3io.png'">
+                    <img class="msg-avatar" src="${msg.avatar}">
                     <div class="msg-content-box">
-                        <div class="msg-user-meta">
-                            <span style="color:${msg.color || '#fff'}">${msg.user}</span>
-                            <span class="msg-timestamp">${msg.timestamp || '12:00 AM'}</span>
-                        </div>
+                        <div class="msg-user-meta"><span style="color:${msg.color}">${msg.user}</span> <span class="msg-timestamp">${msg.timestamp}</span></div>
                         <div class="msg-text">${msg.text}</div>
                     </div>
                 `;
-                messageBox.appendChild(div);
+                streamBox.appendChild(div);
             });
-            messageBox.scrollTop = messageBox.scrollHeight;
+            streamBox.scrollTop = streamBox.scrollHeight;
         }
 
         function dispatchChatMessage() {
             let input = document.getElementById('chatInputField');
-            let text = input.value.trim();
-            if(!text || !activeChatTargetId) return;
-
-            let profile = globalUsersDB[currentActiveUserKey];
-            
-            if(activeChatTargetId.startsWith('dm_')) {
-                let parts = activeChatTargetId.split('_');
-                let peerUser = parts[1] === currentActiveUserKey ? parts[2] : parts[1];
-                let rels = networkFriendsRelationshipRegistry[currentActiveUserKey] || [];
-                let matchRel = rels.find(r => r.user === peerUser);
-                if(matchRel && matchRel.status === 'blocked') {
-                    alert("Infraction Constraint Alert: You cannot dispatch stream packets to a blocked user interface.");
-                    return;
-                }
-            }
+            let txt = input.value.trim();
+            if(!txt || !activeChatTargetId) return;
 
             triggerAudioTone();
-            let timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            
+            let profile = globalUsersDB[currentActiveUserKey];
             chatHistoryEngine[activeChatTargetId].push({
-                user: profile.user,
-                color: profile.color,
-                text: text,
-                timestamp: timeStr,
-                avatar: profile.avatar || "https://i.imgur.com/6VBx3io.png"
+                user: profile.user, color: profile.color, text: txt,
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                avatar: profile.avatar
             });
 
             input.value = '';
             saveGlobalDatabaseStates();
             renderChatMessagePool();
+            writeLogOutput("Message packet streamed successfully.");
         }
 
         function executeCreateGroup() {
@@ -964,80 +686,16 @@
             if(!name) return;
             let id = 'group_' + Date.now();
 
-            chatChannelsRegistry[id] = { type: "group", name: `${name}`, owner: currentActiveUserKey };
-            chatHistoryEngine[id] = [{ user: "System Core", color: "#f1c40f", text: `Multi-peer frame group chat initialized: "${name}".`, timestamp: "System Init", avatar: "https://i.imgur.com/6VBx3io.png" }];
+            chatChannelsRegistry[id] = { type: "group", name: name, owner: currentActiveUserKey };
+            chatHistoryEngine[id] = [{ user: "System", color: "#f1c40f", text: `Room channel structural route built: ${name}`, timestamp: "Init", avatar: "https://i.imgur.com/6VBx3io.png" }];
 
             document.getElementById('newGroupNameInput').value = '';
             saveGlobalDatabaseStates();
             closeAllModals();
             uiLaunchActiveChatSession(id, 'group', name);
-            triggerEventToastNotification(`Forged group mesh route channel: ${name}`);
-        }
-
-        function executeDeleteGroupRoute(chId) {
-            delete chatChannelsRegistry[chId];
-            delete chatHistoryEngine[chId];
-            saveGlobalDatabaseStates();
-            if(activeChatTargetId === chId) activeChatTargetId = "";
-            uiNavigateToPanel('friends');
-            rebuildNavigationSidebars();
-        }
-
-        function openReportInfractionForm(username) {
-            currentReportTargetUsername = username;
-            document.getElementById('lblReportTargetNodeUser').innerText = username.toUpperCase();
-            document.getElementById('txtReportInfractionReason').value = '';
-            openModal('modalReportInfractionForm');
-        }
-
-        function executeSubmitReportPayload() {
-            let reason = document.getElementById('txtReportInfractionReason').value.trim();
-            if(!reason) { alert("Please provide verification validation reason log."); return; }
-
-            let payload = {
-                id: telemetryNetworkReports.length + 1,
-                reporter: currentActiveUserKey,
-                offender: currentReportTargetUsername,
-                details: reason,
-                timestamp: new Date().toLocaleTimeString()
-            };
-
-            telemetryNetworkReports.push(payload);
-            saveGlobalDatabaseStates();
-            closeAllModals();
-            alert(`Incident Warning Transmitted: Infraction parameter reported logged against user: ${currentReportTargetUsername}`);
-            if(currentActiveUserKey === 'administrator') renderAdminTelemetryReports();
-        }
-
-        function renderAdminTelemetryReports() {
-            let area = document.getElementById('adminReportStreamArea');
-            if(!area) return;
-            if(telemetryNetworkReports.length === 0) {
-                area.innerText = "No infraction reports filed."; return;
-            }
-            area.innerHTML = '';
-            telemetryNetworkReports.forEach(rep => {
-                let div = document.createElement('div');
-                div.style.background = "rgba(0,0,0,0.4)"; div.style.padding = "8px"; div.style.borderRadius = "4px";
-                div.innerHTML = `<strong>Record #${rep.id}</strong> [${rep.timestamp}]<br>Reporter: ${rep.reporter} -> Target: ${rep.offender}<br>Reason Log: <span style="color:var(--accent-red);">${rep.details}</span>`;
-                area.appendChild(div);
-            });
         }
 
         function saveConfigurationSettings() {
-            let profile = globalUsersDB[currentActiveUserKey];
-            let targetColor = document.getElementById('configHexNameColor').value.trim();
-            let targetTheme = document.getElementById('configThemeSelect').value;
-            let targetStatus = document.getElementById('configCustomStatusInput').value.trim();
-            
-            if(targetColor !== '#ffffff' && profile.premiumTier === 'none') {
-                alert("🔒 Subscription Constraint: Hex color overrides require Nitro Basic or higher verification."); return;
-            }
-            if(targetTheme === 'rainbow' && profile.premiumTier !== 'ultimate') {
-                alert("🔒 Subscription Constraint: Animated Scrolling Rainbow CSS Engines require Nitro Ultimate tier nodes."); return;
-            }
-
-            // Apply Settings Matrix Multi-toggles
             document.documentElement.style.setProperty('--ambient-blur', document.getElementById('configAmbientBlurSelect').value);
             
             if(document.getElementById('toggleDevDebugPanel').checked) {
@@ -1046,90 +704,27 @@
                 document.getElementById('devDebugPanelBox').style.display = "none";
             }
 
-            profile.color = targetColor;
-            profile.theme = targetTheme;
-            profile.customStatus = targetStatus;
-            profile.avatar = document.getElementById('configAvatarUrlInput').value.trim() || "https://i.imgur.com/6VBx3io.png";
-
-            globalUsersDB[currentActiveUserKey] = profile;
-
             saveGlobalDatabaseStates();
-            syncUserDisplayBars();
             closeAllModals();
-            triggerEventToastNotification("System Matrix Parameters Written to Storage Successfully.");
+            writeLogOutput("Layout structure preference state changes committed successfully.");
         }
 
         function syncUserDisplayBars() {
             let profile = globalUsersDB[currentActiveUserKey];
             document.getElementById('statusBarName').innerText = profile.user;
             document.getElementById('statusBarName').style.color = profile.color;
-            document.getElementById('statusBarAvatar').src = profile.avatar || "https://i.imgur.com/6VBx3io.png";
-            document.getElementById('shopCoinsCounter').innerText = profile.coins;
-            
-            let appRoot = document.getElementById('appRootBody');
-            if(profile.premiumTier === 'ultimate' && profile.theme === 'rainbow') {
-                appRoot.classList.add('rainbow-theme');
-                document.getElementById('statusBarStatus').innerText = profile.customStatus || "👑 Nitro Ultimate Core";
-                document.getElementById('statusBarStatus').style.color = "var(--premium-gold)";
-            } else {
-                appRoot.classList.remove('rainbow-theme');
-                if(profile.premiumTier === 'basic') {
-                    document.getElementById('statusBarStatus').innerText = profile.customStatus || "⚡ Nitro Basic";
-                    document.getElementById('statusBarStatus').style.color = "var(--boost-pink)";
-                } else {
-                    document.getElementById('statusBarStatus').innerText = profile.customStatus || "Active Connection";
-                    document.getElementById('statusBarStatus').style.color = "var(--text-muted)";
-                }
-            }
-            updateFriendsBadgeCounterMetrics();
+            document.getElementById('statusBarAvatar').src = profile.avatar;
+            document.getElementById('statusBarStatus').innerText = profile.customStatus;
+            document.getElementById('statActiveNodes').innerText = `${Object.keys(globalUsersDB).length} / ${Object.keys(globalUsersDB).length}`;
         }
 
         function updateFriendsBadgeCounterMetrics() {
-            let onlineCount = (networkFriendsRelationshipRegistry[currentActiveUserKey] || []).filter(r => r.status === 'accepted').length;
-            document.getElementById('uiFriendsOnlineCounterBadge').innerText = onlineCount;
-        }
-
-        function purchasePremiumTier(tier) {
-            let profile = globalUsersDB[currentActiveUserKey];
-            let cost = tier === 'basic' ? 20 : 50;
-
-            if(profile.premiumTier === 'ultimate' || (profile.premiumTier === 'basic' && tier === 'basic')) {
-                alert("Account token level matches equal or superior node clearance validation frameworks."); return;
-            }
-            if(profile.coins < cost) {
-                alert("Digital transaction canceled: Insufficient Sae token ledger assets."); return;
-            }
-
-            profile.coins -= cost;
-            profile.premiumTier = tier;
-            if(tier === 'ultimate') profile.theme = 'rainbow';
-
-            saveGlobalDatabaseStates();
-            syncUserDisplayBars();
-            alert(`Purchase Node Synced: Upgraded account authentication flags to Nitro [${tier.toUpperCase()}]!`);
-        }
-
-        function claimDailyMiningAllowance() {
-            let profile = globalUsersDB[currentActiveUserKey];
-            profile.coins += 25;
-            saveGlobalDatabaseStates();
-            syncUserDisplayBars();
-            triggerEventToastNotification("Miner Block Claim Success: Assigned +25 Sae Coins.");
-        }
-
-        function triggerEventToastNotification(textMessage) {
-            let box = document.getElementById('liveEventAlertToastBox');
-            let t = document.createElement('div');
-            t.className = 'live-toast';
-            t.innerText = `> ${textMessage}`;
-            box.appendChild(t);
-            setTimeout(() => { t.remove(); }, 4000);
+            let count = (networkFriendsRelationshipRegistry[currentActiveUserKey] || []).filter(r => r.status === 'accepted').length;
+            document.getElementById('uiFriendsOnlineCounterBadge').innerText = count;
         }
 
         function openModal(id) { triggerAudioTone(); document.getElementById(id).style.display = 'flex'; }
-        document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', (e) => { if(e.target === m) closeAllModals(); })});
         function closeAllModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
-        function applyInterfaceTheme(val) { if(val === 'rainbow' && globalUsersDB[currentActiveUserKey].premiumTier !== 'ultimate') { alert("Locked criteria requirement mismatch."); document.getElementById('configThemeSelect').value = 'dark'; } }
         function logoutSession() { closeAllModals(); document.getElementById('appScreen').classList.remove('active'); document.getElementById('authScreen').classList.add('active'); }
     </script>
 </body>
