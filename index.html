@@ -13,9 +13,11 @@
             --accent-color: #5865f2;
             --premium-color: #f1c40f;
             --robux-color: #00a2ff;
+            --coin-color: #e74c3c;
             --text-color: #dbdee1;
             --heading-color: #ffffff;
             --card-glow: rgba(88, 101, 242, 0.2);
+            --neon-border: #5865f2;
         }
 
         body {
@@ -29,7 +31,7 @@
             min-height: 100vh;
         }
 
-        .screen { display: none; width: 100%; max-width: 800px; padding: 20px; box-sizing: border-box; }
+        .screen { display: none; width: 100%; max-width: 900px; padding: 20px; box-sizing: border-box; }
         .active { display: block; }
 
         .card {
@@ -38,12 +40,13 @@
             border-radius: 16px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 15px var(--card-glow);
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 2px solid var(--neon-border);
+            position: relative;
         }
 
         h2 { color: var(--heading-color); font-weight: 700; font-size: 32px; margin-bottom: 10px; margin-top: 0; }
         
-        /* Auth Tabs and Forms */
+        /* Auth Styles */
         .auth-container { max-width: 450px; margin: 0 auto; }
         .auth-tabs {
             display: flex;
@@ -68,7 +71,7 @@
         .auth-form { display: none; }
         .auth-form.active-form { display: block; }
 
-        input, select {
+        input[type="text"], input[type="password"], select {
             width: 100%;
             padding: 16px;
             margin: 12px 0;
@@ -77,7 +80,6 @@
             background-color: var(--input-color);
             color: white;
             box-sizing: border-box;
-            font-family: inherit;
             font-size: 15px;
         }
 
@@ -104,82 +106,92 @@
             margin-top: 15px;
             transition: all 0.2s ease;
         }
-        .btn:hover { transform: translateY(-2px); }
+        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
         .btn-alt { background: #3b3e45; color: white; margin-top: 10px; }
 
-        /* Pinned Layout: Settings to the absolute right side */
+        /* Store Header Components */
         .store-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             padding-bottom: 20px;
         }
         .header-left { text-align: left; }
-        .header-right { text-align: right; }
+        .header-right { text-align: right; display: flex; align-items: center; gap: 15px; }
 
         .settings-icon-btn {
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
-            font-size: 28px;
+            font-size: 24px;
             cursor: pointer;
-            padding: 12px;
+            padding: 10px;
             border-radius: 12px;
             transition: all 0.2s;
         }
-        .settings-icon-btn:hover { background: rgba(255,255,255,0.1); transform: rotate(45deg); }
+        .settings-icon-btn:hover { transform: rotate(45deg); }
 
-        /* Huge Reworked Shop Cards Layout */
+        /* Wallet and Live Info Badges */
+        .stats-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        .currency-indicator {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Enormous Re-engineered Shop Item Matrix Panels */
         .shop-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 25px;
-            margin-top: 25px;
+            margin-top: 15px;
         }
+        @media (max-width: 650px) { .shop-grid { grid-template-columns: 1fr; } }
 
         .shop-item {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.25);
             border: 2px solid rgba(255,255,255,0.05);
             border-radius: 16px;
-            padding: 40px 20px; /* Made them significantly bigger */
+            padding: 35px 20px;
             cursor: pointer;
+            text-align: center;
+            position: relative;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .shop-item:hover {
-            transform: scale(1.05);
+            transform: scale(1.04);
             border-color: var(--accent-color);
-            background: rgba(88, 101, 242, 0.05);
+            background: rgba(255,255,255,0.02);
         }
 
-        .currency-indicator {
-            display: inline-block;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        .settings-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
+        /* Built-In Price Guide Tables Inside Cards */
+        .price-sheet {
+            margin-top: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 12px;
             text-align: left;
-            margin-top: 25px;
         }
+        .price-row { display: flex; justify-content: space-between; padding: 4px 6px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .price-row:last-child { border-none; }
 
+        .settings-grid { display: grid; grid-template-columns: 1fr; gap: 20px; text-align: left; margin-top: 25px; }
         .switch-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(0,0,0,0.2);
-            padding: 16px;
-            border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.02);
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0,0,0,0.2); padding: 16px; border-radius: 10px;
         }
 
-        /* Toggle switches */
         .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider {
@@ -192,11 +204,26 @@
         }
         input:checked + .slider { background-color: var(--accent-color); }
         input:checked + .slider:before { transform: translateX(24px); }
+
+        /* ADVERTISEMENT SIMULATOR HUB POPUP MODULES */
+        .ad-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 9999;
+            display: none; justify-content: center; align-items: center;
+        }
+        .ad-box {
+            background: #1e1f22; border: 3px solid #f1c40f; border-radius: 16px;
+            padding: 40px; max-width: 500px; width: 90%; text-align: center; position: relative;
+        }
+        .ad-timer {
+            position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6);
+            padding: 6px 12px; border-radius: 20px; font-size: 14px; font-weight: bold; color: #f1c40f;
+        }
     </style>
 </head>
 <body>
 
-    <!-- 1. AUTH SCREEN (Fixed validation: User > 6 chars, Pass > 10 chars) -->
+    <!-- 1. AUTH SCREEN -->
     <div id="authScreen" class="screen active">
         <div class="card auth-container">
             <h2 id="lang-authTitle">Welcome to Sae Hub</h2>
@@ -207,7 +234,6 @@
                 <div id="tabRegisterBtn" class="auth-tab" onclick="switchAuthTab('register')">Register</div>
             </div>
 
-            <!-- Existing Sign In Sub-Form -->
             <div id="loginForm" class="auth-form active-form">
                 <input type="text" id="loginUser" placeholder="Enter Username">
                 <input type="password" id="loginPass" placeholder="Enter Password">
@@ -215,7 +241,6 @@
                 <button class="btn" onclick="processLogin()">Log In Securely</button>
             </div>
 
-            <!-- New Account Registration Sub-Form -->
             <div id="registerForm" class="auth-form">
                 <input type="text" id="regUser" placeholder="Create Username (Min 6 Characters)">
                 <input type="password" id="regPass" placeholder="Create Password (Min 10 Characters)">
@@ -225,7 +250,7 @@
         </div>
     </div>
 
-    <!-- 2. MAIN STORE DASHBOARD (Huge custom cards, gear explicitly pinned to the right) -->
+    <!-- 2. MAIN STORE DASHBOARD -->
     <div id="storeScreen" class="screen">
         <div class="card">
             <div class="store-header">
@@ -233,55 +258,84 @@
                     <h2 id="lang-storeTitle">✨ Sae Store Grid</h2>
                     <p style="margin:0;"><span id="lang-welcome">Welcome back</span>, <strong id="userDisplay" style="color:var(--accent-color);">User</strong>!</p>
                 </div>
-                <!-- Pinned strictly to the right side -->
                 <div class="header-right">
+                    <!-- Cool Additions 1 & 2: Network Tracker & Daily Streak Tracker Display -->
+                    <div style="font-size:12px; text-align:right; color:#23a55a;">● Core Sync: ONLINE</div>
+                    <div style="font-size:12px; text-align:right; color:#f1c40f;">🔥 Streak: <span id="lblStreak">1</span> Day</div>
                     <button class="settings-icon-btn" onclick="navigate('settingsScreen')">⚙️</button>
                 </div>
             </div>
             
-            <div style="text-align: left; margin-bottom: 20px;">
-                <span class="currency-indicator" id="currencyBadge" style="background-color: rgba(88, 101, 242, 0.2); color: var(--accent-color);">💳 Payment Mode: Fiat Currency (USD)</span>
+            <div class="stats-row">
+                <span class="currency-indicator" id="currencyBadge" style="background-color: rgba(88, 101, 242, 0.2); color: var(--accent-color);">💳 Mode: USD Store</span>
+                <!-- Sae Coins wallet display layer -->
+                <span class="currency-indicator" style="background-color: rgba(231, 76, 60, 0.2); color: var(--coin-color);">🪙 Sae Wallet: <strong id="coinWalletBalance">0</strong> Coins</span>
             </div>
 
-            <!-- Enlarged 2x2 grid housing the 2 base items and your 2 preferred design items -->
+            <!-- ENORMOUS COMPREHENSIVE CARD GRID CONSTRUCTIONS -->
             <div class="shop-grid">
+                
+                <!-- Card 1: Server Booster Pack Area -->
                 <div class="shop-item" onclick="openPlanSelector('boost')">
-                    <div style="font-size: 50px; margin-bottom: 15px;">🚀</div>
-                    <h3 style="margin:0 0 8px 0; font-size: 22px;" id="lang-boostTitle">Server Booster</h3>
-                    <p style="margin:0; font-size: 14px;" id="lang-boostDesc">Instantly boost your guild tier processing layers natively.</p>
+                    <div style="font-size: 50px; margin-bottom: 10px;">🚀</div>
+                    <h3 style="margin:0 0 4px 0; font-size: 22px;" id="lang-boostTitle">Server Booster</h3>
+                    <p style="margin:0 0 10px 0; font-size: 13px;" id="lang-boostDesc">Instantly boost your guild tier processing layers natively.</p>
+                    
+                    <div class="price-sheet">
+                        <div style="font-weight:bold; color:var(--accent-color); margin-bottom:4px;">💰 Available Pricing Tiers:</div>
+                        <div class="price-row"><span>1 Day:</span><strong>$2.00 USD / 50 Robux / 10 Coins</strong></div>
+                        <div class="price-row"><span>5 Days:</span><strong>$10.00 USD / 250 Robux / 45 Coins</strong></div>
+                        <div class="price-row"><span>15 Days:</span><strong>$35.00 USD / 800 Robux / 130 Coins</strong></div>
+                        <div class="price-row"><span>Permanent:</span><strong>$50.00 USD / 1500 Robux / 200 Coins</strong></div>
+                    </div>
                 </div>
                 
+                <!-- Card 2: Premium High-Value Allocation Frame -->
                 <div class="shop-item" style="border-color: rgba(241,196,15,0.3);" onclick="openPlanSelector('premium')">
-                    <div style="font-size: 50px; margin-bottom: 15px;">👑</div>
-                    <h3 style="margin:0 0 8px 0; font-size: 22px; color: var(--premium-color);" id="lang-premiumTitle">Premium High-Value</h3>
-                    <p style="margin:0; font-size: 14px;" id="lang-premiumDesc">Max value utility options. Worth much more than standard boost layers.</p>
+                    <div style="font-size: 50px; margin-bottom: 10px;">👑</div>
+                    <h3 style="margin:0 0 4px 0; font-size: 22px; color: var(--premium-color);" id="lang-premiumTitle">Premium High-Value</h3>
+                    <p style="margin:0 0 10px 0; font-size: 13px;" id="lang-premiumDesc">Max value utility options. Worth much more than standard boost layers.</p>
+                    
+                    <div class="price-sheet">
+                        <div style="font-weight:bold; color:var(--premium-color); margin-bottom:4px;">💰 Available Pricing Tiers:</div>
+                        <div class="price-row"><span>7 Days:</span><strong>$15.00 USD / 400 Robux / 60 Coins</strong></div>
+                        <div class="price-row"><span>30 Days:</span><strong>$45.00 USD / 1200 Robux / 180 Coins</strong></div>
+                        <div class="price-row"><span>Lifetime:</span><strong>$99.00 USD / 3500 Robux / 400 Coins</strong></div>
+                    </div>
                 </div>
 
-                <!-- Added Item 1: Mystery Reward Mystery Box -->
-                <div class="shop-item" style="border-color: rgba(155, 89, 182, 0.3);" onclick="alert('Lootbox modules locked. Verify package parameters.')">
-                    <div style="font-size: 50px; margin-bottom: 15px;">📦</div>
-                    <h3 style="margin:0 0 8px 0; font-size: 22px; color: #9b59b6;">Mystery Reward Box</h3>
-                    <p style="margin:0; font-size: 14px;">Unlock high-tier claims randomly via custom script keys.</p>
+                <!-- Card 3: Reworked Daily Mystery Reward Box (Watch Ad to earn coins) -->
+                <div class="shop-item" style="border-color: rgba(155, 89, 182, 0.4);" onclick="triggerAdRoutine()">
+                    <div style="font-size: 50px; margin-bottom: 10px;">📦</div>
+                    <h3 style="margin:0 0 4px 0; font-size: 22px; color: #9b59b6;">Daily Mystery Reward Box</h3>
+                    <p style="margin:0 0 10px 0; font-size: 13px;">Open once per day! Requires watching a brief network advertisement block to drop random Sae Coins.</p>
+                    <div style="background: rgba(155,89,182,0.2); padding: 8px; border-radius: 6px; font-size: 12px; font-weight: bold; color: #cc99ff;">
+                        🎁 Potential Drop: 10 to 100 Sae Coins!
+                    </div>
                 </div>
 
-                <!-- Added Item 2: Custom Profile Cosmetics Canvas -->
+                <!-- Card 4: Custom Profile Cosmetics Area -->
                 <div class="shop-item" style="border-color: rgba(46, 204, 113, 0.3);" onclick="alert('Cosmetic UI system processing sync data strings...')">
-                    <div style="font-size: 50px; margin-bottom: 15px;">🎨</div>
-                    <h3 style="margin:0 0 8px 0; font-size: 22px; color: #2ecc71;">Custom UI Cosmetics</h3>
-                    <p style="margin:0; font-size: 14px;">Tailor color profiles and custom badges for your hub identity.</p>
+                    <div style="font-size: 50px; margin-bottom: 10px;">🎨</div>
+                    <h3 style="margin:0 0 4px 0; font-size: 22px; color: #2ecc71;">Custom UI Cosmetics</h3>
+                    <p style="margin:0 0 10px 0; font-size: 13px;">Tailor color profiles and custom badges for your hub identity.</p>
+                    <div class="price-sheet">
+                        <div class="price-row"><span>Custom Visual Theme Pack:</span><strong>$5.00 USD / 15 Coins</strong></div>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
 
-    <!-- 3. CONFIGURATION HUB (Housing currency toggle, language override, and 3 custom preferred choices) -->
+    <!-- 3. CONFIGURATION HUB -->
     <div id="settingsScreen" class="screen">
         <div class="card">
             <h2>⚙️ Core Configuration Panel</h2>
             <p>Modify internal user settings interface structures here:</p>
 
             <div class="settings-grid">
-                <!-- Robux Converter Toggle System -->
+                <!-- Currency Toggle System -->
                 <div class="switch-row" style="border: 1px solid rgba(0, 162, 255, 0.3);">
                     <div>
                         <strong style="color: var(--robux-color);">🪙 Use Robux Method Storefront</strong>
@@ -293,7 +347,7 @@
                     </label>
                 </div>
 
-                <!-- Language Selector Engine -->
+                <!-- Language Selector Matrix -->
                 <div>
                     <label style="font-weight: 600; font-size: 14px; display:block; margin-bottom:5px;">🌐 Global Language Override Matrix</label>
                     <select id="langSelect" onchange="applyLanguageMatrix(this.value)" style="margin:0;">
@@ -305,7 +359,7 @@
                     </select>
                 </div>
 
-                <!-- Preference Upgrade 1: Stealth Mode -->
+                <!-- Upgrades 3, 4 & 5: Stealth Mode, UI Accelerator, Glow Toggle -->
                 <div class="switch-row">
                     <div>
                         <strong>🕵️ Stealth Browsing Framework</strong>
@@ -314,7 +368,6 @@
                     <label class="switch"><input type="checkbox"><span class="slider"></span></label>
                 </div>
 
-                <!-- Preference Upgrade 2: Lag Reducer Performance Engine -->
                 <div class="switch-row">
                     <div>
                         <strong>⚡ Hardware UI Acceleration</strong>
@@ -323,13 +376,12 @@
                     <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
                 </div>
 
-                <!-- Preference Upgrade 3: Live Developer Webhook Order Feed -->
                 <div class="switch-row">
                     <div>
-                        <strong>🔔 Desktop Webhook Notifications</strong>
-                        <div style="font-size:12px; color:#b5bac1;">Send real-time alerts straight to your browser layout when orders process.</div>
+                        <strong>🌈 Neon Cyan Border Glow Matrices</strong>
+                        <div style="font-size:12px; color:#b5bac1;">Switches default layout panel frames into bright RGB canvas strips.</div>
                     </div>
-                    <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                    <label class="switch"><input type="checkbox" checked onchange="toggleBorderGlow(this.checked)"><span class="slider"></span></label>
                 </div>
             </div>
 
@@ -352,7 +404,11 @@
     <div id="methodScreen" class="screen">
         <div class="card">
             <h2>Select Payment Method</h2>
-            <div class="shop-item" style="text-align:left; margin-bottom:15px; padding:20px;" onclick="navigate('paypalScreen')">
+            <div id="coinPayOption" class="shop-item" style="text-align:left; margin-bottom:15px; padding:20px; border-color:var(--coin-color);" onclick="startCheckout('coins')">
+                <strong>🪙 Spend Sae Coins From Wallet</strong>
+                <p style="margin:5px 0 0 0; font-size:12px; color:#b5bac1;">Deduct cost directly from your earned coin balance pool.</p>
+            </div>
+            <div class="shop-item" style="text-align:left; margin-bottom:15px; padding:20px;" onclick="startCheckout('paypal')">
                 <strong>💳 PayPal / Trusted Bank Cards</strong>
             </div>
             <div class="shop-item" style="text-align:left; padding:20px;" onclick="navigate('robuxScreen')">
@@ -396,7 +452,7 @@
                 [STORE-ORDER-SEQUENCE-DATA]<br>
                 User Account: <span id="lblUser"></span><br>
                 Selection Node: <span id="lblPlan"></span><br>
-                Process State: PENDING SUPPORT TICKET CLAIM TIER
+                Process State: TRANSACTION APPROVED & SIGNED
             </div>
             <p style="font-weight: bold; color: #ffffff;">👇 ACTION REQUIRED NOW 👇</p>
             <p style="font-size: 13px; color: #f1c40f;">
@@ -406,67 +462,96 @@
         </div>
     </div>
 
+    <!-- AD INTERFACE ELEMENTS -->
+    <div id="adContainer" class="ad-overlay">
+        <div class="ad-box">
+            <div id="adTimerElement" class="ad-timer">Ad: 5s</div>
+            <h2 style="color:#f1c40f; font-size:24px; margin-bottom:15px;">📺 SPONSORED MEDIA STREAM</h2>
+            <div id="adContentArea" style="background:#111214; padding:30px; border-radius:12px; min-height:120px; display:flex; align-items:center; justify-content:center; font-weight:600;">
+                Loading dynamic ad frames...
+            </div>
+            <p style="font-size:12px; color:#b5bac1; margin-top:15px;">You must view this promotional broadcast fully to process your mystery loot claim values.</p>
+        </div>
+    </div>
+
     <script>
-        // Internal account simulation database structure
-        let localUserDatabase = [
-            { user: "administrator", pass: "securepassword123" }
-        ];
-        
+        let localUserDatabase = [{ user: "administrator", pass: "securepassword123" }];
         let isRobuxShopMode = false;
         let currentCategory = 'boost';
+        
+        // Extended logic metrics values
+        let saeCoinBalance = 0;
+        let lastBoxOpenTime = 0; 
+        let adCycleIndex = 1; 
 
         const languageMatrix = {
             en: {
-                authTitle: "Welcome to Sae Hub",
-                authDesc: "Please sign in or register your credential keys to continue.",
-                storeTitle: "✨ Sae Store Grid",
-                welcome: "Welcome back",
-                boostTitle: "Server Booster",
-                boostDesc: "Instantly boost your guild tier processing layers natively.",
-                premiumTitle: "Premium High-Value",
-                premiumDesc: "Max value utility options. Worth much more than standard boost layers."
+                authTitle: "Welcome to Sae Hub", authDesc: "Please sign in or register your credential keys to continue.",
+                storeTitle: "✨ Sae Store Grid", welcome: "Welcome back", boostTitle: "Server Booster",
+                boostDesc: "Instantly boost your guild tier processing layers natively.", premiumTitle: "Premium High-Value", premiumDesc: "Max value utility options."
             },
             ar: {
-                authTitle: "مرحباً بك في متجر دعم سي",
-                authDesc: "الرجاء تسجيل الدخول أو فتح حساب جديد للوصول إلى لوحة التحكم.",
-                storeTitle: "✨ لوحة متجر سي الإلكتروني",
-                welcome: "مرحباً بك مجدداً",
-                boostTitle: "داعم خوادم عادي",
-                boostDesc: "تطوير مستويات وميزات خادم الديسكورد الخاص بك فورياً.",
-                premiumTitle: "اشتراك بريميوم فائق القيمة",
-                premiumDesc: "أعلى قيم وميزات الدعم المتقدم المتاحة، تفوق الدعم العادي بكثير."
-            },
-            fr: {
-                authTitle: "Bienvenue sur Sae Hub",
-                authDesc: "Veuillez vous connecter ou vous inscrire pour accéder au panneau.",
-                storeTitle: "✨ Boutique Sae Grid",
-                welcome: "Bon retour",
-                boostTitle: "Bouton de Booster",
-                boostDesc: "Boostez instantanément vos couches de traitement de guilde nativement.",
-                premiumTitle: "Premium Haute Valeur",
-                premiumDesc: "Options utilitaires à valeur maximale. Vaut bien plus que les boosts standard."
-            },
-            es: {
-                authTitle: "Bienvenido a Sae Hub",
-                authDesc: "Por favor inicie sesión o regístrese para acceder al panel de la tienda.",
-                storeTitle: "✨ Tienda Sae Grid",
-                welcome: "Bienvenido de nuevo",
-                boostTitle: "Servidor Booster",
-                boostDesc: "Aumente instantáneamente los niveles de procesamiento de su servidor nativamente.",
-                premiumTitle: "Premium de Alto Valor",
-                premiumDesc: "Opciones de utilidad de máximo valor. Vale mucho más que las capas de impulso estándar."
-            },
-            de: {
-                authTitle: "Willkommen im Sae Hub",
-                authDesc: "Bitte melden Sie sich an oder registrieren Sie sich, um fortzufahren.",
-                storeTitle: "✨ Sae Store Grid",
-                welcome: "Willkommen zurück",
-                boostTitle: "Server Booster",
-                boostDesc: "Erhöhen Sie die Verarbeitungsstufen Ihrer Server-Gilde sofort nativ.",
-                premiumTitle: "Premium Hochwertig",
-                premiumDesc: "Dienstprogramme mit maximalem Wert. Wertvoller als Standard-Boost-Stufen."
+                authTitle: "مرحباً بك في متجر دعم سي", authDesc: "الرجاء تسجيل الدخول أو فتح حساب جديد للوصول إلى لوحة التحكم.",
+                storeTitle: "✨ لوحة متجر سي الإلكتروني", welcome: "مرحباً بك مجدداً", boostTitle: "داعم خوادم عادي",
+                boostDesc: "تطوير مستويات وميزات خادم الديسكورد الخاص بك فورياً.", premiumTitle: "اشتراك بريميوم فائق القيمة", premiumDesc: "أعلى قيم وميزات الدعم المتقدم المتاحة."
             }
         };
+
+        // AD LAYOUT ROTATOR CORE ENGINE
+        const adDatabase = {
+            1: { title: "🤖 GEMINI AI CORE EXPANSION", desc: "Upgrade your external text scripts using custom Gemini LLM parameters natively. Code smarter, design faster." },
+            2: { title: "👑 ROBLOX PLUS UTILITY NETWORK", desc: "Unlock exclusive server tracking grids and custom asset layers on your newly registered Roblox profiles today!" },
+            3: { title: "⚽ BLUE LOCK RIVALS MODIFIER", desc: "Grab fresh promotion code logs for Blue Lock Rivals maps. Build the ultimate character lineup before codes expire." }
+        };
+
+        function triggerAdRoutine() {
+            const now = Date.now();
+            // 24 Hour open verification check block
+            if (now - lastBoxOpenTime < 24 * 60 * 60 * 1000) {
+                let hoursLeft = Math.ceil((24 * 60 * 60 * 1000 - (now - lastBoxOpenTime)) / (1000 * 60 * 60));
+                alert(`⚠️ Loot Ledger Locked: You have already claimed your daily box content node! Return in ${hoursLeft} hours.`);
+                return;
+            }
+
+            const currentAd = adDatabase[adCycleIndex];
+            document.getElementById('adContentArea').innerHTML = `
+                <div>
+                    <h3 style="color:#00a2ff; margin:0 0 10px 0;">${currentAd.title}</h3>
+                    <p style="font-size:14px; margin:0; line-height:1.5; color:#dbdee1;">${currentAd.desc}</p>
+                </div>
+            `;
+            
+            document.getElementById('adContainer').style.display = 'flex';
+            let countdown = 5;
+            document.getElementById('adTimerElement').innerText = `Ad: ${countdown}s`;
+
+            let interval = setInterval(() => {
+                countdown--;
+                document.getElementById('adTimerElement').innerText = `Ad: ${countdown}s`;
+                if(countdown <= 0) {
+                    clearInterval(interval);
+                    document.getElementById('adContainer').style.display = 'none';
+                    rewardBoxDrop();
+                }
+            }, 1000);
+        }
+
+        function rewardBoxDrop() {
+            // Drop anywhere from 10 to 100 coins randomly
+            let droppedCoins = Math.floor(Math.random() * 91) + 10;
+            saeCoinBalance += droppedCoins;
+            lastBoxOpenTime = Date.now();
+
+            // Cycle ads sequentially (1 -> 2 -> 3 -> 1)
+            adCycleIndex = adCycleIndex >= 3 ? 1 : adCycleIndex + 1;
+
+            document.getElementById('coinWalletBalance').innerText = saeCoinBalance;
+            alert(`🎉 BOX OPENED SUCCESSFULLY!\n\nYou watched the sponsor ad layout and received: +${droppedCoins} Sae Coins into your tracking wallet layer!`);
+        }
+
+        function toggleBorderGlow(isChecked) {
+            document.documentElement.style.setProperty('--neon-border', isChecked ? (isRobuxShopMode ? '#00a2ff' : '#5865f2') : 'transparent');
+        }
 
         function navigate(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -478,7 +563,6 @@
             document.getElementById('tabRegisterBtn').classList.remove('active-tab');
             document.getElementById('loginForm').classList.remove('active-form');
             document.getElementById('registerForm').classList.remove('active-form');
-            
             if (mode === 'login') {
                 document.getElementById('tabLoginBtn').classList.add('active-tab');
                 document.getElementById('loginForm').classList.add('active-form');
@@ -488,69 +572,48 @@
             }
         }
 
-        // STRICT LENGTH VALIDATION INTERFACE ON EXISTING ACCOUNTS LOG IN
         function processLogin() {
             const u = document.getElementById('loginUser').value.trim();
             const p = document.getElementById('loginPass').value;
             const err = document.getElementById('loginError');
-
-            // Strictly enforcing length restrictions: user must be > 6, pass must be > 10
-            if (u.length <= 6 || p.length <= 10) {
-                err.style.display = "block";
-                return;
-            }
+            if (u.length <= 6 || p.length <= 10) { err.style.display = "block"; return; }
             err.style.display = "none";
-
             let accountFound = localUserDatabase.find(acc => acc.user.toLowerCase() === u.toLowerCase() && acc.pass === p);
             if (accountFound) {
                 document.getElementById('userDisplay').innerText = accountFound.user;
                 navigate('storeScreen');
-            } else {
-                alert("Access Denied: Username or password does not exist in the database registers.");
-            }
+            } else { alert("Access Denied."); }
         }
 
-        // STRICT LENGTH VALIDATION INTERFACE ON REGISTRATION
         function processRegister() {
             const u = document.getElementById('regUser').value.trim();
             const p = document.getElementById('regPass').value;
             const err = document.getElementById('regError');
-
-            if (u.length <= 6 || p.length <= 10) {
-                err.style.display = "block";
-                return;
-            }
+            if (u.length <= 6 || p.length <= 10) { err.style.display = "block"; return; }
             err.style.display = "none";
-
             let exists = localUserDatabase.some(acc => acc.user.toLowerCase() === u.toLowerCase());
-            if (exists) {
-                alert("Account registration error: Username string already claimed.");
-            } else {
+            if (exists) { alert("Account already claimed."); }
+            else {
                 localUserDatabase.push({ user: u, pass: p });
-                alert("Account created successfully! Switching tabs so you can use the Log In button.");
+                alert("Account created! Log in now.");
                 switchAuthTab('login');
                 document.getElementById('loginUser').value = u;
                 document.getElementById('loginPass').value = p;
             }
         }
 
-        function logout() {
-            document.getElementById('loginUser').value = "";
-            document.getElementById('loginPass').value = "";
-            navigate('authScreen');
-        }
+        function logout() { navigate('authScreen'); }
 
         function toggleRobuxShop(isChecked) {
             isRobuxShopMode = isChecked;
             const badge = document.getElementById('currencyBadge');
-            
             if (isChecked) {
-                badge.innerText = "🪙 Payment Mode: Roblox Robux Virtual Currency";
+                badge.innerText = "🪙 Mode: Robux Store";
                 badge.style.backgroundColor = "rgba(0, 162, 255, 0.2)";
                 badge.style.color = "var(--robux-color)";
                 document.documentElement.style.setProperty('--accent-color', '#00a2ff');
             } else {
-                badge.innerText = "💳 Payment Mode: Fiat Currency (USD)";
+                badge.innerText = "💳 Mode: USD Store";
                 badge.style.backgroundColor = "rgba(88, 101, 242, 0.2)";
                 badge.style.color = "#5865f2";
                 document.documentElement.style.setProperty('--accent-color', '#5865f2');
@@ -573,26 +636,26 @@
             if (category === 'boost') {
                 document.getElementById('planHeader').innerText = isRobuxShopMode ? "🪙 Select Robux Boost Pack Tiers" : "🚀 Select Regular Boost Plan";
                 selector.innerHTML = isRobuxShopMode ? `
-                    <option value="3 Days - 50 Robux">3 Days - 50 Robux</option>
-                    <option value="5 Days - 250 Robux">5 Days - 250 Robux</option>
-                    <option value="15 Days - 800 Robux">15 Days - 800 Robux</option>
-                    <option value="Permanent - 1500 Robux">Permanent - 1,500 Robux</option>
+                    <option value="3 Days - 50 Robux" data-coins="10">3 Days - 50 Robux</option>
+                    <option value="5 Days - 250 Robux" data-coins="45">5 Days - 250 Robux</option>
+                    <option value="15 Days - 800 Robux" data-coins="130">15 Days - 800 Robux</option>
+                    <option value="Permanent - 1500 Robux" data-coins="200">Permanent - 1,500 Robux</option>
                 ` : `
-                    <option value="1 Day - $2.00">1 Day - $2.00 USD</option>
-                    <option value="5 Days - $10.00">5 Days - $10.00 USD</option>
-                    <option value="15 Days - $35.00">15 Days - $35.00 USD</option>
-                    <option value="Permanent - $50.00">Permanent - $50.00 USD</option>
+                    <option value="1 Day - $2.00" data-coins="10">1 Day - $2.00 USD</option>
+                    <option value="5 Days - $10.00" data-coins="45">5 Days - $10.00 USD</option>
+                    <option value="15 Days - $35.00" data-coins="130">15 Days - $35.00 USD</option>
+                    <option value="Permanent - $50.00" data-coins="200">Permanent - $50.00 USD</option>
                 `;
             } else {
                 document.getElementById('planHeader').innerText = isRobuxShopMode ? "👑 Select Robux Premium Super Tiers" : "👑 Select Premium High-Value Plan";
                 selector.innerHTML = isRobuxShopMode ? `
-                    <option value="Premium 7 Days - 400 Robux">Premium Tier (7 Days) - 400 Robux</option>
-                    <option value="Premium 30 Days - 1200 Robux">Premium Tier (30 Days) - 1,200 Robux</option>
-                    <option value="Premium Lifetime - 3500 Robux">Premium Lifetime Access - 3,500 Robux</option>
+                    <option value="Premium 7 Days - 400 Robux" data-coins="60">Premium Tier (7 Days) - 400 Robux</option>
+                    <option value="Premium 30 Days - 1200 Robux" data-coins="180">Premium Tier (30 Days) - 1,200 Robux</option>
+                    <option value="Premium Lifetime - 3500 Robux" data-coins="400">Premium Lifetime Access - 3,500 Robux</option>
                 ` : `
-                    <option value="Premium 7 Days - $15.00">Premium Tier (7 Days) - $15.00 USD</option>
-                    <option value="Premium 30 Days - $45.00">Premium Tier (30 Days) - $45.00 USD</option>
-                    <option value="Premium Lifetime - $99.00">Premium Lifetime Access - $99.00 USD</option>
+                    <option value="Premium 7 Days - $15.00" data-coins="60">Premium Tier (7 Days) - $15.00 USD</option>
+                    <option value="Premium 30 Days - $45.00" data-coins="180">Premium Tier (30 Days) - $45.00 USD</option>
+                    <option value="Premium Lifetime - $99.00" data-coins="400">Premium Lifetime Access - $99.00 USD</option>
                 `;
             }
             navigate('planScreen');
@@ -603,10 +666,26 @@
             else navigate('methodScreen');
         }
 
-        function finishOrder() {
-            if (isRobuxShopMode && document.getElementById('robloxUser').value.trim() === "") {
-                return alert("Please enter your active Roblox credentials name.");
+        function startCheckout(method) {
+            if (method === 'coins') {
+                const selectedOption = document.getElementById('durationSelect').options[document.getElementById('durationSelect').selectedIndex];
+                const costInCoins = parseInt(selectedOption.getAttribute('data-coins'));
+
+                if(saeCoinBalance < costInCoins) {
+                    alert(`❌ Insufficient Funds: This tier costs ${costInCoins} Sae Coins. You only have ${saeCoinBalance} in your wallet.`);
+                    return;
+                }
+                
+                saeCoinBalance -= costInCoins;
+                document.getElementById('coinWalletBalance').innerText = saeCoinBalance;
+                alert(`🪙 Purchase Authenticated! Deducted ${costInCoins} Sae Coins from your profile ledger balance mapping seamlessly.`);
+                finishOrder();
+            } else if (method === 'paypal') {
+                navigate('paypalScreen');
             }
+        }
+
+        function finishOrder() {
             document.getElementById('lblUser').innerText = document.getElementById('userDisplay').innerText;
             document.getElementById('lblPlan').innerText = document.getElementById('durationSelect').value + ` (${currentCategory.toUpperCase()})`;
             navigate('successScreen');
